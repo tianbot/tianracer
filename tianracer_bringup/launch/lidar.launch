@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+<launch>
+  <arg name="lidar" default="$(optenv TIANBOT_LIDAR rplidar_a2)" />
+
+  <include if="$(eval 'rplidar' in lidar)" file="$(find tianracer_bringup)/launch/includes/rplidar.launch.xml">
+    <arg name="lidar" value="$(arg lidar)" />
+  </include>
+  
+  <include if="$(eval lidar=='velodyne_vlp16')" file="$(find velodyne_pointcloud)/launch/VLP16_points.launch" />
+</launch>

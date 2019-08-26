@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<launch>
+    <arg name="servo_reverse"  default="$(optenv TIANRACER_STEERING_REVERSE normal)" />
+    <arg name="motor_reverse"  default="$(optenv TIANRACER_THROTTLE_REVERSE normal)" />
+    <arg name="serial_port"           default="$(optenv TIANRACER_BASE_PORT /dev/ttyUSB1)" />
+
+    <node pkg="tianracer_core" type="tianracer_node.py" name="tianracer_node">
+        <param name="port" value="$(arg serial_port)"/>
+        <param name="baud" value="115200"/>
+        <param if="$(eval servo_reverse=='reverse')" name="servo_direction" value="-1"/>
+        <param if="$(eval motor_reverse=='reverse')" name="motor_direction" value="-1"/>
+     </node>
+</launch>

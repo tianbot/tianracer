@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<launch>
+  <arg name="gps" default="$(optenv TIANBOT_GPS none)" />
+
+  <node pkg="tianbot_gps" type="nmea_serial_driver" name="tianbot_gps" if="$(eval gps=='nmea0183')" >
+    <param name="port" value="/dev/tianbot_gps" />
+    <param name="baud" value="38400" />
+  </node>
+</launch>

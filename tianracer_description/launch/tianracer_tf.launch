@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<launch>
+  <arg name="base" default="$(optenv TIANRACER_BASE compact)" />
+  <arg name="lidar" default="$(optenv TIANBOT_LIDAR rplidar_a2)" />
+
+  <include if="$(eval base == 'compact')" file="$(find tianracer_description)/launch/includes/compact_tf.launch.xml" />
+
+  <group if="$(eval base == 'standard')">
+    <include if="$(eval 'rplidar' in lidar)" file="$(find tianracer_description)/launch/includes/standard_rplidar_tf.launch.xml" />
+    <include if="$(eval 'velodyne' in lidar)" file="$(find tianracer_description)/launch/includes/standard_velodyne_tf.launch.xml" />
+  </group>
+  
+
+  <include if="$(eval base == 'fullsize')" file="$(find tianracer_description)/launch/includes/fullsize_tf.launch.xml" />
+</launch>

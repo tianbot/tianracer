@@ -1,0 +1,6 @@
+# FTERGLOW
+KERNEL=="js?", ATTRS{idVendor}=="0e6f", ATTRS{idProduct}=="1314", MODE:="0666", GROUP:="dialout",  SYMLINK+="tianbot_joystick"
+
+# Logitech
+KERNEL=="js?", ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c2*", MODE:="0666", GROUP:="dialout",  SYMLINK+="tianbot_joystick"
+

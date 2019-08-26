@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+<launch>
+    <node pkg="tf" type="static_transform_publisher" name="base_footprint2base_link" args="0 0 0.055 0 0 0 base_footprint base_link 10"/>
+    <node pkg="tf" type="static_transform_publisher" name="base_link2laser" args="0.22 0 0.1 0 0 0 base_link laser 10"/>
+    <node pkg="tf" type="static_transform_publisher" name="base_link2velodyne" args="0.22 0 0.1 0 0 0 base_link velodyne 10"/>
+    <node pkg="tf" type="static_transform_publisher" name="base_link2gps" args="0.20 0.05 0.1 0 0 0 base_link gps 10"/>
+    <node pkg="tf" type="static_transform_publisher" name="base_link2imu" args="0.22 0 0.1 0 0 0 base_link IMU_link 10"/>
+    <node pkg="tf" type="static_transform_publisher" name="base_link2camera" args="0.36 0 0.055 0 0 0 base_link camera_link 10"/>
+</launch>
+

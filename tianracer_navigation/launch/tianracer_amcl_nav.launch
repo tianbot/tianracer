@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+
+<launch>
+    <arg name="use_rviz" default="false" />
+
+    <!-- for amcl -->    
+    <arg name="init_x" default="0.0" />
+    <arg name="init_y" default="0.0" />
+    <arg name="init_a" default="0.0" />
+
+    <!-- Map server -->
+    <arg name="map_file" default="$(find tianracer_slam)/maps/tianbot_office.yaml" />
+    <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
+
+    <!-- Localization -->
+    <!-- AMCL -->
+    <include file="$(find tianracer_navigation)/launch/includes/tianbot_amcl.launch.xml">
+        <arg name="init_x" value="$(arg init_x)"/>
+        <arg name="init_y" value="$(arg init_y)"/>
+        <arg name="init_a" value="$(arg init_a)"/>
+    </include>
+
+    <!-- Navigation -->
+    <include file="$(find tianracer_navigation)/launch/includes/tianbot_move_base.launch.xml" />
+
+
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find tianracer_rviz)/rviz_cfg/tianbot_amcl.rviz" if="$(arg use_rviz)" />
+</launch>

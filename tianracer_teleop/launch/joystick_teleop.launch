@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<launch>
+    <arg name="joy_mode" default="$(optenv TIANBOT_JOY_MODE X)" />
+    <node pkg="joy" type="joy_node" name="joystick">
+        <param name="dev" value="/dev/tianbot_joystick" />
+    </node>
+
+    <node pkg="tianracer_teleop" type="tianracer_joy.py" name="tianracer_joy">
+        <!-- for logitech, check if the joypad is set to d mode -->
+        <param if="$(eval joy_mode=='X')" name="joy_mode" value="X" />
+        <param name="throttle_scale" value="1.0" type="double"/>
+        <param name="servo_scale" value="1.0" type="double"/>
+    </node>
+</launch>

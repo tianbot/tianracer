@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+
+<launch>
+    <arg name="use_rviz" default="true" />
+
+    <!-- tianracer tf -->
+    <include file="$(find tianracer_description)/launch/tianracer_tf.launch" />
+
+    <!-- lidar -->
+    <include file="$(find tianracer_bringup)/launch/lidar.launch" />
+
+    <!-- tianracer core -->
+    <include file="$(find tianracer_core)/launch/tianracer_core.launch" />
+
+    <!--rf2o_Laser_Odometry-->
+    <include file="$(find tianracer_bringup)/launch/includes/tianbot_rf2o.launch.xml" />
+    <!-- Robot_Localization -->
+    <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se" clear_params="true">
+        <rosparam command="load" file="$(find tianracer_bringup)/param/tianbot_ekf_params.yaml" />
+    </node>
+
+    <!-- gmapping -->
+    <include file="$(find tianracer_slam)/launch/tianracer_gmapping.launch" />
+
+    <!-- Rviz -->
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find tianracer_rviz)/rviz_cfg/tianbot_gmapping.rviz" if="$(arg use_rviz)"/>
+
+</launch>

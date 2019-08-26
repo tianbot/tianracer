@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+
+<launch>
+    <node pkg="tianracer_teleop" type="tianracer_keyop.py" name="tianracer_keyop">
+    </node>
+</launch>

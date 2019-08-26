@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<launch>
+    <include file="$(find tianracer_description)/launch/tianracer_tf.launch" />
+    <include file="$(find tianracer_core)/launch/tianracer_core.launch" />
+    <include file="$(find tianracer_teleop)/launch/joystick_teleop.launch" />
+    <include file="$(find tianracer_bringup)/launch/lidar.launch" />
+    <include file="$(find tianracer_bringup)/launch/rgbd_camera.launch" />
+    <include file="$(find tianracer_bringup)/launch/gps.launch" />
+  
+    <!-- ODOMETRY -->
+    <!--rf2o_Laser_Odometry -->
+    <include file="$(find tianracer_bringup)/launch/includes/tianbot_rf2o.launch.xml" />
+    <!-- Robot_Localization -->
+    <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se" clear_params="true">
+        <rosparam command="load" file="$(find tianracer_bringup)/param/tianbot_ekf_params.yaml" />
+    </node>
+</launch>
