@@ -1,0 +1,21 @@
+[Unit]
+
+Description=launch tianracer service
+
+After=rc-local.service network.service
+
+
+
+[Service]
+
+ExecStart=/usr/local/bin/tianracer_bringup.sh
+
+Restart=on-abort
+
+User=tianbot
+
+
+
+[Install]
+
+WantedBy=multi-user.target
