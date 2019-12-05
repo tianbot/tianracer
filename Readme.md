@@ -1,12 +1,12 @@
 硬件全新升级，建图算法升级。更快，更稳！ 
 
-[TianRacer详细中文操作手册](doc.tianbot.com/tianracer)  
+[TianRacer详细中文操作手册](http://doc.tianbot.com/tianracer)  
 
 # Tianracer
 Tianracer is a series of low cost auotonomous vehicles. Full range of Tianracer products are equippedwith NVIDIA development boards, e.g, Jetson Nano, Jetson TX2, Xavier. Tianracer is an updated version of Tianbot Racecar, which is develped based on Hypha racecar.
 
 # Instructions
-[TianRacer ROS Wiki](wiki.ros.org/tianracer)
+[TianRacer ROS Wiki](https://wiki.ros.org/tianracer)
 Our goal is to develop a low cost autonomous racing car with not only basic mapping, localization, navigation ability but also object detection, traffic light detection, lane keeping, etc. Now Tianracer inherits AI aiblity from Jetracer.
 
 ## Appreciation to HyphaROS RaceCar 
