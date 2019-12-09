@@ -12,6 +12,7 @@ class TianracerJoyTeleop(object):
         self._twist = Twist()
         self._twist.linear.x = 1500
         self._twist.angular.z = 90
+        self._zero_twist = self._twist
         self._deadman_pressed = False
         self._zero_twist_published = False
 
@@ -42,10 +43,11 @@ class TianracerJoyTeleop(object):
         self._deadman_pressed = joy.buttons[4] or joy.buttons[5]
 
     def joystick_controller(self, *args):
-        self._cmd_vel_pub.publish(self._twist)
         if self._deadman_pressed:
+            self._cmd_vel_pub.publish(self._twist)
             self._zero_twist_published = False
-        elif not self._zero_twist_published:
+        elif not self._zero_twist_published and not self._zero_twist_published:
+            self._cmd_vel_pub.publish(self._zero_twist)
             self._zero_twist_published = True
 
 
