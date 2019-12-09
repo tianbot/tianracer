@@ -55,7 +55,7 @@ if __name__ == '__main__':
     try:
         rospy.init_node('tianracer_joy_teleop', anonymous=True)
     except rospy.ROSInterruptException:
-        rospy.logwarn("Init node racecar_joy_teleop failed, please check your main ROS core func.")
+        rospy.logwarn("Init node tianracer_joy_teleop failed, please check your main ROS core func.")
     else:
         TianracerJoyTeleop()
         rospy.spin()
