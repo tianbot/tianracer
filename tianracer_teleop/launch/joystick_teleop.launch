@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <launch>
-    <arg name="joy_mode" default="$(optenv TIANBOT_JOY_MODE X)" />
+    <arg name="joy_mode" default="$(optenv TIANBOT_JOY X)" />
     <node pkg="joy" type="joy_node" name="joystick">
         <param name="dev" value="/dev/tianbot_joystick" />
     </node>
