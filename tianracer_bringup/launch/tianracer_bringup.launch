@@ -7,9 +7,4 @@
     <include file="$(find tianracer_bringup)/launch/lidar.launch" />
     <include file="$(find tianracer_bringup)/launch/rgbd_camera.launch" />
     <include file="$(find tianracer_bringup)/launch/gps.launch" />
-  
-    <!-- Robot_Localization -->
-    <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se" clear_params="true">
-        <rosparam command="load" file="$(find tianracer_bringup)/param/tianbot_ekf_params.yaml" />
-    </node>
 </launch>

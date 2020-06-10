@@ -186,7 +186,7 @@ void Tianboard::tianboardDataProc(unsigned char *buf, int len)
 
             ros::Time current_time = ros::Time::now();
             imu_msg.header.stamp = current_time;
-            imu_msg.header.frame_id = "imu";
+            imu_msg.header.frame_id = "imu_link";
             imu_msg.orientation.x = pImu->quat.x;
             imu_msg.orientation.y = pImu->quat.y;
             imu_msg.orientation.z = pImu->quat.z;

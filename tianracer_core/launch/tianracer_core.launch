@@ -5,4 +5,10 @@
   <node pkg="tianracer_core" type="tianracer_core_node" name="tianracer" output="screen">
     <param name="serial_port" type="string" value="$(arg serial_port)"/>
   </node>
+
+    <!-- Robot_Localization for odometry ekf fusion-->
+    <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se" clear_params="true">
+        <rosparam command="load" file="$(find tianracer_core)/param/tianbot_ekf_params.yaml" />
+    </node>
+
 </launch>
