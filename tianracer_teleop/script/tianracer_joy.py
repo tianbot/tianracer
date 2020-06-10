@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import rospy
-from geometry_msgs.msg import Twist
+from ackermann_msgs.msg import AckermannDrive
 from sensor_msgs.msg import Joy
 
 
@@ -9,14 +9,14 @@ class TianracerJoyTeleop(object):
 
     def __init__(self):
         rospy.loginfo("Tianracer JoyTeleop Initializing...")
-        self._twist = Twist()
-        self._twist.linear.x = 1500
-        self._twist.angular.z = 90
-        self._zero_twist = self._twist
+        self._ackermann = AckermannDrive()
+        self._ackermann.speed = 0.0
+        self._ackermann.steering_angle = 0.0
+        self._zero_ackermann = self._ackermann
         self._deadman_pressed = False
-        self._zero_twist_published = False
+        self._zero_ackermann_published = False
 
-        self._cmd_vel_pub = rospy.Publisher('~/car/cmd_vel', Twist, queue_size=5)
+        self._ackermann_cmd_pub = rospy.Publisher('/tianracer/ackermann_cmd', AckermannDrive, queue_size=5)
         self._joy_sub = rospy.Subscriber('/joy', Joy, self.joy_callback)
         self._timer = rospy.Timer(rospy.Duration(0.05), self.joystick_controller)
         self._axis_throttle = 1
@@ -32,23 +32,23 @@ class TianracerJoyTeleop(object):
 
     def joy_callback(self, joy):
         # reset the speed every cycle.
-        self._twist.linear.x = 1500
-        self._twist.angular.z = 90
+        self._ackermann.speed = 0.0
+        self._ackermann.steering_angle = 0.0
         if joy.buttons[4] == 1:
-            self._twist.linear.x = int(1500 + joy.axes[self._axis_throttle] * self._throttle_scale * 300)
+            self._ackermann.speed = joy.axes[self._axis_throttle] * self._throttle_scale * 3
 
         if joy.buttons[5] == 1:
-            self._twist.angular.z = int(90 + joy.axes[self._axis_servo] * self._servo_scale * 30)
+            self._ackermann.steering_angle = joy.axes[self._axis_servo] * self._servo_scale * 30/180*3.1415926535
 
         self._deadman_pressed = joy.buttons[4] or joy.buttons[5]
 
     def joystick_controller(self, *args):
         if self._deadman_pressed:
-            self._cmd_vel_pub.publish(self._twist)
-            self._zero_twist_published = False
-        elif not self._zero_twist_published and not self._zero_twist_published:
-            self._cmd_vel_pub.publish(self._zero_twist)
-            self._zero_twist_published = True
+            self._ackermann_cmd_pub.publish(self._ackermann)
+            self._zero_ackermann_published = False
+        elif not self._zero_ackermann_published:
+            self._ackermann_cmd_pub.publish(self._zero_ackermann)
+            self._zero_ackermann_published = True
 
 
 if __name__ == '__main__':
@@ -59,4 +59,3 @@ if __name__ == '__main__':
     else:
         TianracerJoyTeleop()
         rospy.spin()
-

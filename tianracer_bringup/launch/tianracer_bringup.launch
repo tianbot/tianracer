@@ -8,9 +8,6 @@
     <include file="$(find tianracer_bringup)/launch/rgbd_camera.launch" />
     <include file="$(find tianracer_bringup)/launch/gps.launch" />
   
-    <!-- ODOMETRY -->
-    <!--rf2o_Laser_Odometry -->
-    <include file="$(find tianracer_bringup)/launch/includes/tianbot_rf2o.launch.xml" />
     <!-- Robot_Localization -->
     <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se" clear_params="true">
         <rosparam command="load" file="$(find tianracer_bringup)/param/tianbot_ekf_params.yaml" />
