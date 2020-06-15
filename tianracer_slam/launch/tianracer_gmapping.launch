@@ -4,8 +4,8 @@
     <!-- gmapping -->
     <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
         <remap from="scan" to="scan"/>
-        <param name="map_update_interval" value="2.5"/>
-        <param name="maxUrange" value="12.0"/>
+        <param name="map_update_interval" value="0.5"/>
+        <param name="maxUrange" value="6.0"/>
         <param name="sigma" value="0.05"/>
         <param name="kernelSize" value="1"/>
         <param name="lstep" value="0.05"/>
@@ -19,10 +19,10 @@
         <param name="str" value="0.1"/>
         <param name="stt" value="0.2"/>
         <param name="linearUpdate" value="0.10"/>
-        <param name="angularUpdate" value="0.25"/>
-        <param name="temporalUpdate" value="1.0"/>
+        <param name="angularUpdate" value="0.1"/>
+        <param name="temporalUpdate" value="0.5"/>
         <param name="resampleThreshold" value="0.25"/>
-        <param name="particles" value="30"/>
+        <param name="particles" value="50"/>
         <param name="xmin" value="-50.0"/>
         <param name="ymin" value="-50.0"/>
         <param name="xmax" value="50.0"/>

@@ -143,7 +143,7 @@ void Tianboard::tianboardDataProc(unsigned char *buf, int len)
             geometry_msgs::Quaternion q = tf::createQuaternionMsgFromYaw(pOdom->pose.yaw);
             odom_msg.pose.pose.orientation = q;
             //set the velocity
-            odom_msg.child_frame_id = "base_link";
+            odom_msg.child_frame_id = "base_footprint";
             odom_msg.twist.twist.linear.x = pOdom->twist.linear.x;
             odom_msg.twist.twist.linear.y = pOdom->twist.linear.y;
             odom_msg.twist.twist.linear.z = pOdom->twist.linear.z;
@@ -159,7 +159,7 @@ void Tianboard::tianboardDataProc(unsigned char *buf, int len)
             odom_tf_.transform.translation.z = pOdom->pose.point.z;
 
             odom_tf_.transform.rotation = odom_msg.pose.pose.orientation;
-            tf_broadcaster_.sendTransform(odom_tf_);
+            //tf_broadcaster_.sendTransform(odom_tf_);
         }
         break;
 
@@ -341,7 +341,7 @@ Tianboard::Tianboard(ros::NodeHandle *nh) : nh_(*nh)
     heart_timer_ = nh_.createTimer(ros::Duration(0.2), &Tianboard::heartCallback, this);
     heart_timer_.start();
     odom_tf_.header.frame_id = "odom";
-    odom_tf_.child_frame_id = "base_link";
+    odom_tf_.child_frame_id = "base_footprint";
 
     if (serial_.open(param_serial_port.c_str(), 115200, 0, 8, 1, 'N',
                      boost::bind(&Tianboard::serialDataProc, this, _1, _2)) != true)
