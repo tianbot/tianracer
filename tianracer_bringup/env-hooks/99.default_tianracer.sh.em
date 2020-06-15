@@ -8,7 +8,7 @@
 : ${TIANBOT_LIDAR:=rplidar_a2} # rplidar_a1, rplidar_a2, rplidar_a3, velodyne_vlp16
 : ${TIANBOT_LIDAR_PORT:=/dev/tianbot_rplidar} # /dev/ttyUSB0 
 : ${TIANBOT_GPS:=none} # none, nmea0183
-: ${TIANBOT_JOY_MODE:=D} # logitech joy mode X, D
+: ${TIANBOT_JOY_MODE:=X} # logitech joy mode X, D
 
 
 #Exports
