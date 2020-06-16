@@ -6,6 +6,7 @@
 
     <node name="rplidarNode"          pkg="rplidar_ros"  type="rplidarNode" output="screen">
         <param name="serial_port"         type="string" value="$(arg serial_port)"/>
+	<param unless="$(eval 'a3' in lidar)" name="scan_mode" type="string" value="Boost"/>
         <!-- param name="serial_baudrate"     type="int"    value="115200"/ --><!--A1/A2, this is default value in code -->
         <param if="$(eval 'a3' in lidar)" name="serial_baudrate" type="int" value="256000"/><!--A3 -->
         <param name="frame_id"            type="string" value="laser"/>

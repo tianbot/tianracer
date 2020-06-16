@@ -333,11 +333,11 @@ Tianboard::Tianboard(ros::NodeHandle *nh) : nh_(*nh)
 
     nh_.param<std::string>("serial_port", param_serial_port, DEFAULT_SERIAL_DEVICE);
 
-    odom_pub_ = nh_.advertise<nav_msgs::Odometry>("odom", 1);
-    imu_pub_ = nh_.advertise<sensor_msgs::Imu>("imu", 1);
-    uwb_pub_ = nh_.advertise<geometry_msgs::Pose2D>("uwb", 1);
+    odom_pub_ = nh_.advertise<nav_msgs::Odometry>("odom", 5);
+    imu_pub_ = nh_.advertise<sensor_msgs::Imu>("imu", 5);
+    uwb_pub_ = nh_.advertise<geometry_msgs::Pose2D>("uwb", 5);
     //cmd_vel_sub_ = nh_.subscribe("cmd_vel", 1, &Tianboard::velocityCallback, this);
-    ackermann_sub_ = nh_.subscribe("ackermann_cmd", 1, &Tianboard::ackermannCallback, this);
+    ackermann_sub_ = nh_.subscribe("ackermann_cmd", 5, &Tianboard::ackermannCallback, this);
     heart_timer_ = nh_.createTimer(ros::Duration(0.2), &Tianboard::heartCallback, this);
     heart_timer_.start();
     odom_tf_.header.frame_id = "odom";
