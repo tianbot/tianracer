@@ -25,8 +25,9 @@ along with tianbot_racecar.  If not, see <http://www.gnu.org/licenses/>.
 #include <geometry_msgs/Twist.h>
 #include <tf/transform_listener.h>
 #include <tf/transform_datatypes.h>
-#include "nav_msgs/Path.h"
+#include <nav_msgs/Path.h>
 #include <nav_msgs/Odometry.h>
+#include <ackermann_msgs/AckermannDrive.h>
 #include <visualization_msgs/Marker.h>
 
 #define PI 3.14159265358979
@@ -57,14 +58,14 @@ class L1Controller
         tf::TransformListener tf_listener;
 
         visualization_msgs::Marker points, line_strip, goal_circle;
-        geometry_msgs::Twist cmd_vel;
+        ackermann_msgs::AckermannDrive ackermann_cmd;
         geometry_msgs::Point odom_goal_pos;
         nav_msgs::Odometry odom;
         nav_msgs::Path map_path, odom_path;
 
         double L, Lfw, Lrv, Vcmd, lfw, lrv, steering, u, v;
-        double Gas_gain, baseAngle, Angle_gain, goalRadius;
-        int controller_freq, baseSpeed;
+        double gas_gain, base_angle, angle_gain, goal_radius;
+        int controller_freq, base_speed;
         bool foundForwardPt, goal_received, goal_reached;
 
         void odomCB(const nav_msgs::Odometry::ConstPtr& odomMsg);
@@ -90,34 +91,37 @@ L1Controller::L1Controller()
 
     //Controller parameter
     pn.param("controller_freq", controller_freq, 20);
-    pn.param("AngleGain", Angle_gain, -1.0);
-    pn.param("GasGain", Gas_gain, 1.0);
-    pn.param("baseSpeed", baseSpeed, 1470);
-    pn.param("baseAngle", baseAngle, 90.0);
+    pn.param("AngleGain", angle_gain, -1.0);
+    pn.param("GasGain", gas_gain, 1.0);
+    pn.param("baseSpeed", base_speed, 1470);
+    pn.param("baseAngle", base_angle, 90.0);
 
     //Publishers and Subscribers
     odom_sub = n_.subscribe("/odometry/filtered", 1, &L1Controller::odomCB, this);
     path_sub = n_.subscribe("/move_base_node/NavfnROS/plan", 1, &L1Controller::pathCB, this);
     goal_sub = n_.subscribe("/move_base_simple/goal", 1, &L1Controller::goalCB, this);
     marker_pub = n_.advertise<visualization_msgs::Marker>("car_path", 10);
-    pub_ = n_.advertise<geometry_msgs::Twist>("car/cmd_vel", 1);
+    pub_ = n_.advertise<ackermann_msgs::AckermannDrive>("tianracer/cmd_vel", 1);
 
     //Timer
     timer1 = n_.createTimer(ros::Duration((1.0)/controller_freq), &L1Controller::controlLoopCB, this); // Duration(0.05) -> 20Hz
     timer2 = n_.createTimer(ros::Duration((0.5)/controller_freq), &L1Controller::goalReachingCB, this); // Duration(0.05) -> 20Hz
 
     //Init variables
-    Lfw = goalRadius = getL1Distance(Vcmd);
+    Lfw = goal_radius = getL1Distance(Vcmd);
     foundForwardPt = false;
     goal_received = false;
     goal_reached = false;
-    cmd_vel.linear.x = 1500; // 1500 for stop
-    cmd_vel.angular.z = baseAngle;
+    ackermann_cmd.speed = 0.0;
+    ackermann_cmd.steering_angle = 0.0;
+    
+    //cmd_vel.linear.x = 1500; // 1500 for stop
+    //cmd_vel.angular.z = base_angle;
 
     //Show info
-    ROS_INFO("[param] baseSpeed: %d", baseSpeed);
-    ROS_INFO("[param] baseAngle: %f", baseAngle);
-    ROS_INFO("[param] AngleGain: %f", Angle_gain);
+    ROS_INFO("[param] base_speed: %d", base_speed);
+    ROS_INFO("[param] base_angle: %f", base_angle);
+    ROS_INFO("[param] angle_gain: %f", angle_gain);
     ROS_INFO("[param] Vcmd: %f", Vcmd);
     ROS_INFO("[param] Lfw: %f", Lfw);
 
@@ -147,8 +151,8 @@ void L1Controller::initMarker()
     //LINE_STRIP markers use only the x component of scale, for the line width
     line_strip.scale.x = 0.1;
 
-    goal_circle.scale.x = goalRadius;
-    goal_circle.scale.y = goalRadius;
+    goal_circle.scale.x = goal_radius;
+    goal_circle.scale.y = goal_radius;
     goal_circle.scale.z = 0.1;
 
     // Points are green
@@ -345,14 +349,14 @@ double L1Controller::getL1Distance(const double& _Vcmd)
 
 double L1Controller::getSteeringAngle(double eta)
 {
-    double steeringAnge = -atan2((L*sin(eta)),(Lfw/2+lfw*cos(eta)))*(180.0/PI);
-    //ROS_INFO("Steering Angle = %.2f", steeringAnge);
-    return steeringAnge;
+    double steering_angle = -atan2((L*sin(eta)),(Lfw/2+lfw*cos(eta)))*(180.0/PI);
+    //ROS_INFO("Steering Angle = %.2f", steering_angle);
+    return steering_angle;
 }
 
 double L1Controller::getGasInput(const float& current_v)
 {
-    double u = (Vcmd - current_v)*Gas_gain;
+    double u = (Vcmd - current_v)*gas_gain;
     //ROS_INFO("velocity = %.2f\tu = %.2f",current_v, u);
     return u;
 }
@@ -364,7 +368,7 @@ void L1Controller::goalReachingCB(const ros::TimerEvent&)
     if(goal_received)
     {
         double car2goal_dist = getCar2GoalDist();
-        if(car2goal_dist < goalRadius)
+        if(car2goal_dist < goal_radius)
         {
             goal_reached = true;
             goal_received = false;
@@ -378,8 +382,9 @@ void L1Controller::controlLoopCB(const ros::TimerEvent&)
 
     geometry_msgs::Pose carPose = odom.pose.pose;
     geometry_msgs::Twist carVel = odom.twist.twist;
-    cmd_vel.linear.x = 1500;
-    cmd_vel.angular.z = baseAngle;
+    ackermann_cmd.speed = 0;
+    ackermann_cmd.steering_angle = 0;
+
 
     if(goal_received)
     {
@@ -387,18 +392,18 @@ void L1Controller::controlLoopCB(const ros::TimerEvent&)
         double eta = getEta(carPose);  
         if(foundForwardPt)
         {
-            cmd_vel.angular.z = baseAngle + getSteeringAngle(eta)*Angle_gain;
+            ackermann_cmd.steering_angle = getSteeringAngle(eta)*angle_gain;
             /*Estimate Gas Input*/
             if(!goal_reached)
             {
                 //double u = getGasInput(carVel.linear.x);
                 //cmd_vel.linear.x = baseSpeed - u;
-                cmd_vel.linear.x = baseSpeed;
-                ROS_DEBUG("\nGas = %.2f\nSteering angle = %.2f",cmd_vel.linear.x,cmd_vel.angular.z);
+                ackermann_cmd.speed = base_speed;
+                ROS_DEBUG("\nGas = %.2f\nSteering angle = %.2f",ackermann_cmd.speed,ackermann_cmd.steering_angle);
             }
         }
     }
-    pub_.publish(cmd_vel);
+    pub_.publish(ackermann_cmd);
 }
 
 
