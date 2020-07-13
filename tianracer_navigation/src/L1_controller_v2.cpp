@@ -64,8 +64,8 @@ class L1Controller
         nav_msgs::Path map_path, odom_path;
 
         double L, Lfw, Lrv, Vcmd, lfw, lrv, steering, u, v;
-        double gas_gain, base_angle, angle_gain, goal_radius;
-        int controller_freq, base_speed;
+        double gas_gain, base_angle, base_speed, angle_gain, goal_radius;
+        int controller_freq;
         bool foundForwardPt, goal_received, goal_reached;
 
         void odomCB(const nav_msgs::Odometry::ConstPtr& odomMsg);
@@ -91,17 +91,17 @@ L1Controller::L1Controller()
 
     //Controller parameter
     pn.param("controller_freq", controller_freq, 20);
-    pn.param("AngleGain", angle_gain, -1.0);
-    pn.param("GasGain", gas_gain, 1.0);
-    pn.param("baseSpeed", base_speed, 1470);
-    pn.param("baseAngle", base_angle, 90.0);
+    pn.param("angle_gain", angle_gain, -1.0);
+    pn.param("gas_gain", gas_gain, 1.0);
+    pn.param("base_speed", base_speed, 0.0);
+    pn.param("base_angle", base_angle, 0.0);
 
     //Publishers and Subscribers
     odom_sub = n_.subscribe("/odometry/filtered", 1, &L1Controller::odomCB, this);
     path_sub = n_.subscribe("/move_base_node/NavfnROS/plan", 1, &L1Controller::pathCB, this);
     goal_sub = n_.subscribe("/move_base_simple/goal", 1, &L1Controller::goalCB, this);
     marker_pub = n_.advertise<visualization_msgs::Marker>("car_path", 10);
-    pub_ = n_.advertise<ackermann_msgs::AckermannDrive>("tianracer/cmd_vel", 1);
+    pub_ = n_.advertise<ackermann_msgs::AckermannDrive>("tianracer/ackermann_cmd", 1);
 
     //Timer
     timer1 = n_.createTimer(ros::Duration((1.0)/controller_freq), &L1Controller::controlLoopCB, this); // Duration(0.05) -> 20Hz
@@ -119,7 +119,7 @@ L1Controller::L1Controller()
     //cmd_vel.angular.z = base_angle;
 
     //Show info
-    ROS_INFO("[param] base_speed: %d", base_speed);
+    ROS_INFO("[param] base_speed: %f", base_speed);
     ROS_INFO("[param] base_angle: %f", base_angle);
     ROS_INFO("[param] angle_gain: %f", angle_gain);
     ROS_INFO("[param] Vcmd: %f", Vcmd);
