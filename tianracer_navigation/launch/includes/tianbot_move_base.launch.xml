@@ -18,9 +18,9 @@
         <!-- L1 -->
         <param name="Vcmd" value="1.0" /> <!-- speed of car m/s -->        
         <!-- ESC -->
-        <param name="base_speed" value="1.0"/> <!-- pwm for motor constant speed, 1480: stop, 1440: ~0.5m/s, 1430: ~1.5m/s --> 
+	<param name="base_speed" value="1.0"/> <!-- speed of car m/s  --> 
         <!-- Servo -->
-        <param name="base_angle" value="0.0"/> <!-- the middle pos of servo, for tt02: 87, for hsp: ? -->
+        <param name="base_angle" value="0.0"/> <!-- the middle pos of servo if tuning needed  -->
         <param name="angle_gain" value="-3.5"/> <!-- for tt02: >0, for hsp: <0 -->		
 
         <!-- remap from="/odometry/filtered" to="odom" / --> 
