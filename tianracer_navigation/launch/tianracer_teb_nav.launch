@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+
+<!-- 
+  Simulate a carlike robot with the teb_local_planner in stage:
+  - stage
+  - map_server
+  - move_base
+  - static map
+  - amcl
+  - rviz view
+ -->
+<launch>
+    <arg name="use_rviz" default="false" />
+    <!-- for amcl -->
+    <arg name="init_x" default="0.0" />
+    <arg name="init_y" default="0.0" />
+    <arg name="init_a" default="0.0" />
+
+    <!-- Map server -->
+    <arg name="map_file" default="$(find tianracer_slam)/maps/tianbot_office.yaml" />
+    <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
+
+    <!-- Localization -->
+    <!-- AMCL -->
+    <include file="$(find tianracer_navigation)/launch/includes/tianbot_amcl.launch.xml">
+        <arg name="init_x" value="$(arg init_x)"/>
+        <arg name="init_y" value="$(arg init_y)"/>
+        <arg name="init_a" value="$(arg init_a)"/>
+    </include>
+    
+    <!--  Navigation -->
+    <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+        <rosparam file="$(find tianracer_navigation)/param/teb_carlike/costmap_common_params.yaml" command="load" ns="global_costmap" />
+        <rosparam file="$(find tianracer_navigation)/param/teb_carlike/costmap_common_params.yaml" command="load" ns="local_costmap" />
+        <rosparam file="$(find tianracer_navigation)/param/teb_carlike/local_costmap_params.yaml" command="load" />
+        <rosparam file="$(find tianracer_navigation)/param/teb_carlike/global_costmap_params.yaml" command="load" />
+        <rosparam file="$(find tianracer_navigation)/param/teb_carlike/teb_local_planner_params.yaml" command="load" />
+        
+        <param name="base_global_planner" value="global_planner/GlobalPlanner" />
+        <param name="planner_frequency" value="1.0" />
+        <param name="planner_patience" value="5.0" />
+        
+        <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
+        <param name="controller_frequency" value="5.0" />
+        <param name="controller_patience" value="15.0" />
+        
+        <param name="clearing_rotation_allowed" value="false" /> <!-- Our carlike robot is not able to rotate in place -->
+    </node>
+
+    <!-- cmd_vel to ackermann_cmd -->
+    <node pkg="tianracer_navigation" type="cmd_vel_to_ackermann_drive.py" name="vel_to_ackermann" >
+        <param name="twist_cmd_topic" value="/cmd_vel" />
+	<param name="ackermann_cmd_topic" value="/tianracer/ackermann_cmd" />
+        <param name="wheelbase" value="0.4" />
+    </node>    
+    
+    <!--  Visualisation -->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(findtianracer_rviz)/rviz_cfg/teb_navigation.rviz" if="$(arg use_rviz)" />
+
+</launch>

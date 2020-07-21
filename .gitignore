@@ -44,7 +44,7 @@
 
 # speciic cfg
 99.my_tianracer.sh.em
-
+tianbot_office_*.yaml
 # unused file
 imgui.ini
 .vscode
