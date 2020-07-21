@@ -55,6 +55,6 @@
     </node>    
     
     <!--  Visualisation -->
-    <node name="rviz" pkg="rviz" type="rviz" args="-d $(findtianracer_rviz)/rviz_cfg/teb_navigation.rviz" if="$(arg use_rviz)" />
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find tianracer_rviz)/rviz_cfg/teb_navigation.rviz" if="$(arg use_rviz)" />
 
 </launch>
