@@ -114,9 +114,6 @@ L1Controller::L1Controller()
     goal_reached = false;
     ackermann_cmd.speed = 0.0;
     ackermann_cmd.steering_angle = 0.0;
-    
-    //cmd_vel.linear.x = 1500; // 1500 for stop
-    //cmd_vel.angular.z = base_angle;
 
     //Show info
     ROS_INFO("[param] base_speed: %f", base_speed);

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<launch>
+  <arg name="video_device" default="$(optenv TIANBOT_VIDEO_DEVICE /dev/video0)" />
+
+  <node name="usb_cam" pkg="usb_cam" type="usb_cam_node" output="screen" if="$(eval '/dev/video' in video_device)">
+    <param name="video_device" value="$(arg video_device)" />
+    <param name="image_width" value="640" />
+    <param name="image_height" value="480" />
+    <param name="pixel_format" value="yuyv" />
+    <param name="camera_frame_id" value="usb_cam" />
+    <param name="io_method" value="mmap"/>
+  </node>
+</launch>
+

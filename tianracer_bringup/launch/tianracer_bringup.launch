@@ -6,5 +6,6 @@
     <include file="$(find tianracer_teleop)/launch/joystick_teleop.launch" />
     <include file="$(find tianracer_bringup)/launch/lidar.launch" />
     <include file="$(find tianracer_bringup)/launch/rgbd_camera.launch" />
+    <include file="$(find tianracer_bringup)/launch/usb_cam.launch" />
     <include file="$(find tianracer_bringup)/launch/gps.launch" />
 </launch>
