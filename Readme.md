@@ -33,7 +33,7 @@ Battery: LiPo
 
 ## Purchase from Tianbot Official Taobao Store
 
-Tianracer Nano version is a standard platform with all the hardware and software installed, ready-to go racing car cost around USD $800. (CNY 5700 Yuan)
+Tianracer Nano version is a standard platform with all the hardware and software installed, ready-to go racing car. 
  
 [点击这里进入淘宝购买或咨询客服： Purchase from Taobao:](https://item.taobao.com/item.htm?id=564703378940)  
   
