@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<launch>
+  <arg name="bridge_enabled" default="$(optenv TIANRACER_BRIDGE disabled)" />
+
+  <include if="$(eval bridge_enabled=='enabled')" file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" />
+
+  <node pkg="tf2_web_republisher" type="tf2_web_republisher" name="tf2_web_republisher" if="$(eval bridge_enabled=='enabled')" />
+</launch>
+
