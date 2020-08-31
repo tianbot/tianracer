@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<launch>
+  <arg name="map" default="$(find f1tenth_simulator)/maps/levine_blocked.yaml"/>
+  <include file="$(find f1tenth_simulator)/launch/simulator.launch">
+    <arg name="map" value="$(arg map)"/>
+  </include>
+
+  <node pkg="tianracer_navigation" type="wall_following.py" name="wall_following"/>
+</launch>
