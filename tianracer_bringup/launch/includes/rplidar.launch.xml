@@ -2,7 +2,7 @@
 
 <launch>
     <arg name="lidar"/>
-    <arg name="serial_port"           default="$(optenv TIANBOT_LIDAR_PORT /dev/ttyUSB0)" />
+    <arg name="serial_port"           default="$(optenv TIANRACER_LIDAR_PORT /dev/ttyUSB0)" />
 
     <node name="rplidarNode"          pkg="rplidar_ros"  type="rplidarNode" output="screen">
         <param name="serial_port"         type="string" value="$(arg serial_port)"/>

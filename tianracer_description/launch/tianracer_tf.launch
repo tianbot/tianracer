@@ -2,7 +2,7 @@
 
 <launch>
   <arg name="base" default="$(optenv TIANRACER_BASE compact)" />
-  <arg name="lidar" default="$(optenv TIANBOT_LIDAR rplidar_a2)" />
+  <arg name="lidar" default="$(optenv TIANRACER_LIDAR rplidar_a2)" />
 
   <include if="$(eval base == 'compact')" file="$(find tianracer_description)/launch/includes/compact_tf.launch.xml" />
 

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <launch>
-    <arg name="rgbd_camera" default="$(optenv TIANBOT_RGBD_CAMERA realsense_d415)" />
+    <arg name="rgbd_camera" default="$(optenv TIANRACER_RGBD_CAMERA realsense_d415)" />
     <include if="$(eval 'realsense_d' in rgbd_camera)" file="$(find realsense2_camera)/launch/rs_rgbd.launch" >
     </include>
 
