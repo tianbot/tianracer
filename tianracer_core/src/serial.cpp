@@ -38,6 +38,7 @@
 #include <string.h>
 #include <termios.h>
 #include <unistd.h>
+#include <sys/file.h>
 
 #define DBG_LOG_TRACE(format, ...) \
     printf(format, ##__VA_ARGS__); \
@@ -63,7 +64,7 @@ void *Serial::serial_recv(void *p)
 
         if ((recvlen = read(pThis->fd_, recvbuff, sizeof(recvbuff))) == -1)
         {
-            DBG_LOG_ERROR("uart_recv error:%d", errno);
+            DBG_LOG_ERROR("uart_recv error: %d", errno);
             continue;
         }
         pThis->recv_cb_(recvbuff, recvlen);
@@ -209,11 +210,11 @@ bool Serial::open(const char *device, int rate, int flow_ctrl, int databits,
     int ret;
     pthread_attr_t attr;
     recv_thread_ = 0;
-    DBG_LOG_TRACE("open serial %s start\n", device);
+    DBG_LOG_TRACE("open serial %s ...", device);
     //句柄检查
     if (NULL == device || NULL == cb)
     {
-        DBG_LOG_ERROR("NULL == device || NULL == recv_callback\n");
+        DBG_LOG_ERROR("NULL == device || NULL == recv_callback");
         return false;
     }
 
@@ -223,9 +224,17 @@ bool Serial::open(const char *device, int rate, int flow_ctrl, int databits,
     fd_ = ::open(device, O_RDWR);
     if (fd_ < 0)
     {
-        DBG_LOG_ERROR("open failed: %s\n", device);
+        DBG_LOG_ERROR("serial %s open failed", device);
         return false;
     }
+
+    if (flock(fd_, LOCK_EX | LOCK_NB) != 0)
+    {
+        DBG_LOG_ERROR("serial %s already opened", device);
+        ::close(fd_);
+        goto error;
+    }
+
     //设定属性
     if (config(rate, flow_ctrl, databits, stopbits, parity) == false)
     {
@@ -239,11 +248,11 @@ bool Serial::open(const char *device, int rate, int flow_ctrl, int databits,
     ret = pthread_create(&recv_thread_, &attr, serial_recv, this);
     if (0 != ret)
     {
-        DBG_LOG_ERROR("uart recv thread create failed!\n");
+        DBG_LOG_ERROR("serial receive thread create failed!");
         goto error;
     }
 
-    DBG_LOG_TRACE("open serial %s end\n", device);
+    DBG_LOG_TRACE("open serial %s successfully", device);
     return true;
 
 error:
@@ -276,7 +285,7 @@ int Serial::send(uint8_t *data, int len)
         retlen = write(fd_, data + sended_len, len - sended_len);
         if (retlen < 0)
         {
-            DBG_LOG_ERROR("serial send failed! ret=%d\n", ret);
+            DBG_LOG_ERROR("serial send failed! ret = %d", ret);
             return -1;
         }
         sended_len += retlen;
