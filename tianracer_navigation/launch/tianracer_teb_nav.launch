@@ -1,12 +1,10 @@
 <?xml version="1.0"?>
 
 <!-- 
-  Simulate a carlike robot with the teb_local_planner in stage:
-  - stage
   - map_server
-  - move_base
-  - static map
   - amcl
+  - move_base
+  - cmd_vel to ackermann_cmd
   - rviz view
  -->
 <launch>
