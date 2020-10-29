@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+
+<launch>
+  <arg name="lidar" default="$(optenv TIANRACER_LIDAR)" />
+  <arg name="model" default="$(optenv TIANRACER_LIDAR_MODEL RS16)" />
+  <arg name="device_ip" default="192.168.1.200" />
+  <arg name="msop_port" default="6699" />
+  <arg name="difop_port" default="7788" />
+  <arg name="cut_angle" default="0" doc="If set at [0, 360), cut at specific angle feature activated, oth
+erwise use the fixed packets number mode."/>
+  <arg name="lidar_param_path" default="$(find rslidar_pointcloud)/data/rs_lidar_32/"/>
+
+  <node  name="rslidar_node" pkg="rslidar_driver" type="rslidar_node" output="screen" >
+    <param name="model" value="$(arg model)"/>
+    <param name="device_ip" value="$(arg device_ip)" />
+    <param name="msop_port" value="$(arg msop_port)" />
+    <param name="difop_port" value="$(arg difop_port)"/>
+    <param name="cut_angle" value="$(arg cut_angle)"/>
+    <!--param name="pcap" value="path_to_pcap"/-->
+  </node>
+
+  <node  name="cloud_node" pkg="rslidar_pointcloud" type="cloud_node" output="screen" >
+    <param name="model" value="$(arg model)"/>
+    <param name="curves_path" value="$(arg lidar_param_path)/curves.csv" />
+    <param name="angle_path" value="$(arg lidar_param_path)/angle.csv" />
+    <param name="channel_path" value="$(arg lidar_param_path)/ChannelNum.csv" />
+    <param name="curves_rate_path" value="$(arg lidar_param_path)/CurveRate.csv" />
+    <param name="max_distance" value="200"/>
+    <param name="min_distance" value="0.4"/>
+    <param name="resolution_type" value="0.5cm"/>
+    <param name="intensity_mode" value="1"/>
+  </node>
+
+  <!-- run pointcloud_to_laserscan node -->
+  <node pkg="pointcloud_to_laserscan" type="pointcloud_to_laserscan_node" name="pointcloud_to_laserscan">
+
+    <remap from="cloud_in" to="rslidar_points"/>
+    <remap from="scan" to="scan"/>
+    <rosparam>
+      target_frame: rslidar # Leave disabled to output scan in pointcloud frame
+      transform_tolerance: 0.01
+      min_height: -0.3
+      max_height: 1.0
+
+      angle_min: -3.1415926 # -M_PI/2
+      angle_max: 3.1415926 # M_PI/2
+      angle_increment: 0.0087 # M_PI/360.0
+      scan_time: 0.3333
+      range_min: 0.45
+      range_max: 80.0
+      use_inf: true
+      inf_epsilon: 1.0
+
+      # Concurrency level, affects number of pointclouds queued for processing and number of threads used
+      # 0 : Detect number of cores
+      # 1 : Single threaded
+      # 2->inf : Parallelism level
+      concurrency_level: 1
+    </rosparam>
+
+  </node>
+
+</launch>
+
+

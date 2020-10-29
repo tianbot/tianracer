@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+
+<launch>
+    <arg name="lidar"/>
+    <arg name="lidar_model" default="$(optenv TIANRACER_LIDAR_MODEL)" doc="for compatibility" />
+
+    <arg name="serial_port"           default="$(optenv TIANRACER_LIDAR_PORT /dev/ttyUSB0)" />
+
+    <node name="rplidarNode"          pkg="rplidar_ros"  type="rplidarNode" output="screen">
+        <param name="serial_port"         type="string" value="$(arg serial_port)"/>
+	<param unless="$(eval 'a3' in lidar)" name="scan_mode" type="string" value="Boost"/>
+        <!-- param name="serial_baudrate"     type="int"    value="115200"/ --><!--A1/A2, this is default value in code -->
+        <param if="$(eval 'a3' in lidar)" name="serial_baudrate" type="int" value="256000"/><!--A3 -->
+        <param name="frame_id"            type="string" value="laser"/>
+        <param name="inverted"            type="bool"   value="false"/>
+        <param name="angle_compensate"    type="bool"   value="true"/>
+	<param if="$(eval 'a3' in lidar)" name="scan_mode" type="string" value="Sensitivity"/>
+	<remap from="scan" to="scan_raw"/>
+    </node>
+
+    <!-- laser filter, currently not applied -->
+    
+    <node pkg="laser_filters" type="scan_to_scan_filter_chain" name="laser_filter" >
+	<rosparam command="load" file="$(find tianracer_bringup)/param/tianbot_laser_config.yaml" />
+	<remap from="scan" to="scan_raw"/>
+	<remap from="scan_filtered" to="scan"/>
+    </node>
+   
+
+</launch>

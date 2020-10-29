@@ -3,9 +3,11 @@
 <launch>
   <arg name="lidar" default="$(optenv TIANRACER_LIDAR rplidar_a2)" />
 
-  <include if="$(eval 'rplidar' in lidar)" file="$(find tianracer_bringup)/launch/includes/rplidar.launch.xml">
+  <include if="$(eval 'rplidar' in lidar)" file="$(find tianracer_bringup)/launch/includes/lidar/rplidar.launch.xml">
     <arg name="lidar" value="$(arg lidar)" />
   </include>
   
-  <include if="$(eval lidar=='velodyne_vlp16')" file="$(find velodyne_pointcloud)/launch/VLP16_points.launch" />
+  <include if="$(eval 'velodyne' in lidar)" file="$(find velodyne_pointcloud)/launch/VLP16_points.launch" />
+  
+  <include if="$(eval 'rslidar' in lidar)" file="$(find tianracer_bringup)/launch/includes/lidar/rslidar.launch.xml" />
 </launch>

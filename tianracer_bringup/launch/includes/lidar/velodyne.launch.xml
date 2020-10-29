@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+<launch>
+  <arg name="lidar" default="$(optenv TIANRACER_LIDAR" />
+  <arg name="lidar_model" default="$(optenv TIANRACER_LIDAR_MODEL" />
+
+  <include if="$(eval '16' in lidar_model)" file="$(find velodyne_pointcloud)/launch/VLP16_points.launch" />
+
+  <include if="$(eval '32e' in lidar_model)" file="$(find velodyne_pointcloud)/launch/32e_points.launch" />
+</launch>
+
