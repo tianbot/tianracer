@@ -13,7 +13,7 @@
     <arg name="init_x" default="0.0" />
     <arg name="init_y" default="0.0" />
     <arg name="init_a" default="0.0" />
-
+    <arg name="base" default="$(optenv TIANRACER_BASE compact)" />
     <!-- Map server -->
     <arg name="map_file" default="$(find tianracer_slam)/maps/tianbot_office.yaml" />
     <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
@@ -32,7 +32,7 @@
         <rosparam file="$(find tianracer_navigation)/param/teb_carlike/costmap_common_params.yaml" command="load" ns="local_costmap" />
         <rosparam file="$(find tianracer_navigation)/param/teb_carlike/local_costmap_params.yaml" command="load" />
         <rosparam file="$(find tianracer_navigation)/param/teb_carlike/global_costmap_params.yaml" command="load" />
-        <rosparam file="$(find tianracer_navigation)/param/teb_carlike/teb_local_planner_params.yaml" command="load" />
+        <rosparam file="$(find tianracer_navigation)/param/teb_carlike/$(arg base)_teb_local_planner_params.yaml" command="load" />
         
         <param name="base_global_planner" value="global_planner/GlobalPlanner" />
         <param name="planner_frequency" value="1.0" />
@@ -48,8 +48,10 @@
     <!-- cmd_vel to ackermann_cmd -->
     <node pkg="tianracer_navigation" type="cmd_vel_to_ackermann_drive.py" name="vel_to_ackermann" >
         <param name="twist_cmd_topic" value="/cmd_vel" />
-	<param name="ackermann_cmd_topic" value="/tianracer/ackermann_cmd" />
-        <param name="wheelbase" value="0.4" />
+	      <param name="ackermann_cmd_topic" value="/tianracer/ackermann_cmd" />
+        <param if="$(eval base=='compact')" name="wheelbase" value="0.4" />
+        <param if="$(eval base=='standard')" name="wheelbase" value="0.4" />
+        <param if="$(eval base=='fullsize')" name="wheelbase" value="0.6" />
     </node>    
     
     <!--  Visualisation -->
