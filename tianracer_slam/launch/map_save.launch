@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<launch>
+	<arg name="map_file" default="$(optenv TIANRACER_MAP_FILE tianbot_office)" />
+	<arg name="map_path" default="$(find tianracer_slam)/maps/" />
+
+	<node pkg="map_server" type="map_saver" name="map_saver" args="-f $(arg map_path)/$(arg map_file)" output
+="screen"/>
+</launch>
+
