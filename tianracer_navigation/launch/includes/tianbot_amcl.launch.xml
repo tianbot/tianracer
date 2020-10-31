@@ -40,9 +40,9 @@
         <param name="first_map_only" value="true"/>
         <param name="tf_broadcast" value="true"/>
 
-        <param name="odom_frame_id" value="/odom"/>
-        <param name="global_frame_id" value="/map"/>
-        <param name="base_frame_id" value="/base_footprint"/>
+        <param name="odom_frame_id" value="odom"/>
+        <param name="global_frame_id" value="map"/>
+        <param name="base_frame_id" value="base_footprint"/>
         <param name="odom_model_type" value="diff"/>
 
         <param name="initial_pose_x" value="$(arg init_x)"/>

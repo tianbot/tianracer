@@ -1,4 +1,4 @@
-image: tianbot_office.pgm
+image: /home/dji/tianbot_ws/src/tianracer/tianracer_slam/maps//tianbot_office.pgm
 resolution: 0.050000
 origin: [-50.000000, -50.000000, 0.000000]
 negate: 0

@@ -8,9 +8,12 @@
     <arg name="init_y" default="0.0" />
     <arg name="init_a" default="0.0" />
 
+    <!-- for Map server -->
+    <arg name="map_file" default="$(optenv TIANRACER_MAP_FILE tianbot_office)" />
+    <arg name="map_path" default="$(find tianracer_slam)/maps" />
+
     <!-- Map server -->
-    <arg name="map_file" default="$(find tianracer_slam)/maps/tianbot_office.yaml" />
-    <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
+    <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_path)/$(arg map_file).yaml"/>
 
     <!-- Localization -->
     <!-- AMCL -->
