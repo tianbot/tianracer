@@ -1,4 +1,4 @@
-# Set some defaults to tianbot racecar launch environment
+# Set some defaults to tianbot racecar launch environment. This is not designed for users to modify.
 
 : ${TIANRACER_BASE:=compact}  #compact, standard, fullsize, customized. 
 : ${TIANRACER_BASE_PORT:=/dev/tianbot_racecar}  # /dev/ttyUSB1
@@ -12,7 +12,7 @@
 : ${TIANRACER_LIDAR_MODEL:=a2} # a1, a2, a3, iexxx, vlp16, etc...
 : ${TIANRACER_LIDAR_PORT:=/dev/tianbot_rplidar} # /dev/ttyUSB0 
 : ${TIANRACER_GPS:=none} # none, nmea0183
-: ${TIANRACER_JOY_MODE:=X} # logitech joy mode X, D
+: ${TIANRACER_JOY_MODE:=dji_dt7} # dji, logitech joy mode X, D
 
 
 #Exports

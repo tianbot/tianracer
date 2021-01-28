@@ -1,0 +1,1 @@
+KERNEL=="video[0-9]*", SUBSYSTEM=="video4linux", ATTRS{idVendor}=="05a3", ATTRS{idProduct}=="9230", MODE:="0666", GROUP:="dialout", SYMLINK+="tianbot_usb_cam"

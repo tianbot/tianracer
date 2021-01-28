@@ -109,12 +109,13 @@ catkin_package(
 #  DEPENDS system_lib
 )
 
+string(ASCII 27 Esc)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/env-hooks/99.my_tianracer.sh.em")
   catkin_add_env_hooks(99.my_tianracer SHELLS sh DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/env-hooks)
-  message("*** Add Customized Tianbot Environment Variables ***")
+  message("--${Esc}[1;34m *** Add Customized Tianbot Environment Variables *** ${Esc}[0m")
 else()
   catkin_add_env_hooks(99.default_tianracer SHELLS sh DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/env-hooks)
-  message("*** Attention! Using default Tianbot Environment Variables ***")
+  message("--${Esc}[1;33m *** Attention! Using default Tianbot Environment Variables *** ${Esc}[0m")
 endif()
 ###########
 ## Build ##

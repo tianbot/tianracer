@@ -3,14 +3,15 @@
 <launch>
   <arg name="lidar" default="$(optenv TIANRACER_LIDAR)" />
   <arg name="model" default="$(optenv TIANRACER_LIDAR_MODEL RS16)" />
-  <arg name="device_ip" default="192.168.1.200" />
+  <arg name="device_ip" default="$(optenv TIANRACER_LIDAR_IP 192.168.1.200)" />
   <arg name="msop_port" default="6699" />
   <arg name="difop_port" default="7788" />
   <arg name="cut_angle" default="0" doc="If set at [0, 360), cut at specific angle feature activated, oth
 erwise use the fixed packets number mode."/>
-  <arg name="lidar_param_path" default="$(find rslidar_pointcloud)/data/rs_lidar_32/"/>
+  <arg name="lidar_param_path" default="$(find rslidar_pointcloud)/data/rs_lidar_16/"/>
 
   <node  name="rslidar_node" pkg="rslidar_driver" type="rslidar_node" output="screen" >
+    <param name="frame_id" value="laser" />
     <param name="model" value="$(arg model)"/>
     <param name="device_ip" value="$(arg device_ip)" />
     <param name="msop_port" value="$(arg msop_port)" />
@@ -18,8 +19,9 @@ erwise use the fixed packets number mode."/>
     <param name="cut_angle" value="$(arg cut_angle)"/>
     <!--param name="pcap" value="path_to_pcap"/-->
   </node>
-
+  
   <node  name="cloud_node" pkg="rslidar_pointcloud" type="cloud_node" output="screen" >
+    <param name="output_points_topic" value="lidar_points"/>
     <param name="model" value="$(arg model)"/>
     <param name="curves_path" value="$(arg lidar_param_path)/curves.csv" />
     <param name="angle_path" value="$(arg lidar_param_path)/angle.csv" />
@@ -31,13 +33,13 @@ erwise use the fixed packets number mode."/>
     <param name="intensity_mode" value="1"/>
   </node>
 
-  <!-- run pointcloud_to_laserscan node -->
+  <!-- run pointcloud_to_laserscan -->
   <node pkg="pointcloud_to_laserscan" type="pointcloud_to_laserscan_node" name="pointcloud_to_laserscan">
 
-    <remap from="cloud_in" to="rslidar_points"/>
+    <remap from="cloud_in" to="lidar_points"/>
     <remap from="scan" to="scan"/>
     <rosparam>
-      target_frame: rslidar # Leave disabled to output scan in pointcloud frame
+      target_frame: laser # Leave disabled to output scan in pointcloud frame
       transform_tolerance: 0.01
       min_height: -0.25
       max_height: 1.0
@@ -57,9 +59,8 @@ erwise use the fixed packets number mode."/>
       # 2->inf : Parallelism level
       concurrency_level: 1
     </rosparam>
-
   </node>
-
+   
 </launch>
 
 
