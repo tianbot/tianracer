@@ -19,7 +19,7 @@
   <node name="cartographer_node" pkg="cartographer_ros"
       type="cartographer_node" args="
           -configuration_directory $(find tianracer_slam)/param
-          -configuration_basename 2d_laser.lua"
+          -configuration_basename 2d_scan.lua"
       output="screen">
     <remap from="/odom" to="/odometry/filtered"/>
     <remap from="/imu" to="/tianracer/imu"/>
