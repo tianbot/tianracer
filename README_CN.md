@@ -50,7 +50,7 @@ Tianracer可以在[F1tenth Simulator](https://github.com/f1tenth/f1tenth_simulat
 
 ```
 cd ~/catkin_ws/src/
-git clone https://github.com/tianbot/tianracer.git
+git clone https://github.com/f1tenth/f1tenth_simulator.git
 cd ~/catkin_ws && catkin_make
 ```
 

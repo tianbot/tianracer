@@ -48,7 +48,7 @@ Tianracer can be simulated in [F1tenth Simulator](https://github.com/f1tenth/f1t
 
 ```
 cd ~/catkin_ws/src/
-git clone https://github.com/tianbot/tianracer.git
+git clone https://github.com/f1tenth/f1tenth_simulator.git
 cd ~/catkin_ws && catkin_make
 ```
 
