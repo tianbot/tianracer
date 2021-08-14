@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<launch>
+  <arg name="speed_param" default="3.5"/>
+  <arg name="P_param" default="0.0"/>
+  <node pkg="tianracer_competition" type="run_in_open_map.py" name="disparity_extender" output="screen">
+    <param name="speed_param" value="$(arg speed_param)"/>
+    <param name="P_param" value="$(arg P_param)"/>
+  </node>
+</launch>
