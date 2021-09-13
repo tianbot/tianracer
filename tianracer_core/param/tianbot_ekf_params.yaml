@@ -1,6 +1,6 @@
 
 frequency: 20
-sensor_timeout: 0.05
+sensor_timeout: 0.1
 two_d_mode: true
 transform_time_offset: 0.1
 predict_to_curent_time: true

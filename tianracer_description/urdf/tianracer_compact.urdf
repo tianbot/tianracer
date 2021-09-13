@@ -5,8 +5,17 @@
 <robot
   name="tianracer_description">
   <link
+    name="base_footprint">
+  </link>
+  <joint name="base_footprint_to_base_link" type="fixed">
+    <parent link="base_footprint" />
+    <child link="base_link" />
+    <origin xyz="0 0 0.0315" rpy="0 0 0"/>
+  </joint>
+  
+  <link
     name="base_link">
-    <!-- <inertial>
+    <inertial>
       <origin
         xyz="0.15109 0.0014408 0.0090037"
         rpy="0 0 0" />
@@ -19,7 +28,7 @@
         iyy="0.0017653"
         iyz="-2.5765E-06"
         izz="0.0022712" />
-    </inertial> -->
+    </inertial>
     <visual>
       <origin
         xyz="0 0 0"
@@ -31,7 +40,7 @@
       <material
         name="">
         <color
-          rgba="1 0 0 1" />
+          rgba="0.2 0.2 0.2 1." />
       </material>
     </visual>
     <collision>
@@ -44,6 +53,17 @@
       </geometry>
     </collision>
   </link>
+
+  <link
+    name="imu_link">
+  </link>
+  <joint name="base_link_to_imu" type="fixed">
+    <parent link="base_link" />
+    <child link="imu_link" />
+    <origin xyz="0.22 0 0.1" rpy="0 0 0"/>
+  </joint>
+
+
   <link
     name="left_steering_hinge">
     <inertial>
@@ -438,7 +458,7 @@
       xyz="0 0 0" />
   </joint>
   <link
-    name="camera">
+    name="camera_link">
     <inertial>
       <origin
         xyz="-0.0083147 0.00029786 -0.00080969"
@@ -486,7 +506,7 @@
     <parent
       link="base_link" />
     <child
-      link="camera" />
+      link="camera_link" />
     <axis
       xyz="0 0 0" />
   </joint>

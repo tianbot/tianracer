@@ -7,8 +7,10 @@
   <include if="$(eval base == 'compact')" file="$(find tianracer_description)/launch/tianracer_description.launch" />
 
   <group if="$(eval base == 'standard')">
+    <include if="$(eval 'osight' in lidar)" file="$(find tianracer_description)/launch/includes/standard_osight_tf.launch.xml" />
     <include if="$(eval 'rplidar' in lidar)" file="$(find tianracer_description)/launch/includes/standard_rplidar_tf.launch.xml" />
-    <include if="$(eval 'velodyne' in lidar)" file="$(find tianracer_description)/launch/includes/standard_velodyne_tf.launch.xml" />
+    <include if="$(eval 'velodyne' in lidar)" file="$(find tianracer_description)/launch/includes/standard_3d_points_tf.launch.xml" />
+    <include if="$(eval 'rslidar' in lidar)" file="$(find tianracer_description)/launch/includes/standard_3d_points_tf.launch.xml" />
   </group>
   
 
