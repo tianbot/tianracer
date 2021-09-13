@@ -4,7 +4,7 @@
   <arg name="base" default="$(optenv TIANRACER_BASE compact)" />
   <arg name="lidar" default="$(optenv TIANRACER_LIDAR rplidar_a2)" />
 
-  <include if="$(eval base == 'compact')" file="$(find tianracer_description)/launch/includes/compact_tf.launch.xml" />
+  <include if="$(eval base == 'compact')" file="$(find tianracer_description)/launch/tianracer_description.launch" />
 
   <group if="$(eval base == 'standard')">
     <include if="$(eval 'rplidar' in lidar)" file="$(find tianracer_description)/launch/includes/standard_rplidar_tf.launch.xml" />
