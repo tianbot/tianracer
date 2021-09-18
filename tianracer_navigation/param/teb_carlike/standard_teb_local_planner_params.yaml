@@ -1,6 +1,6 @@
 TebLocalPlannerROS:
 
- odom_topic: odom
+ odom_topic: odometry/filtered
     
  # Trajectory
   
@@ -9,7 +9,7 @@ TebLocalPlannerROS:
  dt_hysteresis: 0.1
  max_samples: 500
  global_plan_overwrite_orientation: True
- allow_init_with_backwards_motion: True
+ allow_init_with_backwards_motion: False
  max_global_plan_lookahead_dist: 3.0
  global_plan_viapoint_sep: -1
  global_plan_prune_distance: 1
@@ -27,8 +27,8 @@ TebLocalPlannerROS:
  acc_lim_theta: 1.5
 
  # ********************** Carlike robot parameters ********************
- min_turning_radius: 0.5        # Min turning radius of the carlike robot (compute value using a model or adjust with rqt_reconfigure manually)
- wheelbase: 0.3                 # Wheelbase of our robot
+ min_turning_radius: 0.8        # Min turning radius of the carlike robot (compute value using a model or adjust with rqt_reconfigure manually)
+ wheelbase: 0.4                 # Wheelbase of our robot
  cmd_angle_instead_rotvel: false # stage simulator takes the angle instead of the rotvel as input (twist message)
  # ********************************************************************
 
@@ -36,7 +36,7 @@ TebLocalPlannerROS:
    type: "line"
    radius: 0.2 # for type "circular"
    line_start: [0.0, 0.0] # for type "line"
-   line_end: [0.3, 0.0] # for type "line"
+   line_end: [0.4, 0.0] # for type "line"
    front_offset: 0.2 # for type "two_circles"
    front_radius: 0.2 # for type "two_circles"
    rear_offset: 0.2 # for type "two_circles"
@@ -76,7 +76,7 @@ TebLocalPlannerROS:
  weight_max_vel_x: 2
  weight_max_vel_theta: 1
  weight_acc_lim_x: 1
- weight_acc_lim_theta: 1
+ weight_acc_lim_theta: 2
  weight_kinematics_nh: 1000
  weight_kinematics_forward_drive: 1
  weight_kinematics_turning_radius: 1

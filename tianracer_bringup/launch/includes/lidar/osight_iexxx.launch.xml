@@ -10,8 +10,18 @@
         <param name="lidar_ip" type="string" value="$(arg lidar_ip)"/>
         <param name="frame_id" type="string" value="$(arg frame_id)"/>
         <param name="angle_max"  value="2.3562"/>
-	<param name="angle_min"  value="-2.3562"/>
-	<remap from="$(arg lidar_name)/scan" to="scan"/>
+        <param name="angle_min"  value="-2.3562"/>
+        <remap from="$(arg lidar_name)/scan" to="scan_raw"/>
     </node>
+
+    <!-- laser filter -->
+
+    <node pkg="laser_filters" type="scan_to_scan_filter_chain" name="laser_filter" >
+        <rosparam command="load" file="$(find tianracer_bringup)/param/tianbot_laser_config.yaml" />
+        <remap from="scan" to="scan_raw"/>
+        <remap from="scan_filtered" to="scan"/>
+    </node>
+
+
 </launch>
 
