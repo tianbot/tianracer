@@ -1,17 +1,17 @@
-#include "ros/ros.h"
-#include "tianboard.h"
+#include <rclcpp/rclcpp.hpp>
+#include "tianboard.hpp"
 
 int main(int argc, char *argv[])
 {
-    ros::init(argc, argv, "tianracer");
-    ros::NodeHandle nh("tianracer");
-    Tianboard tianboard(&nh);
+    rclcpp::init(argc, argv);
+    auto node = std::make_shared<Tianboard>();
 
-    ros::Rate loop_rate(10);
-
-    while (ros::ok())
+    rclcpp::Rate loop_rate(10);
+    while (rclcpp::ok())
     {
-        ros::spinOnce();
+        std::cout << "temp" << std::endl;
+        // rclcpp::spin_some(node);
         loop_rate.sleep();
     }
+    return 0;
 }
