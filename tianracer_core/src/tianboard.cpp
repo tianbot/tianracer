@@ -328,8 +328,7 @@ void Tianboard::heartCallback()
 
 void Tianboard::communicationErrorCallback()
 {
-    RCLCPP_ERROR_THROTTLE(this->get_logger(), *this->get_clock(), 1000, \
-    "Communication with base error");
+    RCLCPP_ERROR(get_logger(), "Communication with base error");
 }
 
 Tianboard::Tianboard(): Node("tianracer")
