@@ -336,7 +336,7 @@ Tianboard::Tianboard(): Node("tianracer")
     std::string param_serial_port;
     auto qos = rclcpp::QoS(rclcpp::KeepLast(10));
 
-    // nh_.param<std::string>("serial_port", param_serial_port, DEFAULT_SERIAL_DEVICE);
+    this->declare_parameter<std::string>("serial_port", DEFAULT_SERIAL_DEVICE);
 
     odom_pub_ = this->create_publisher<nav_msgs::msg::Odometry>("odom", qos);
     imu_pub_ = this->create_publisher<sensor_msgs::msg::Imu>("imu", qos);
@@ -362,6 +362,7 @@ Tianboard::Tianboard(): Node("tianracer")
     odom_tf_.header.frame_id = "odom";
     odom_tf_.child_frame_id = "base_footprint";
 
+    this->get_parameter("serial_port", param_serial_port);
     if (serial_.open(param_serial_port.c_str(), 115200, 0, 8, 1, 'N',
                      boost::bind(&Tianboard::serialDataProc, this, _1, _2)) != true)
     {
