@@ -9,8 +9,7 @@ int main(int argc, char *argv[])
     rclcpp::Rate loop_rate(10);
     while (rclcpp::ok())
     {
-        std::cout << "temp" << std::endl;
-        // rclcpp::spin_some(node);
+        rclcpp::spin_some(node);
         loop_rate.sleep();
     }
     return 0;

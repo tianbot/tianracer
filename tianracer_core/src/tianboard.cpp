@@ -207,49 +207,6 @@ void Tianboard::tianboardDataProc(unsigned char *buf, int len)
     communication_timer_.reset();
 }
 
-void Tianboard::velocityCallback(const geometry_msgs::msg::Twist::SharedPtr msg)
-{
-    uint16_t len;
-    vector<uint8_t> buf;
-
-    uint8_t bcc = 0;
-    struct twist twist;
-    int i;
-    uint8_t *out = (uint8_t *)&twist;
-    twist.linear.x = msg->linear.x;
-    twist.linear.y = msg->linear.y;
-    twist.linear.z = msg->linear.z;
-    twist.angular.x = msg->angular.x;
-    twist.angular.y = msg->angular.y;
-    twist.angular.z = msg->angular.z;
-
-    buf.push_back(PROTOCOL_HEAD & 0xFF);
-    buf.push_back((PROTOCOL_HEAD >> 8) & 0xFF);
-
-    len = sizeof(struct twist) + 2;
-
-    buf.push_back(len & 0xFF);
-    buf.push_back((len >> 8) & 0xFF);
-
-    buf.push_back(PACK_TYPE_CMD_VEL & 0xFF);
-    buf.push_back((PACK_TYPE_CMD_VEL >> 8) & 0xFF);
-
-    for (i = 0; i < sizeof(struct twist); i++)
-    {
-        buf.push_back(out[i]);
-    }
-
-    for (i = 4; i < buf.size(); i++)
-    {
-        bcc ^= buf[i];
-    }
-
-    buf.push_back(bcc);
-
-    serial_.send(&buf[0], buf.size());
-    heart_timer_.reset();
-}
-
 void Tianboard::ackermannCallback(const ackermann_msgs::msg::AckermannDrive::SharedPtr msg)
 {
     uint16_t len;
@@ -323,7 +280,6 @@ void Tianboard::heartCallback()
 
     serial_.send(&buf[0], buf.size());
     heart_timer_.reset();
-    // heart_timer_.start();
 }
 
 void Tianboard::communicationErrorCallback()
@@ -332,7 +288,7 @@ void Tianboard::communicationErrorCallback()
     "Communication with base error");
 }
 
-void Tianboard::initSub()
+void Tianboard::initPub()
 {
     auto qos = rclcpp::QoS(rclcpp::KeepLast(10));
     odom_pub_ = this->create_publisher<nav_msgs::msg::Odometry>("odom", qos);
@@ -340,15 +296,8 @@ void Tianboard::initSub()
     uwb_pub_ = this->create_publisher<geometry_msgs::msg::Pose2D>("uwb", qos);
 }
 
-void Tianboard::initPub()
+void Tianboard::initSub()
 {
-    cmd_vel_sub_ = this->create_subscription<geometry_msgs::msg::Twist>(
-        "cmd_vel", \
-        rclcpp::SensorDataQoS(), \
-        std::bind( \
-        &Tianboard::velocityCallback, \
-        this, \
-        std::placeholders::_1));
     ackermann_sub_ = this->create_subscription<ackermann_msgs::msg::AckermannDrive>(
         "ackermann_cmd", \
          rclcpp::SensorDataQoS(), \

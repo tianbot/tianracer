@@ -15,7 +15,7 @@
 #include <ackermann_msgs/msg/ackermann_drive.hpp>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 
-#define DEFAULT_SERIAL_DEVICE "/dev/ttyUSB0"
+#define DEFAULT_SERIAL_DEVICE "/dev/ttyUSB1"
 
 using namespace std;
 using namespace boost;
@@ -28,7 +28,6 @@ private:
     rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr odom_pub_;
     rclcpp::Publisher<geometry_msgs::msg::Pose2D>::SharedPtr uwb_pub_;
     rclcpp::Publisher<sensor_msgs::msg::Imu>::SharedPtr imu_pub_;
-    rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_sub_;
     rclcpp::Subscription<ackermann_msgs::msg::AckermannDrive>::SharedPtr ackermann_sub_;
     geometry_msgs::msg::TransformStamped odom_tf_;
     std::shared_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster_;
@@ -36,7 +35,6 @@ private:
     rclcpp::TimerBase::SharedPtr communication_timer_;
     rclcpp::Node::SharedPtr nh_;
     Serial serial_;
-    void velocityCallback(const geometry_msgs::msg::Twist::SharedPtr msg);
     void ackermannCallback(const ackermann_msgs::msg::AckermannDrive::SharedPtr msg);
     void serialDataProc(uint8_t *data, unsigned int data_len);
     void tianboardDataProc(unsigned char *buf, int len);
