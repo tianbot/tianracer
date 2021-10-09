@@ -42,6 +42,12 @@ private:
     void tianboardDataProc(unsigned char *buf, int len);
     void heartCallback();
     void communicationErrorCallback();
+    // new function
+    void initSub();
+    void initPub();
+    void heartBeatTimer(const std::chrono::milliseconds timeout);
+    void communicationTimer(const std::chrono::milliseconds timeout);
+    void run();
 };
 
 #endif
