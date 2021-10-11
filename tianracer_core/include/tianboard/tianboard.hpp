@@ -44,7 +44,7 @@ private:
     void initSub();
     void initPub();
     void heartBeatTimer(const std::chrono::milliseconds timeout);
-    void communicationTimer(const std::chrono::milliseconds timeout);
+    // void communicationTimers(const std::chrono::milliseconds timeout);
     void run();
 };
 

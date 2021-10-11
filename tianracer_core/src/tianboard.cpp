@@ -204,7 +204,7 @@ void Tianboard::tianboardDataProc(unsigned char *buf, int len)
     default:
         break;
     }
-    communication_timer_.reset();
+    // communication_timer_.reset();
 }
 
 void Tianboard::ackermannCallback(const ackermann_msgs::msg::AckermannDrive::SharedPtr msg)
@@ -243,7 +243,7 @@ void Tianboard::ackermannCallback(const ackermann_msgs::msg::AckermannDrive::Sha
     buf.push_back(bcc);
 
     serial_.send(&buf[0], buf.size());
-    heart_timer_.reset();
+    // heart_timer_.reset();
 }
 
 
@@ -279,7 +279,7 @@ void Tianboard::heartCallback()
     buf.push_back(bcc);
 
     serial_.send(&buf[0], buf.size());
-    heart_timer_.reset();
+    // heart_timer_.reset();
 }
 
 void Tianboard::communicationErrorCallback()
@@ -340,27 +340,27 @@ void Tianboard::heartBeatTimer(const std::chrono::milliseconds timeout)
             buf.push_back(bcc);
 
             serial_.send(&buf[0], buf.size());
-            heart_timer_.reset();            
+            // heart_timer_.reset();
         }
     );
 }
 
-void Tianboard::communicationTimer(const std::chrono::milliseconds timeout)
-{
-    communication_timer_ = this->create_wall_timer(timeout,
-        [this]() -> void {
-            RCLCPP_ERROR_THROTTLE(this->get_logger(), *this->get_clock(), 1000, \
-            "Communication with base error");            
-        }
-    );
-}
+// void Tianboard::communicationTimer(const std::chrono::milliseconds timeout)
+// {
+//     communication_timer_ = this->create_wall_timer(timeout,
+//         [this]() -> void {
+//             RCLCPP_ERROR_THROTTLE(this->get_logger(), *this->get_clock(), 1000, \
+//             "Communication with base error");
+//         }
+//     );
+// }
 
 void Tianboard::run()
 {
     RCLCPP_INFO(this->get_logger(), "Run in Tianboard");
 
     heartBeatTimer(std::chrono::milliseconds(200));
-    communicationTimer(std::chrono::milliseconds(200));
+    // communicationTimer(std::chrono::milliseconds(200));
 }
 
 Tianboard::Tianboard(): Node("tianracer")
