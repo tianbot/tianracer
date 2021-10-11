@@ -16,7 +16,6 @@ def cmd_callback(data, wheelbase, ackermann_cmd_topic, pub):
     
     v = data.linear.x
     steering = convert_trans_rot_vel_to_steering_angle(v, data.angular.z, wheelbase)
-    print(data, steering)
     msg = AckermannDrive()
     msg.steering_angle = float(steering)
     msg.speed = v
