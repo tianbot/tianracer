@@ -2,6 +2,8 @@
 #include "protocol.h"
 #include <vector>
 
+using namespace std;
+
 void Tianboard::serialDataProc(uint8_t *data, unsigned int data_len)
 {
     static uint8_t state = 0;
@@ -152,14 +154,6 @@ void Tianboard::tianboardDataProc(unsigned char *buf, int len)
             odom_msg.twist.twist.angular.z = pOdom->twist.angular.z;
             //publish the message
             odom_pub_->publish(odom_msg);
-
-            odom_tf_.header.stamp = current_time;
-            odom_tf_.transform.translation.x = pOdom->pose.point.x;
-            odom_tf_.transform.translation.y = pOdom->pose.point.y;
-            odom_tf_.transform.translation.z = pOdom->pose.point.z;
-
-            odom_tf_.transform.rotation = odom_msg.pose.pose.orientation;
-            //tf_broadcaster_.sendTransform(odom_tf_);
         }
         break;
 
@@ -373,10 +367,6 @@ Tianboard::Tianboard(): Node("tianracer")
     initPub();
 
     run();
-
-    odom_tf_.header.frame_id = "odom";
-    odom_tf_.child_frame_id = "base_footprint";
-
 
     std::string param_serial_port;
     this->get_parameter("serial_port", param_serial_port);

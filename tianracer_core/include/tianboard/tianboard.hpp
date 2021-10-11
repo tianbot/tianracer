@@ -17,9 +17,6 @@
 
 #define DEFAULT_SERIAL_DEVICE "/dev/ttyUSB1"
 
-using namespace std;
-using namespace boost;
-
 class Tianboard: public rclcpp::Node {
 public:
     Tianboard();
@@ -29,7 +26,6 @@ private:
     rclcpp::Publisher<geometry_msgs::msg::Pose2D>::SharedPtr uwb_pub_;
     rclcpp::Publisher<sensor_msgs::msg::Imu>::SharedPtr imu_pub_;
     rclcpp::Subscription<ackermann_msgs::msg::AckermannDrive>::SharedPtr ackermann_sub_;
-    geometry_msgs::msg::TransformStamped odom_tf_;
     std::shared_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster_;
     rclcpp::TimerBase::SharedPtr heart_timer_;
     rclcpp::TimerBase::SharedPtr communication_timer_;
