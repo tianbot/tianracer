@@ -288,16 +288,16 @@ void Tianboard::communicationErrorCallback()
     "Communication with base error");
 }
 
-Tianboard::Tianboard(): Node("tianracer")
+void Tianboard::initPub()
 {
-    std::string param_serial_port;
     auto qos = rclcpp::QoS(rclcpp::KeepLast(10));
-
-    this->declare_parameter<std::string>("serial_port", DEFAULT_SERIAL_DEVICE);
-
     odom_pub_ = this->create_publisher<nav_msgs::msg::Odometry>("odom", qos);
     imu_pub_ = this->create_publisher<sensor_msgs::msg::Imu>("imu", qos);
     uwb_pub_ = this->create_publisher<geometry_msgs::msg::Pose2D>("uwb", qos);
+}
+
+void Tianboard::initSub()
+{
     ackermann_sub_ = this->create_subscription<ackermann_msgs::msg::AckermannDrive>(
         "ackermann_cmd", \
          rclcpp::SensorDataQoS(), \
@@ -305,13 +305,80 @@ Tianboard::Tianboard(): Node("tianracer")
              &Tianboard::ackermannCallback, \
              this, \
              std::placeholders::_1));
-    heart_timer_ = this->create_wall_timer(200ms, std::bind(&Tianboard::heartCallback, this));
+}
 
-    communication_timer_ = this->create_wall_timer(200ms, std::bind(&Tianboard::communicationErrorCallback, this));
+void Tianboard::heartBeatTimer(const std::chrono::milliseconds timeout) 
+{
+    heart_timer_ = this->create_wall_timer(timeout,
+        [this]() -> void
+        {
+            uint16_t len;
+            vector<uint8_t> buf;
+            uint16_t dummy = 0;
+            uint8_t bcc = 0;
+            uint8_t *out = (uint8_t *)&dummy;
+            buf.push_back(PROTOCOL_HEAD & 0xFF);
+            buf.push_back((PROTOCOL_HEAD >> 8) & 0xFF);
+
+            len = 2 + sizeof(dummy);
+
+            buf.push_back(len & 0xFF);
+            buf.push_back((len >> 8) & 0xFF);
+
+            buf.push_back(PACK_TYPE_HEART_BEAT & 0xFF);
+            buf.push_back((PACK_TYPE_HEART_BEAT >> 8) & 0xFF);
+
+            for (uint16_t i = 0; i < sizeof(dummy); i++)
+            {
+                buf.push_back(out[i]);
+            }
+
+            for (uint16_t i = 4; i < buf.size(); i++)
+            {
+                bcc ^= buf[i];
+            }
+
+            buf.push_back(bcc);
+
+            serial_.send(&buf[0], buf.size());
+            heart_timer_.reset();            
+        }
+    );
+}
+
+void Tianboard::communicationTimer(const std::chrono::milliseconds timeout)
+{
+    communication_timer_ = this->create_wall_timer(timeout,
+        [this]() -> void {
+            RCLCPP_ERROR_THROTTLE(this->get_logger(), *this->get_clock(), 1000, \
+            "Communication with base error");            
+        }
+    );
+}
+
+void Tianboard::run()
+{
+    RCLCPP_INFO(this->get_logger(), "Run in Tianboard");
+
+    heartBeatTimer(std::chrono::milliseconds(200));
+    communicationTimer(std::chrono::milliseconds(200));
+}
+
+Tianboard::Tianboard(): Node("tianracer")
+{
+    this->declare_parameter<std::string>("serial_port", DEFAULT_SERIAL_DEVICE);
+
+    initSub();
+    
+    initPub();
+
+    run();
 
     odom_tf_.header.frame_id = "odom";
     odom_tf_.child_frame_id = "base_footprint";
 
+
+    std::string param_serial_port;
     this->get_parameter("serial_port", param_serial_port);
     if (serial_.open(param_serial_port.c_str(), 115200, 0, 8, 1, 'N',
                      boost::bind(&Tianboard::serialDataProc, this, _1, _2)) != true)
