@@ -6,6 +6,7 @@ from launch_ros.actions import Node
 from launch.substitutions import ThisLaunchFileDir
 
 def generate_launch_description():
+    pkg_share = get_package_share_directory("tianracer_core")
 
     serial_port = os.environ.get("TIANRACER_BASE_PORT", "/dev/tianbot_racecar")
 
@@ -16,8 +17,17 @@ def generate_launch_description():
         output='screen',
         parameters=[{'serial_port': serial_port}])
 
+    robot_localization_node = Node(
+        package='robot_localization',
+        executable='ekf_node',
+        name='ekf_filter_node',
+        output='screen',
+        parameters=[os.path.join(pkg_share, 'param/tianbot_ekf_params.yaml')]
+    )
+
     return LaunchDescription([
 
         tianracer_core,
+        robot_localization_node
 
     ])

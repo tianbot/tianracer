@@ -51,7 +51,7 @@ install(TARGETS
     DESTINATION lib/${PROJECT_NAME}
 )
 
-install(DIRECTORY include launch
+install(DIRECTORY include launch param
   DESTINATION share/${PROJECT_NAME}
 )
 
