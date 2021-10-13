@@ -2,13 +2,15 @@ import os
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch_ros.actions import Node
+from launch.substitutions import LaunchConfiguration
+from launch.actions import DeclareLaunchArgument
 
-from launch.substitutions import ThisLaunchFileDir
 
 def generate_launch_description():
     pkg_share = get_package_share_directory("tianracer_core")
 
-    serial_port = os.environ.get("TIANRACER_BASE_PORT", "/dev/tianbot_racecar")
+    serial_port = LaunchConfiguration("serial_port", \
+        default=os.environ.get("TIANRACER_BASE_PORT", "/dev/tianbot_racecar"))
 
     tianracer_core = Node(
         package='tianracer_core',
@@ -26,7 +28,10 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
-
+        DeclareLaunchArgument(
+            'serial_port',
+            default_value=serial_port,
+            description='Tianracer base port'),
         tianracer_core,
         robot_localization_node
 
