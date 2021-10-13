@@ -39,7 +39,7 @@ ekf_filter_node:
         debug_out_file: /path/to/debug/file.txt
 
 # Whether we'll allow old measurements to cause a re-publication of the updated state
-        permit_corrected_publication: false
+        # permit_corrected_publication: false
 
 # Whether to publish the acceleration state. Defaults to false if unspecified.
         publish_acceleration: false
@@ -136,9 +136,9 @@ ekf_filter_node:
         imu0_differential: true
         imu0_relative: false
         imu0_queue_size: 5
-        imu0_pose_rejection_threshold: 0.8                 # Note the difference in parameter names
-        imu0_twist_rejection_threshold: 0.8                #
-        imu0_linear_acceleration_rejection_threshold: 0.8  #
+        # imu0_pose_rejection_threshold: 0.8                 # Note the difference in parameter names
+        # imu0_twist_rejection_threshold: 0.8                #
+        # imu0_linear_acceleration_rejection_threshold: 0.8  #
 
 # [ADVANCED] Some IMUs automatically remove acceleration due to gravity, and others don't. If yours doesn't, please set
 # this to true, and *make sure* your data conforms to REP-103, specifically, that the data is in ENU frame.
