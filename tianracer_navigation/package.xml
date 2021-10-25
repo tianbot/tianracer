@@ -1,21 +1,10 @@
 <?xml version="1.0"?>
-<package>
+<package format="3">
   <name>tianracer_navigation</name>
   <version>0.0.0</version>
   <description>The tianracer_navigation package</description>
-
-  <!-- One maintainer tag required, multiple allowed, one person per tag --> 
-  <maintainer email="tianb03@hotmail.com">Tianbot Robotics</maintainer>
-
-
-  <!-- One license tag required, multiple allowed, one license per tag -->
-  <!-- Commonly used license strings: -->
-  <!--   BSD, MIT, Boost Software License, GPLv2, GPLv3, LGPLv2.1, LGPLv3 -->
-  <license>GPLv3</license>
-
-  <!-- Url tags are optional, but multiple are allowed, one per tag -->
-  <!-- Optional attribute type can be: website, bugtracker, or repository -->
-  <url type="website">https://www.tianbot.com/</url>
+  <maintainer email="tianbot@todo.todo">tianbot</maintainer>
+  <license>Apache 2.0</license>
 
   <!-- Author tags are optional, multiple are allowed, one per tag -->
   <!-- Authors do not have to be maintainers, but could be -->
@@ -33,7 +22,7 @@
   <!--   <run_depend>message_runtime</run_depend> -->
   <!-- Use test_depend for packages you need only for testing: -->
   <!--   <test_depend>gtest</test_depend> -->
-  <buildtool_depend>catkin</buildtool_depend>
+  <!-- <buildtool_depend>catkin</buildtool_depend>
   <build_depend>geometry_msgs</build_depend>
   <build_depend>move_base</build_depend>
   <build_depend>roscpp</build_depend>
@@ -47,12 +36,19 @@
   <run_depend>rospy</run_depend>
   <run_depend>std_msgs</run_depend>
   <run_depend>visualization_msgs</run_depend>
-  <run_depend>tf</run_depend>
-
+  <run_depend>tf</run_depend> -->
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>rclcpp</depend>
+  <depend>rclpy</depend>
+  <depend>geometry_msgs</depend>
+  <!-- <depend>move_base</depend> -->
+  <depend>std_msgs</depend>
+  <depend>tf2_ros</depend>
+  <depend>visualization_msgs</depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>
     <!-- Other tools can request additional information be placed here -->
-
+    <build_type>ament_cmake</build_type>
   </export>
 </package>
