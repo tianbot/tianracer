@@ -17,7 +17,7 @@ def generate_launch_description():
     frame_id = LaunchConfiguration('frame_id', default='laser')
     inverted = LaunchConfiguration('inverted', default='false')
     angle_compensate = LaunchConfiguration('angle_compensate', default='true')
-    model_env = os.environ.get("TIANRACER_LIDAR_MODEL", "") # for compatibility
+    model_env = os.environ.get("TIANRACER_LIDAR_MODEL", "a1") # for compatibility
     serial_baudrate = 256000 if "a3" in model_env else 115200
     scan_mode = "Sensitivity" if "a3" in model_env else "Boost"
 
