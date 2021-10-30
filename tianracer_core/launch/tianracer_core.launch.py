@@ -9,7 +9,7 @@ from launch.actions import DeclareLaunchArgument
 def generate_launch_description():
     pkg_share = get_package_share_directory("tianracer_core")
 
-    serial_port = LaunchConfiguration("serial_port", \
+    serial_port = LaunchConfiguration("serial_port_core", \
         default=os.environ.get("TIANRACER_BASE_PORT", "/dev/tianbot_racecar"))
 
     tianracer_core = Node(
@@ -29,7 +29,7 @@ def generate_launch_description():
 
     return LaunchDescription([
         DeclareLaunchArgument(
-            'serial_port',
+            'serial_port_core',
             default_value=serial_port,
             description='Tianracer base port'),
         tianracer_core,
