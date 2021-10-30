@@ -5,6 +5,8 @@ import os
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription
+from launch.conditions import if_condition
+from launch.conditions.if_condition import IfCondition
 from launch.substitutions import LaunchConfiguration
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 
@@ -16,7 +18,7 @@ def generate_launch_description():
     if "rplidar" in lidar:
         include_file = IncludeLaunchDescription(
             PythonLaunchDescriptionSource([get_package_share_directory("tianracer_bringup"),
-             'launch','lidar', 'launch_test.launch.py']),
+             'launch','include','lidar', 'launch_test.launch.py']),
              launch_arguments={'model': LaunchConfiguration(model)}.items(),
         ),
 

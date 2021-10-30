@@ -1,6 +1,6 @@
 scan_to_scan_filter_chain:
   ros__parameters:
-   filter1:
+    filter1:
       name: box
       type: laser_filters/LaserScanBoxFilter
       params:
