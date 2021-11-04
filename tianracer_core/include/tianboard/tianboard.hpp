@@ -29,7 +29,6 @@ private:
     std::shared_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster_;
     rclcpp::TimerBase::SharedPtr heart_timer_;
     rclcpp::TimerBase::SharedPtr communication_timer_;
-    rclcpp::Node::SharedPtr nh_;
     Serial serial_;
     void ackermannCallback(const ackermann_msgs::msg::AckermannDrive::SharedPtr msg);
     void serialDataProc(uint8_t *data, unsigned int data_len);
@@ -40,7 +39,7 @@ private:
     void initSub();
     void initPub();
     void heartBeatTimer(const std::chrono::milliseconds timeout);
-    // void communicationTimers(const std::chrono::milliseconds timeout);
+    void communicationTimer(const std::chrono::milliseconds timeout);
     void run();
 };
 
