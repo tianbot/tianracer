@@ -47,7 +47,7 @@ ekf_filter_node:
 # Whether to broadcast the transformation over the /tf topic. Defaults to true if unspecified.
         publish_tf: true
 
-        predict_to_curent_time: true
+        predict_to_current_time: true
 
 # REP-105 (http://www.ros.org/reps/rep-0105.html) specifies four principal coordinate frames: base_link, odom, map, and
 # earth. base_link is the coordinate frame that is affixed to the robot. Both odom and map are world-fixed frames.
@@ -131,7 +131,7 @@ ekf_filter_node:
                       false, false,  true,
                       false, false, false,
                       false, false, false,
-                      false, false, false,]
+                      false, false, false]
         imu0_nodelay: true
         imu0_differential: true
         imu0_relative: false
