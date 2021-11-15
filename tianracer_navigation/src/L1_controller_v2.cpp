@@ -39,7 +39,7 @@ along with tianbot_racecar.  If not, see <http://www.gnu.org/licenses/>.
 // add new hpp
 #include <tf2_ros/buffer.h>
 #include <memory>
-#include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
+#include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 
 #define PI 3.14159265358979
 

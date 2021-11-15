@@ -19,7 +19,6 @@ find_package(ament_cmake REQUIRED)
 find_package(ackermann_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(nav_msgs REQUIRED)
-#find_package(move_base REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
 find_package(rclcpp REQUIRED)
@@ -34,7 +33,6 @@ include_directories(
 set(DEPENDENCIES
   "geometry_msgs"
   "nav_msgs"
-#  move_base
   "tf2_ros"
   "rclcpp"
   "rclpy"
@@ -42,6 +40,10 @@ set(DEPENDENCIES
   "visualization_msgs" 
   "tf2_geometry_msgs"
   "ackermann_msgs" 
+)
+
+install(DIRECTORY launch param
+  DESTINATION share/${PROJECT_NAME}
 )
 
 add_executable(L1_controller_v2 src/L1_controller_v2.cpp)
