@@ -174,8 +174,8 @@ L1Controller::L1Controller(std::shared_ptr<rclcpp::Node> & nh) : nh_(nh)
     // ros2 pub and sub
     auto qos = rclcpp::QoS(rclcpp::KeepLast(10));
     odom_sub_ = nh_->create_subscription<nav_msgs::msg::Odometry>("/odometry/filtered", qos, std::bind(&L1Controller::odomCB, this, std::placeholders::_1));
-    path_sub_ = nh_->create_subscription<nav_msgs::msg::Path>("/move_base_node/NavfnROS/plan", qos, std::bind(&L1Controller::pathCB, this, std::placeholders::_1));
-    goal_sub_ = nh_->create_subscription<geometry_msgs::msg::PoseStamped>("/move_base_simple/goal", qos, std::bind(&L1Controller::goal_callback, this, std::placeholders::_1));
+    path_sub_ = nh_->create_subscription<nav_msgs::msg::Path>("/local_plan", qos, std::bind(&L1Controller::pathCB, this, std::placeholders::_1));
+    goal_sub_ = nh_->create_subscription<geometry_msgs::msg::PoseStamped>("/goal_pose", qos, std::bind(&L1Controller::goal_callback, this, std::placeholders::_1));
     marker_pub_ = nh_->create_publisher<visualization_msgs::msg::Marker>("car_path", 10);
     pub_ = nh_->create_publisher<ackermann_msgs::msg::AckermannDrive>("tianracer/ackermann_cmd", 1);
 

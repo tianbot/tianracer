@@ -1,6 +1,6 @@
 from setuptools import setup
 
-package_name = 'tianracer_teleop_ackman'
+package_name = 'tianracer_script'
 
 setup(
     name=package_name,
@@ -20,7 +20,9 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            "cmd_to_acker = tianracer_teleop_ackman.tianracer_teleop_ackman:main",
+            "cmd_to_ackermann = tianracer_script.cmd_vel_to_ackermann_drive:main",
+            "wall_follwing = tianracer_script.wall_follwing:main",
+            "multi_goal = tianracer_script.multi_goals:main"
         ],
     },
 )

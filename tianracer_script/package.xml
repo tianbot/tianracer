@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>tianracer_teleop_ackman</name>
+  <name>tianracer_script</name>
   <version>0.0.0</version>
   <description>TODO: Package description</description>
   <maintainer email="chargerKong@126.com">kong</maintainer>

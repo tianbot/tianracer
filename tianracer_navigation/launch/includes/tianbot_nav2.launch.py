@@ -12,6 +12,7 @@ from launch.conditions import IfCondition
 
 def generate_launch_description():
     use_sim_time = LaunchConfiguration('use_sim_time', default='false')
+
     map_file = os.path.join(
         get_package_share_directory('tianracer_slam'), 'maps', 'turtlebot3_world.yaml')
     param_file = os.path.join(
@@ -48,6 +49,27 @@ def generate_launch_description():
             default_value='false',
             description='Use simulation (Gazebo) clock if true'),
 
+        DeclareLaunchArgument(
+            'Vcmd',
+            default_value='1.0',
+            description='speed of car m/s'),
+
+        DeclareLaunchArgument(
+            'base_speed',
+            default_value='1.0',
+            description='speed of car m/s'),
+
+        DeclareLaunchArgument(
+            'base_angle',
+            default_value='0.0',
+            description='the middle pos of servo if tuning needed'),
+
+        DeclareLaunchArgument(
+            'angle_gain',
+            default_value='-3.5',
+            description='for tt02: >0, for hsp: <0'),
+
+
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource([nav2_launch_file_dir, '/bringup_launch.py']),
             launch_arguments={
@@ -64,4 +86,23 @@ def generate_launch_description():
             parameters=[{'use_sim_time': use_sim_time}],
             output='screen',
             condition=IfCondition(LaunchConfiguration("use_rviz"))),
+
+        # Node(
+        #     package='tianracer_navigation',
+        #     executable='L1_controller_v2',
+        #     name='L1_controller_v2',
+        #     parameters=[{
+        #         'Vcmd': LaunchConfiguration("Vcmd"),
+        #         'base_speed': LaunchConfiguration("base_speed"),
+        #         'base_angle': LaunchConfiguration("base_angle"),
+        #         'angle_gain': LaunchConfiguration("angle_gain"), 
+        #         }],
+        #     output='screen',
+        #     condition=IfCondition(LaunchConfiguration("use_rviz")),
+        #     remappings=[
+        #         ("/odometry/filtered", "odom")
+        #     ]
+        # ),
+
+
     ])
