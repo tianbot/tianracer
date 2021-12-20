@@ -47,7 +47,7 @@ ekf_filter_node:
 # Whether to broadcast the transformation over the /tf topic. Defaults to true if unspecified.
         publish_tf: true
 
-        predict_to_curent_time: true
+        predict_to_current_time: true
 
 # REP-105 (http://www.ros.org/reps/rep-0105.html) specifies four principal coordinate frames: base_link, odom, map, and
 # earth. base_link is the coordinate frame that is affixed to the robot. Both odom and map are world-fixed frames.
@@ -78,7 +78,7 @@ ekf_filter_node:
 # sensor_msgs/Imu). To add an input, simply append the next number in the sequence to its "base" name, e.g., odom0,
 # odom1, twist0, twist1, imu0, imu1, imu2, etc. The value should be the topic name. These parameters obviously have no
 # default values, and must be specified.
-        odom0: odom
+        odom0: /tianracer/odom
 
 # Each sensor reading updates some or all of the filter's state. These options give you greater control over which
 # values from each measurement are fed to the filter. For example, if you have an odometry message as input, but only
@@ -126,7 +126,7 @@ ekf_filter_node:
         # odom0_pose_rejection_threshold: 5.0
         # odom0_twist_rejection_threshold: 1.0
 
-        imu0: imu
+        imu0: /tianracer/imu
         imu0_config: [false, false, false,
                       false, false,  true,
                       false, false, false,

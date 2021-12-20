@@ -15,7 +15,7 @@
 #include <ackermann_msgs/msg/ackermann_drive.hpp>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 
-#define DEFAULT_SERIAL_DEVICE "/dev/ttyUSB1"
+#define DEFAULT_SERIAL_DEVICE "/dev/ttyUSB0"
 
 class Tianboard: public rclcpp::Node {
 public:
@@ -40,7 +40,7 @@ private:
     void initSub();
     void initPub();
     void heartBeatTimer(const std::chrono::milliseconds timeout);
-    // void communicationTimers(const std::chrono::milliseconds timeout);
+    void communicationTimer(const std::chrono::milliseconds timeout);
     void run();
 };
 

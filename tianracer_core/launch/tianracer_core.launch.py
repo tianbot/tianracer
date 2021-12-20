@@ -10,11 +10,11 @@ def generate_launch_description():
     pkg_share = get_package_share_directory("tianracer_core")
 
     serial_port = LaunchConfiguration("serial_port_core", \
-        default=os.environ.get("TIANRACER_BASE_PORT", "/dev/tianbot_racecar"))
+        default=os.environ.get("TIANRACER_BASE_PORT", "/dev/ttyUSB0"))
 
     tianracer_core = Node(
         package='tianracer_core',
-        node_executable='tianracer_core_node',
+        executable='tianracer_core_node',
         name='tianracer',
         output='screen',
         parameters=[{'serial_port': serial_port}])
