@@ -30,7 +30,7 @@ def generate_launch_description():
         ),
         Node(
             package='robot_state_publisher',
-            node_executable='robot_state_publisher',
+            executable='robot_state_publisher',
             name='robot_state_publisher',
             output='screen',
             parameters=[{'robot_description': robot}],
@@ -42,7 +42,6 @@ def generate_launch_description():
             executable='joint_state_publisher',
             name='joint_state_publisher',
             output='screen',
-            arguments=[urdf_file]
         ),
         Node(
             condition=IfCondition(gui),
@@ -59,13 +58,3 @@ def generate_launch_description():
             output="screen",
         )
     ])
-
-def main(argv=sys.argv[1:]):
-    """Run lifecycle nodes via launch."""
-    ld = generate_launch_description()
-    ls = LaunchService(argv=argv)
-    ls.include_launch_description(ld)
-    return ls.run()
-
-if __name__ == '__main__':
-    main()

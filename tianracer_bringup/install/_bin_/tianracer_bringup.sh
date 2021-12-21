@@ -2,10 +2,10 @@
 
 #IP=$(ip addr show eth0 | grep -w inet | awk '{print $2}' | awk -F / '{print $1}')
 
-source /home/tianbot/tianbot_ws/devel/setup.bash
+source /home/ubuntu/tianbot_ros_ws/install/local_setup.bash
 
-export ROS_MASTER_URI=http://localhost:11311
+# export ROS_MASTER_URI=http://localhost:11311
 
 #export ROS_IP=${IP}
 
-roslaunch tianracer_bringup tianracer_bringup.launch
+ros2 launch tianracer_bringup tianracer_bringup.launch

@@ -14,7 +14,7 @@ def generate_launch_description():
     use_sim_time = LaunchConfiguration('use_sim_time', default='false')
 
     map_file = os.path.join(
-        get_package_share_directory('tianracer_slam'), 'maps', 'turtlebot3_world.yaml')
+        get_package_share_directory('tianracer_slam'), 'maps', 'test_ros_map.yaml')
     param_file = os.path.join(
         get_package_share_directory('tianracer_navigation'), 'param', 'tianracer.yaml')
 

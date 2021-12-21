@@ -26,19 +26,18 @@ def generate_launch_description():
 
         Node(
             package='cartographer_ros',
-            node='cartographer_node',
+            executable='cartographer_node',
             arguments=['-configuration_directory', config_dir,
-                    '-configuration_basename', config_basename ],
-            remappings = [('/odom', '/odometry/filtered'),
-                          ('/imu', '/imu')],
+                    '-configuration_basename', config_basename],
+            remappings = [('odom', '/odometry/filtered'),
+                          ('imu', '/tianracer/imu')],
             output='screen',
         ),
 
         Node(
             package='cartographer_ros',
-            node='occupancy_grid_node',
+            executable='occupancy_grid_node',
             arguments=['-resolution', '0.05'],
             output='screen',
         )
-
     ])

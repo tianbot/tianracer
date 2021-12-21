@@ -1,11 +1,11 @@
-set;TIANRACER_BASE;compact                   # compact, standard, fullsize, customized.
-set;TIANRACER_BASE_PORT;/dev/tianbot_racecar # /dev/ttyUSB1
-set;TIANRACER_STEERING_DIRECTION;normal      # compact, standard, fullsize, customized.
-set;TIANRACER_THROTTLE_DIRECTION;normal      # compact, standard, fullsize, customized.
-set;TIANRACER_BRIDGE;disabled                # enabled,disabled
-set;TIANRACER_RGBD_CAMERA;none               # realsense_d415, realsense_d435, astra, astra_pro, xtion, none
-set;TIANRACER_VIDEO_DEVICE;none              # /dev/video0 for most of the usb_cams.If you want init usb_cam in jet_cam, this should be set to none.
-set;TIANRACER_LIDAR;rplidar_a1               # rplidar, velodyne_vlp16, osight, rslidar, hokuyo, sick, etc..
-set;TIANRACER_LIDAR_MODEL;a1               # a1, a2, a3, iexxx, vlp16, etc...
-set;TIANRACER_LIDAR_PORT;/dev/tianbot_rplidar # /dev/ttyUSB0
-set;TIANRACER_GPS;none                       # none, nmea0183
+set;TIANRACER_BASE;compact
+set;TIANRACER_BASE_PORT;/dev/ttyUSB0
+set;TIANRACER_STEERING_DIRECTION;normal
+set;TIANRACER_THROTTLE_DIRECTION;normal
+set;TIANRACER_BRIDGE;disabled
+set;TIANRACER_RGBD_CAMERA;none
+set;TIANRACER_VIDEO_DEVICE;none
+set;TIANRACER_LIDAR;rplidar_a1
+set;TIANRACER_LIDAR_MODEL;a1
+set;TIANRACER_LIDAR_PORT;/dev/ttyUSB1
+set;TIANRACER_GPS;none
