@@ -31,8 +31,8 @@ def main():
     node = rclpy.create_node('cmd_vel_to_ackermann_drive')
         
     twist_cmd_topic = node.get_parameter_or('~twist_cmd_topic', '/cmd_vel') 
-    ackermann_cmd_topic = node.get_parameter_or('~ackermann_cmd_topic', '/ackermann_cmd')
-    wheelbase = node.get_parameter_or('~wheelbase', 1.0)
+    ackermann_cmd_topic = node.get_parameter_or('~ackermann_cmd_topic', '/tianracer/ackermann_cmd')
+    wheelbase = node.get_parameter_or('~wheelbase', 0.255)
     
     pub = node.create_publisher(AckermannDrive, ackermann_cmd_topic, 1)
     node.create_subscription(Twist, twist_cmd_topic, lambda x: cmd_callback(x, wheelbase, ackermann_cmd_topic, pub )  , 1)
