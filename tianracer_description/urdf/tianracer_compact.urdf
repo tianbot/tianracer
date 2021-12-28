@@ -423,7 +423,7 @@
     <visual>
       <origin
         xyz="0 0 0"
-        rpy="0 0 0" />
+        rpy="0 0 3.1415926535" />
       <geometry>
         <mesh
           filename="package://tianracer_description/meshes/laser.STL" />
@@ -449,7 +449,7 @@
     type="fixed">
     <origin
       xyz="0.22409 -0.0018403 0.1004"
-      rpy="0 0 0" />
+      rpy="0 0 3.1415926535" />
     <parent
       link="base_link" />
     <child

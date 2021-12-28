@@ -1,7 +1,7 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 # Created by Chen Yuxuan
-# Modified by Tian Bo
-import rospy
+# Modified by Tian Bo, Kong Liangqian
+import rclpy
 import numpy as np
 from sensor_msgs.msg import LaserScan
 from ackermann_msgs.msg import AckermannDrive, AckermannDriveStamped
@@ -16,7 +16,7 @@ def get_range(data, angle, deg=True):
     return dis
 
 
-def wall_following_callback(data):
+def wall_following_callback(data, drive_pub):
     """
     Implements simple wall following at
     https://linklab-uva.github.io/autonomousracing/assets/files/assgn4-print.pdf
@@ -41,20 +41,21 @@ def wall_following_callback(data):
 
     front_dis = get_range(data, 0)
     #speed can be set to 0.5 to 3.5 m/s, 3 by default
-    speed = 3 
+    speed = 3
     angle_filter = steering_angle
-    
+
     drive_msg = AckermannDriveStamped()
-    drive_msg.drive.steering_angle=steering_angle 
+    drive_msg.drive.steering_angle=steering_angle
     drive_msg.drive.speed=speed
     drive_pub.publish(drive_msg)
 
-if __name__ == '__main__': 
-  try:
-    rospy.init_node("wall_following")
-    scan_sub = rospy.Subscriber('/scan', LaserScan, wall_following_callback)
-    drive_pub = rospy.Publisher('/drive', AckermannDriveStamped, queue_size=1)
-    rospy.spin()
-    
-  except rospy.ROSInterruptException:
-    pass
+def main():
+    rclpy.init()
+    node = rclpy.create_node("wall_following")
+
+    drive_pub = node.create_publisher('/drive', AckermannDriveStamped, queue_size=1)
+    node.create_subscription('/scan', LaserScan, lambda x: wall_following_callback(x, drive_pub))
+    rclpy.spin(node)
+
+if __name__ == '__main__':
+    main()

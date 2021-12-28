@@ -188,7 +188,7 @@ void Tianboard::tianboardDataProc(unsigned char *buf, int len)
             imu_msg.angular_velocity.x = pImu->angular_vel.x;
             imu_msg.angular_velocity.y = pImu->angular_vel.y;
             imu_msg.angular_velocity.z = pImu->angular_vel.z;
-            imu_msg.linear_acceleration.x = pImu->linear_acc.x;
+            imu_msg.linear_acceleration.x = pImu->linear_acc.x-0.6;
             imu_msg.linear_acceleration.y = pImu->linear_acc.y;
             imu_msg.linear_acceleration.z = pImu->linear_acc.z;
             imu_pub_->publish(imu_msg);
@@ -203,6 +203,7 @@ void Tianboard::tianboardDataProc(unsigned char *buf, int len)
 
 void Tianboard::ackermannCallback(const ackermann_msgs::msg::AckermannDrive::SharedPtr msg)
 {
+    heart_timer_.reset();
     uint16_t len;
     vector<uint8_t> buf;
 
@@ -237,7 +238,7 @@ void Tianboard::ackermannCallback(const ackermann_msgs::msg::AckermannDrive::Sha
     buf.push_back(bcc);
 
     serial_.send(&buf[0], buf.size());
-    heart_timer_.reset();
+    
 }
 
 
@@ -312,8 +313,8 @@ void Tianboard::run()
 {
     RCLCPP_INFO(this->get_logger(), "Run in Tianboard");
 
-    heartBeatTimer(std::chrono::milliseconds(200));
-    communicationTimer(std::chrono::milliseconds(200));
+    // heartBeatTimer(std::chrono::milliseconds(200));
+    // communicationTimer(std::chrono::milliseconds(200));
 }
 
 Tianboard::Tianboard(): Node("tianracer")

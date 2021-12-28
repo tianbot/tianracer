@@ -45,7 +45,11 @@ set(DEPENDENCIES
 install(DIRECTORY launch param
   DESTINATION share/${PROJECT_NAME}
 )
-
+install(PROGRAMS 
+  script/cmd_vel_to_ackermann_drive.py
+  script/multi_goals.py
+  script/wall_following.py
+  DESTINATION lib/${PROJECT_NAME})
 add_executable(L1_controller_v2 src/L1_controller_v2.cpp)
 #target_link_libraries(L1_controller_v2 ${DEPENDENCIES})
 ament_target_dependencies(L1_controller_v2 ${DEPENDENCIES})
