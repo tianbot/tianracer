@@ -29,13 +29,15 @@ from launch_ros.actions import Node
 def generate_launch_description():
     # Get the launch directory
     teb_launch_dir = os.path.join(
-        get_package_share_directory('teb_local_planner'), 'launch')
+        get_package_share_directory('tianracer_navigation'), 'param')
     nav2_bringup_launch_dir = os.path.join(
         get_package_share_directory('nav2_bringup'), 'launch')
 
-    map_yaml_file = LaunchConfiguration('map')
+    map_yaml_file = LaunchConfiguration('map', default=os.path.join(
+            get_package_share_directory('tianracer_slam'), 'maps', 'test_ros_map.yaml'))
     declare_map_yaml_cmd = DeclareLaunchArgument(
         'map',
+        default_value=map_yaml_file,
         description='Full path to map yaml file to load')
 
     params_file = os.path.join(teb_launch_dir, 'tianracer_teb.yaml')
@@ -53,8 +55,8 @@ def generate_launch_description():
     ld.add_action(declare_map_yaml_cmd)
     ld.add_action(
         Node(
-            package='tianracer_script',
-            executable='cmd_to_ackermann',
+            package='tianracer_navigation',
+            executable='cmd_vel_to_ackermann_drive.py',
             output='screen',
         )
     )
