@@ -2,6 +2,7 @@
 #  Author: Liangqian Kong <kongliangqian@huawei.com>
 
 import rclpy
+import math
 from rclpy.node import Node
 from rclpy.action import ActionClient
 from action_msgs.msg import GoalStatus
@@ -13,21 +14,23 @@ class MultiGoals(Node):
     def __init__(self):
         super().__init__("multi_goals")
 
-        self.goalId = 0
-        self.nav_to_pose_client = ActionClient(self, NavigateToPose, 'navigate_to_pose')
-        self.goalMsg = PoseStamped()
-        self.goalMsg.header.frame_id = self.map_frame
-        self.goalMsg.header.stamp = self.get_clock().now().to_msg()
         self.declare_parameter('goalListX', '[0.229,0.2]')
         self.declare_parameter('goalListY', '[0.229,1.2]')
         self.declare_parameter('goalListTheta', '[0.229,0.3]')
         self.declare_parameter('map_frame', 'map')
         self.get_goal_paramter()
+        
+        self.goalId = 0
+        self.nav_to_pose_client = ActionClient(self, NavigateToPose, 'navigate_to_pose')
+        self.goalMsg = PoseStamped()
+        self.goalMsg.header.frame_id = self.map_frame
+        self.goalMsg.header.stamp = self.get_clock().now().to_msg()
         self.send_goal()
 
     def send_goal(self):
        
-        self.goalMsg.pose.orientation.w = self.goalListTheta[self.goalId]
+        self.goalMsg.pose.orientation.w = math.cos(self.goalListTheta[self.goalId] / 2)
+        self.goalMsg.pose.orientation.z = math.sin(self.goalListTheta[self.goalId] / 2)
         self.goalMsg.pose.position.x = self.goalListX[self.goalId]
         self.goalMsg.pose.position.y = self.goalListY[self.goalId]
 

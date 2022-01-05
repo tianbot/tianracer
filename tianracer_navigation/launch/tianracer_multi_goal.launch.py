@@ -6,9 +6,9 @@ from launch.actions import OpaqueFunction
 
 def launch_setup(context):
     use_sim_time = LaunchConfiguration('use_sim_time', default='false')
-    goalListX = LaunchConfiguration('goalListX', default='[-2.433,2.902,4.59848]').perform(context)
-    goalListY = LaunchConfiguration('goalListY', default='[-2.514,-4.534,-1.5732]').perform(context)
-    goalListTheta = LaunchConfiguration('goalListTheta', default='[-1.548,0.008,1.54833]').perform(context)
+    goalListX = LaunchConfiguration('goalListX', default='[-2.433,2.902,4.59848,1.088]').perform(context)
+    goalListY = LaunchConfiguration('goalListY', default='[-2.514,-4.534,-1.5732,-0.012]').perform(context)
+    goalListTheta = LaunchConfiguration('goalListTheta', default='[-1.537,0.008,1.54833,-3.129]').perform(context)
     map_frame = LaunchConfiguration('map_frame', default='map')
     return [
         DeclareLaunchArgument(

@@ -3,9 +3,8 @@ amcl:
     use_sim_time: false
     alpha1: 0.2
     alpha2: 0.2
-    alpha3: 0.2
+    alpha3: 0.8
     alpha4: 0.2
-    alpha5: 0.2
     base_frame_id: "base_footprint"
     beam_skip_distance: 0.5
     beam_skip_error_threshold: 0.9
@@ -14,14 +13,14 @@ amcl:
     global_frame_id: "map"
     lambda_short: 0.1
     laser_likelihood_max_dist: 2.0
-    laser_max_range: 100.0
+    laser_max_range: 12.0
     laser_min_range: -1.0
     laser_model_type: "likelihood_field"
-    max_beams: 60
-    max_particles: 2000
-    min_particles: 500
+    max_beams: 50
+    max_particles: 5000
+    min_particles: 1000
     odom_frame_id: "odom"
-    pf_err: 0.05
+    pf_err: 0.01
     pf_z: 0.99
     recovery_alpha_fast: 0.0
     recovery_alpha_slow: 0.0
@@ -30,14 +29,15 @@ amcl:
     save_pose_rate: 0.5
     sigma_hit: 0.2
     tf_broadcast: true
-    transform_tolerance: 2.0
-    update_min_a: 0.2
-    update_min_d: 0.25
-    z_hit: 0.5
+    transform_tolerance: 0.5
+    update_min_a: 0.1
+    update_min_d: 0.1
+    z_hit: 0.95
     z_max: 0.05
-    z_rand: 0.5
+    z_rand: 0.05
     z_short: 0.05
     scan_topic: scan
+    map_topic: map
 
 amcl_map_client:
   ros__parameters:
@@ -103,7 +103,7 @@ controller_server:
   ros__parameters:
     use_sim_time: false
     odom_topic: /odometry/filtered
-    controller_frequency: 20.0
+    controller_frequency: 10.0
     min_x_velocity_threshold: 0.001
     min_y_velocity_threshold: 0.5
     min_theta_velocity_threshold: 0.001
@@ -129,74 +129,122 @@ controller_server:
       plugin: "nav2_controller::SimpleGoalChecker"
       xy_goal_tolerance: 0.25
       yaw_goal_tolerance: 0.25
-    # DWB parameters
-    # FollowPath:
-    #   plugin: "dwb_core::DWBLocalPlanner"
-    #   debug_trajectory_details: True
-    #   min_vel_x: 0.0
-    #   min_vel_y: 0.0
-    #   max_vel_x: 0.26
-    #   max_vel_y: 0.0
-    #   max_vel_theta: 1.0
-    #   min_speed_xy: 0.0
-    #   max_speed_xy: 0.26
-    #   min_speed_theta: 0.0
-    #   # Add high threshold velocity for turtlebot 3 issue.
-    #   # https://github.com/ROBOTIS-GIT/turtlebot3_simulations/issues/75
-    #   acc_lim_x: 2.5
-    #   acc_lim_y: 0.0
-    #   acc_lim_theta: 3.2
-    #   decel_lim_x: -2.5
-    #   decel_lim_y: 0.0
-    #   decel_lim_theta: -3.2
-    #   vx_samples: 20
-    #   vy_samples: 5
-    #   vtheta_samples: 20
-    #   sim_time: 1.7
-    #   linear_granularity: 0.05
-    #   angular_granularity: 0.025
-    #   transform_tolerance: 0.2
-    #   xy_goal_tolerance: 0.25
-    #   trans_stopped_velocity: 0.25
-    #   short_circuit_trajectory_evaluation: True
-    #   stateful: True
-    #   critics: ["RotateToGoal", "Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist"]
-    #   BaseObstacle.scale: 0.02
-    #   PathAlign.scale: 32.0
-    #   PathAlign.forward_point_distance: 0.1
-    #   GoalAlign.scale: 24.0
-    #   GoalAlign.forward_point_distance: 0.1
-    #   PathDist.scale: 32.0
-    #   GoalDist.scale: 24.0
-    #   RotateToGoal.scale: 32.0
-    #   RotateToGoal.slowing_factor: 5.0
-    #   RotateToGoal.lookahead_time: -1.0
     FollowPath:
       plugin: "teb_local_planner::TebLocalPlannerROS"
+      odom_topic: /odometry/filtered
       teb_autosize: 1.0
       dt_ref: 0.3
       dt_hysteresis: 0.1
       max_samples: 500
-      global_plan_overwrite_orientation: False
-      allow_init_with_backwards_motion: False
+      global_plan_overwrite_orientation: True
+      allow_init_with_backwards_motion: True
       max_global_plan_lookahead_dist: 3.0
-      global_plan_viapoint_sep: 0.3
+      global_plan_viapoint_sep: -1.0
       global_plan_prune_distance: 1.0
       exact_arc_length: False
       feasibility_check_no_poses: 2
       publish_feedback: False
       
       # Robot
-              
-      max_vel_x: 0.26
-      max_vel_theta: 1.0 
-      acc_lim_x: 2.5
-      acc_lim_theta: 3.2
+      max_vel_x: 0.5
+      max_vel_x_backwards: 0.2
+      max_vel_y: 0.0
+      max_vel_theta: 1.5 # the angular velocity is also bounded by min_turning_radius in case of a carlike robot (r = v / omega)
+      acc_lim_x: 0.5
+      acc_lim_theta: 1.5
+      # ********************** Carlike robot parameters ********************
+      min_turning_radius: 1.5       # Min turning radius of the carlike robot (compute value using a model or adjust with rqt_reconfigure manually)
+      wheelbase: 0.3                 # Wheelbase of our robot
+      cmd_angle_instead_rotvel: false # stage simulator takes the angle instead of the rotvel as input (twist message)
+      # ********************************************************************
 
       footprint_model: # types: "point", "circular", "two_circles", "line", "polygon"
-        type: "circular"
-        radius: 0.17 # for type "circular"
+        type: "line"
+        radius: 0.2 # for type "circular"
+        line_start: [0.0, 0.0] # for type "line"
+        line_end: [0.3, 0.0] # for type "line"
+        front_offset: 0.2 # for type "two_circles"
+        front_radius: 0.2 # for type "two_circles"
+        rear_offset: 0.2 # for type "two_circles"
+        rear_radius: 0.2 # for type "two_circles"
+
+      # GoalTolerance
+      xy_goal_tolerance: 0.2
+      yaw_goal_tolerance: 0.1
+      free_goal_vel: False
+      complete_global_plan: True
+
+      # Obstacles 
+      min_obstacle_dist: 0.27 # This value must also include our robot's expansion, since footprint_model is set to "line".
+      inflation_dist: 0.6
+      include_costmap_obstacles: True
+      costmap_obstacles_behind_robot_dist: 1.0
+      obstacle_poses_affected: 15
+
+      dynamic_obstacle_inflation_dist: 0.6
+      include_dynamic_obstacles: True 
+
+      costmap_converter_plugin: ""
+      costmap_converter_spin_thread: True
+      costmap_converter_rate: 5.0
+
+      # Optimization
+      no_inner_iterations: 5
+      no_outer_iterations: 4
+      optimization_activate: True
+      optimization_verbose: False
+      penalty_epsilon: 0.1
+      obstacle_cost_exponent: 4.0
+      weight_max_vel_x: 2.0
+      weight_max_vel_theta: 1.0
+      weight_acc_lim_x: 1.0
+      weight_acc_lim_theta: 1.0
+      weight_kinematics_nh: 1000.0
+      weight_kinematics_forward_drive: 1.0
+      weight_kinematics_turning_radius: 1.0
+      weight_optimaltime: 20.0 # must be > 0
+      weight_shortest_path: 0.0
+      weight_obstacle: 100.0
+      weight_inflation: 0.2
+      weight_dynamic_obstacle: 10.0 # not in use yet
+      weight_dynamic_obstacle_inflation: 0.2
+      weight_viapoint: 1.0
+      weight_adapt_factor: 2.0
+
+      # Homotopy Class Planner
+
+      enable_homotopy_class_planning: False
+      enable_multithreading: True
+      max_number_classes: 4
+      selection_cost_hysteresis: 1.0
+      selection_prefer_initial_plan: 0.95
+      selection_obst_cost_scale: 1.0
+      selection_alternative_time_cost: False
+
+      roadmap_graph_no_samples: 15
+      roadmap_graph_area_width: 5.0
+      roadmap_graph_area_length_scale: 1.0
+      h_signature_prescaler: 0.5
+      h_signature_threshold: 0.1
+      obstacle_heading_threshold: 0.45
+      switching_blocking_period: 0.0
+      viapoints_all_candidates: True
+      delete_detours_backwards: True
+      max_ratio_detours_duration_best_duration: 3.0
+      visualize_hc_graph: False
+      visualize_with_time_as_z_axis_scale: 0.0
+
+      # Recovery
       
+      shrink_horizon_backup: True
+      shrink_horizon_min_duration: 10.0
+      oscillation_recovery: True
+      oscillation_v_eps: 0.1
+      oscillation_omega_eps: 0.1
+      oscillation_recovery_min_duration: 10.0
+      oscillation_filter_duration: 10.0
+
+
 controller_server_rclcpp_node:
   ros__parameters:
     use_sim_time: false
@@ -206,32 +254,26 @@ local_costmap:
     ros__parameters:
       update_frequency: 5.0
       publish_frequency: 2.0
-      global_frame: odom
+      global_frame: map
       robot_base_frame: base_link
       use_sim_time: false
       rolling_window: true
-      width: 3
-      height: 3
-      resolution: 0.05
-      robot_radius: 0.1
-      plugins: ["voxel_layer", "inflation_layer"]
+      width: 2
+      height: 2
+      resolution: 0.1
+      footprint: '[[-0.05, -0.1], [-0.05, 0.1], [0.3, 0.1], [0.3, -0.1]]'
+      plugins: ["obstacle_layer", "inflation_layer"]
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
-        cost_scaling_factor: 3.0
-        inflation_radius: 0.55
-      voxel_layer:
-        plugin: "nav2_costmap_2d::VoxelLayer"
+        cost_scaling_factor: 10.0
+        inflation_radius: 0.3
+      obstacle_layer:
+        plugin: "nav2_costmap_2d::ObstacleLayer"
         enabled: True
-        publish_voxel_map: True
-        origin_z: 0.0
-        z_resolution: 0.05
-        z_voxels: 16
-        max_obstacle_height: 2.0
-        mark_threshold: 0
         observation_sources: scan
         scan:
           topic: /scan
-          max_obstacle_height: 2.0
+          max_obstacle_height: 1.6
           clearing: True
           marking: True
           data_type: "LaserScan"
@@ -252,12 +294,13 @@ local_costmap:
 global_costmap:
   global_costmap:
     ros__parameters:
-      update_frequency: 1.0
-      publish_frequency: 1.0
+      update_frequency: 5.0
+      publish_frequency: 2.0
       global_frame: map
       robot_base_frame: base_link
       use_sim_time: false
-      robot_radius: 0.1
+      transform_tolerance: 0.5
+      footprint: '[[-0.05, -0.1], [-0.05, 0.1], [0.3, 0.1], [0.3, -0.1]]'
       resolution: 0.05
       rolling_window: false
       track_unknown_space: true
@@ -268,7 +311,7 @@ global_costmap:
         observation_sources: scan
         scan:
           topic: /scan
-          max_obstacle_height: 2.0
+          max_obstacle_height: 1.6
           clearing: True
           marking: True
           data_type: "LaserScan"
@@ -281,8 +324,8 @@ global_costmap:
         map_subscribe_transient_local: True
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
-        cost_scaling_factor: 3.0
-        inflation_radius: 0.55
+        cost_scaling_factor: 10.0
+        inflation_radius: 0.3
       always_send_full_costmap: True
   global_costmap_client:
     ros__parameters:
@@ -306,15 +349,41 @@ map_saver:
 
 planner_server:
   ros__parameters:
-    expected_planner_frequency: 20.0
+    expected_planner_frequency: 10.0
     use_sim_time: false
     planner_plugins: ["GridBased"]
     GridBased:
       plugin: "nav2_navfn_planner/NavfnPlanner"
-      tolerance: 0.5
-      use_astar: false
+      tolerance: 0.1
+      use_astar: true
       allow_unknown: true
+    # GridBased:
+      # plugin: "nav2_smac_planner/SmacPlannerHybrid"
+      # downsample_costmap: false           # whether or not to downsample the map
+      # downsampling_factor: 1              # multiplier for the resolution of the costmap layer (e.g. 2 on a 5cm costmap would be 10cm)
+      # allow_unknown: true                 # allow traveling in unknown space
+      # max_iterations: 1000000             # maximum total iterations to search for before failing (in case unreachable), set to -1 to disable
+      # max_planning_time: 5.0              # max time in s for planner to plan, smooth
+      # motion_model_for_search: "DUBIN"    # Hybrid-A* Dubin, Redds-Shepp
+      # angle_quantization_bins: 72         # Number of angle bins for search
+      # analytic_expansion_ratio: 3.5       # The ratio to attempt analytic expansions during search for final approach.
+      # analytic_expansion_max_length: 3.0  # For Hybrid/Lattice nodes: The maximum length of the analytic expansion to be considered valid to prevent unsafe shortcutting
+      # minimum_turning_radius: 0.3         # minimum turning radius in m of path / vehicle
+      # reverse_penalty: 2.0                # Penalty to apply if motion is reversing, must be => 1
+      # change_penalty: 0.0                 # Penalty to apply if motion is changing directions (L to R), must be >= 0
+      # non_straight_penalty: 1.2           # Penalty to apply if motion is non-straight, must be => 1
+      # cost_penalty: 2.0                   # Penalty to apply to higher cost areas when adding into the obstacle map dynamic programming distance expansion heuristic. This drives the robot more towards the center of passages. A value between 1.3 - 3.5 is reasonable.
+      # lookup_table_size: 20.0             # Size of the dubin/reeds-sheep distance window to cache, in meters.
+      # cache_obstacle_heuristic: false     # Cache the obstacle map dynamic programming distance expansion heuristic between subsiquent replannings of the same goal location. Dramatically speeds up replanning performance (40x) if costmap is largely static.
+      # smooth_path: false                   # If true, does a simple and quick smoothing post-processing to the path
 
+      # smoother:
+      #   max_iterations: 1000
+      #   w_smooth: 0.3
+      #   w_data: 0.2
+      #   tolerance: 1e-10
+      #   do_refinement: true
+    
 planner_server_rclcpp_node:
   ros__parameters:
     use_sim_time: false
