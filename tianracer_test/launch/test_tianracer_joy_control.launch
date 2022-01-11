@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+
+<launch>
+    <include file="$(find tianracer_core)/launch/tianracer_core.launch" />
+    <include file="$(find tianracer_teleop)/launch/joystick_teleop.launch" />
+</launch>
