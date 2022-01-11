@@ -15,7 +15,7 @@
   <!--   BSD, MIT, Boost Software License, GPLv2, GPLv3, LGPLv2.1, LGPLv3 -->
   <license>TODO</license>
 
-
+  <depend>slam_toolbox</depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>
