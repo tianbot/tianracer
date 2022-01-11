@@ -1,8 +1,6 @@
 import os
-import sys
-import xacro
 from ament_index_python.packages import get_package_share_directory
-from launch import LaunchDescription, LaunchService
+from launch import LaunchDescription
 from launch_ros.actions import Node
 from launch.substitutions import  LaunchConfiguration
 from launch.actions import DeclareLaunchArgument
@@ -13,7 +11,8 @@ def generate_launch_description():
 
     urdf_file = os.path.join(get_package_share_directory('tianracer_description'), \
         'urdf/tianracer_compact.urdf')
-    robot = xacro.process(urdf_file)
+    with open(urdf_file, 'r') as infp:
+        robot_desc = infp.read()
     gui = LaunchConfiguration('gui', default=False)
     use_rviz = LaunchConfiguration('use_rviz', default=False)
 
@@ -33,8 +32,7 @@ def generate_launch_description():
             executable='robot_state_publisher',
             name='robot_state_publisher',
             output='screen',
-            parameters=[{'robot_description': robot}],
-            arguments=[urdf_file]
+            parameters=[{'robot_description': robot_desc}],
         ),
         Node(
             condition=UnlessCondition(gui),
