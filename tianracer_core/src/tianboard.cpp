@@ -203,7 +203,6 @@ void Tianboard::tianboardDataProc(unsigned char *buf, int len)
 
 void Tianboard::ackermannCallback(const ackermann_msgs::msg::AckermannDrive::SharedPtr msg)
 {
-    heart_timer_.reset();
     uint16_t len;
     vector<uint8_t> buf;
 
@@ -238,7 +237,7 @@ void Tianboard::ackermannCallback(const ackermann_msgs::msg::AckermannDrive::Sha
     buf.push_back(bcc);
 
     serial_.send(&buf[0], buf.size());
-    
+    // heart_timer_.reset();
 }
 
 
@@ -313,8 +312,8 @@ void Tianboard::run()
 {
     RCLCPP_INFO(this->get_logger(), "Run in Tianboard");
 
-    // heartBeatTimer(std::chrono::milliseconds(200));
-    // communicationTimer(std::chrono::milliseconds(200));
+    heartBeatTimer(std::chrono::milliseconds(200));
+    communicationTimer(std::chrono::milliseconds(200));
 }
 
 Tianboard::Tianboard(): Node("tianracer")
