@@ -10,10 +10,10 @@ obstacle_layer:
   obstacle_range: 3.5
   raytrace_range: 5.0
   inflation_radius: 0.2
-  track_unknown_space: false # only used when map_type is set to costmap.
+  track_unknown_space: true # only used when map_type is set to costmap.
   combination_method: 1
 
-  observation_sources: scan depth_points lidar_points
+  observation_sources: scan #depth_points lidar_points
   scan:
     data_type: LaserScan
     topic: scan
