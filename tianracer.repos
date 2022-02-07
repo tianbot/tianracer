@@ -1,0 +1,25 @@
+repositories:
+  cartograher_ros:
+    type: git
+    url: https://github.com/ros2/cartographer_ros
+    version: dashing
+  costmap_converter:
+    type: git
+    url: https://github.com/rst-tu-dortmund/costmap_converter
+    version: ros2
+  laser_filters:
+    type: git
+    url: https://github.com.cnpmjs.org/ros-perception/laser_filters
+    version: ros2
+  rplidar_ros:
+    type: git
+    url: https://github.com/slamtec/rplidar_ros.git
+    version: ros2
+  teb_local_planner:
+    type: git
+    url: https://github.com/rst-tu-dortmund/teb_local_planner
+    version: ros2-master
+  tianracer:
+    type: git
+    url: https://github.com/tianbot/tianracer
+    version: galactic-devel
