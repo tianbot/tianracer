@@ -2,6 +2,7 @@
 
 : ${TIANRACER_BASE:=compact}  #compact, standard, fullsize, customized. 
 : ${TIANRACER_BASE_PORT:=/dev/tianbot_racecar}  # /dev/ttyUSB1
+: ${TIANRACER_BASE_BAUDRATE:=460800}  # 115200, 460800 
 : ${TIANRACER_STEERING_DIRECTION:=normal} # normal, reverse
 : ${TIANRACER_THROTTLE_DIRECTION:=normal} # normal, reverse
 : ${TIANRACER_BRIDGE:=disabled} # enabled,disabled 
@@ -18,6 +19,7 @@
 #Exports
 export TIANRACER_BASE
 export TIANRACER_BASE_PORT
+export TIANRACER_BASE_BAUDRATE
 export TIANRACER_STEERING_DIRECTION
 export TIANRACER_THROTTLE_DIRECTION
 export TIANRACER_BRIDGE

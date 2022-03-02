@@ -2,13 +2,21 @@
 
 <launch>
   <arg name="serial_port" default="$(optenv TIANRACER_BASE_PORT /dev/ttyUSB1)" />
-  <node pkg="tianracer_core" type="tianracer_core_node" name="tianracer" output="screen">
+  <arg name="serial_baudrate" default="$(optenv TIANRACER_BASE_BAUDRATE 115200)" />
+  
+  <!-- drivers for tianracer and tianbot are combined -->
+  <node pkg="tianbot_core" type="tianbot_core" name="tianracer" output="screen">
     <param name="serial_port" type="string" value="$(arg serial_port)"/>
+    <param name="serial_baudrate" type="int" value="$(arg serial_baudrate)"/>
+    <!-- there is no device type check for mini board -->
+    <param name="type" type="string" value="ackermann" />
+    <param if="$(eval serial_baudrate=='115200')" name="type_verify" type="bool" value="false" />
+    <param name="publish_tf" type="bool" value="false" />
   </node>
 
-    <!-- Robot_Localization for odometry ekf fusion-->
-    <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se" clear_params="true">
-        <rosparam command="load" file="$(find tianracer_core)/param/tianbot_ekf_params.yaml" />
-    </node>
+  <!-- Robot_Localization for odometry ekf fusion-->
+  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se" clear_params="true">
+      <rosparam command="load" file="$(find tianracer_core)/param/tianbot_ekf_params.yaml" />
+  </node>
 
 </launch>

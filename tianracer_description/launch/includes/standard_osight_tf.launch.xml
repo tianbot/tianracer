@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 
 <launch>
-    <node pkg="tf" type="static_transform_publisher" name="base_footprint2base_link" args="0 0 0.065 0 0 0 base_footprint base_link 10"/>
-    <node pkg="tf" type="static_transform_publisher" name="base_link2laser" args="0.34 0 0.12 0 0 0 base_link laser 10"/>
-    <node pkg="tf" type="static_transform_publisher" name="base_link2imu" args="0.34 0 0.12 0 0 0 base_link imu_link 10"/>
-    <node pkg="tf" type="static_transform_publisher" name="base_link2camera" args="0.41 0 0.075 0 0 0 base_link camera_link 10"/>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="base_footprint2base_link" args="0 0 0.065 0 0 0 base_footprint base_link"/>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="base_link2laser" args="0.34 0 0.12 0 0 0 base_link laser"/>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="base_link2imu" args="0.34 0 0.12 0 0 0 base_link imu_link"/>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="base_link2camera" args="0.41 0 0.075 0 0 0 base_link camera_link"/>
 </launch>
 
