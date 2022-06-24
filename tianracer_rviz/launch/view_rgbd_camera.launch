@@ -4,7 +4,7 @@
     <arg name="use_rviz" default="true" />
 
     <!-- Rviz -->
-    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find tianracer_rviz)/rviz_cfg/realsense2_camera.rviz"
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find tianracer_rviz)/rviz_cfg/rgbd_camera.rviz"
  if="$(arg use_rviz)" />
 </launch>
 

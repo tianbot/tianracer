@@ -1,6 +1,9 @@
+<?xml version="1.0"?>
+
 <launch>
+  <arg name="image_topic" default="/usb_cam/image_raw" />
   <node name="image_view" pkg="image_view" type="image_view" respawn="false" output="screen">
-    <remap from="image" to="/usb_cam/image_raw"/>
+    <remap from="image" to="$(arg image_topic)"/>
     <param name="autosize" value="true" />
   </node>
 </launch>
