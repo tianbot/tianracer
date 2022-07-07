@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<launch>
+  <node name="bm661" pkg="bm_scan" type="bm661" output="screen">
+    <param name="frame_id" type="string" value="laser"/>
+    <param name="scan_topic" type="string" value="scan" />
+    <param name="inverted" type="bool" value="false"/>
+    <param name="hostip" type="string" value="0.0.0.0"/>
+    <param name="port" type="string" value="2368"/>
+    <param name="angle_offset" type="int" value="180"/>
+  </node>
+</launch>
+
