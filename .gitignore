@@ -43,7 +43,7 @@
 *.pgm
 
 # speciic cfg
-99.my_tianracer.sh.em
+99.my_tianracer*.sh.em
 tianbot_office*.yaml
 tianbot_maps*.yaml
 tianracer_slam/maps/*.yaml
