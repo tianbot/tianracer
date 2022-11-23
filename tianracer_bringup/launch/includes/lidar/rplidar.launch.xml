@@ -21,7 +21,7 @@
     <!-- laser filter -->
     
     <node pkg="laser_filters" type="scan_to_scan_filter_chain" name="laser_filter" >
-	<rosparam command="load" file="$(find tianracer_bringup)/param/tianbot_laser_config.yaml" />
+	<rosparam command="load" file="$(find tianracer_bringup)/param/rplidar_laser_filter.yaml" />
 	<remap from="scan" to="scan_raw"/>
 	<remap from="scan_filtered" to="scan"/>
     </node>
