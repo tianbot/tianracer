@@ -1,22 +1,21 @@
-[中文版说明](https://github.com/tianbot/tianracer/blob/master/README_CN.md)  
-
-[TianRacer详细中文操作手册](http://doc.tianbot.com/tianracer)  
-
 # Tianracer
-Tianracer is a series of low cost auotonomous vehicles controlled in closed-loop, which could follow input commands more faithfully. All series Tianracers are equipped with NVIDIA development boards, e.g, Jetson Nano, Jetson TX2, Xavier, etc. Basic version Tianracer can reach a maximum speed at 3m/s and pro version can reach 10m/s.   
+![all series of Tianracer](https://raw.githubusercontent.com/tianbot/tianracer/master/TIANRACER.png)
+[中文版说明](https://github.com/tianbot/tianracer/blob/master/README_CN.md)  
+[TianRacer详细中文操作手册](http://doc.tianbot.com/tianracer)  
+Tianracer is a series of low-cost autonomous vehicles ranging in size from 1:10 to 1:5, controlled in a closed-loop system, allowing them to follow input commands more faithfully. All Tianracer models are equipped with NVIDIA development boards, including Jetson Nano, Jetson TX2, Xavier, Orin, and more. The basic version of Tianracer can reach a maximum speed of 3m/s, while the pro version can achieve speeds up to 10m/s.
 
 ## Introduction
 [TianRacer ROS Wiki](https://wiki.ros.org/tianracer)
-Our goal is to develop a low cost autonomous racing car with not only basic mapping, localization, navigation ability but also object detection, traffic light detection, lane keeping, etc. Now Tianracer inherits AI aiblity from Jetracer.  
+Our objective is to develop an affordable autonomous racing car, the Tianracer, with capabilities extending beyond basic mapping, localization, and navigation. It will feature advanced functionalities such as object detection, traffic light detection, and lane keeping. Currently, Tianracer builds upon and enhances the AI capabilities inherited from Jetracer.
 
 ## Purchase from Tianbot Official Taobao Store
 
-Tianracer Nano version is a standard platform with all the hardware and software installed, ready-to go racing car. 
+The Tianracer Nano version is a standard platform with all the hardware and software installed, a ready-to-go racing car. 
  
 [点击这里进入淘宝购买或咨询客服： Purchase from Taobao:](https://item.taobao.com/item.htm?id=564703378940)  
 
 ## Appreciation to HyphaROS RaceCar 
-We developed the Tianracer based on Hypha racecar. Please checkout the original authors' repo for more details.
+We developed the Tianracer based on the Hypha racecar. Please check out the original authors' repo for more details.
 https://github.com/Hypha-ROS/hypharos_racecar
 
 Developer:   
@@ -24,14 +23,14 @@ Developer:
 * KaiChun, Wu  
 
 
-## Specifications 
+## Customization 
 
-Speed: 3m/s
+Speed: 3m/s - 10m/s 
 Control：closed-loop speed control
-Computer: Nvidia Jetson Nano Developer Kit
-Chassis: Motor + TianBoard Mini + Servo
-Lidar: Slamtec Rplidar A1
-Camera: 1080P Fisheye Undistorted USB3.0
+Computer: Nvidia Jetson Nano/TX/NX/Orin Developer Kit
+Chassis: BLDC Motor + TianBoard Mini + Servo
+Lidar: Slamtec / Osight / Richbeam / Livox 
+Camera: 1080P Fisheye Undistorted USB3.0 / RGBD Camera
 Remote Controller: DJI DT7
 Battery: LiPo
 
@@ -113,7 +112,7 @@ After saving the map, the map can be used to perform navigation.
 ```
 roslaunch tianracer_navigation tianracer_teb_nav.launch
 ```
-Configure running ROS across multiple machines, then launch rviz in a PC with display
+Configure running ROS across multiple machines, then launch RViz in a PC with a display
 ```
 roslaunch tianracer_rviz view_teb_planner.launch
 ```
