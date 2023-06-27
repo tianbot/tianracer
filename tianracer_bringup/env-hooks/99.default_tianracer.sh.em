@@ -12,6 +12,7 @@
 : ${TIANRACER_LIDAR:=rplidar_a2} # rplidar, velodyne_vlp16, osight, rslidar, hokuyo, sick, richbeam, etc..
 : ${TIANRACER_LIDAR_MODEL:=a2} # a1, a2, a3, iexxx, vlp16, etc...
 : ${TIANRACER_LIDAR_PORT:=/dev/tianbot_rplidar} # /dev/ttyUSB0 
+: ${TIANRACER_LIDAR_IP:=192.168.198.2} # osight 192.168.10.1 richbeam 192.168.198.2 rslidar 192.168.1.200
 : ${TIANRACER_GPS:=none} # none, nmea0183
 : ${TIANRACER_JOY_MODE:=dji_dt7} # dji, logitech joy mode X, D
 
@@ -28,5 +29,6 @@ export TIANRACER_VIDEO_DEVICE
 export TIANRACER_LIDAR
 export TIANRACER_LIDAR_MODEL
 export TIANRACER_LIDAR_PORT
+export TIANRACER_LIDAR_IP
 export TIANRACER_GPS
 export TIANRACER_JOY_MODE

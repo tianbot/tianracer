@@ -2,8 +2,8 @@
 
 <launch>
   <arg name="lidar" default="$(optenv TIANRACER_LIDAR)" />
-  <arg name="model" default="$(optenv TIANRACER_LIDAR_MODEL RS16)" />
-  <arg name="device_ip" default="$(optenv TIANRACER_LIDAR_IP 192.168.1.200)" />
+  <arg name="model" default="$(optenv TIANRACER_LIDAR_MODEL)" />
+  <arg name="device_ip" default="$(optenv TIANRACER_LIDAR_IP)" />
   <arg name="msop_port" default="6699" />
   <arg name="difop_port" default="7788" />
   <arg name="cut_angle" default="0" doc="If set at [0, 360), cut at specific angle feature activated, oth

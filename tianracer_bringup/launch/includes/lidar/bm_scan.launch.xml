@@ -1,13 +1,17 @@
 <?xml version="1.0"?>
 
 <launch>
-    <node name="richbeam_lidar" pkg="lakibeam1" type="lakibeam1_scan_node" output="screen">
+    <arg name="lidar" default="$(optenv TIANRACER_LIDAR)" />
+    <arg name="model" default="$(optenv TIANRACER_LIDAR_MODEL)" />
+    <arg name="device_ip" default="$(optenv TIANRACER_LIDAR_IP)" />
+
+    <node name="richbeam_lidar" pkg="lakibeam1" type="lakibeam1_scan_node" >
     <remap from="/richbeam_lidar/scan" to="/scan" />
         <param name="frame_id" type="string" value="laser"/><!--frame_id设置-->
         <param name="output_topic" type="string" value="scan" /><!--topic设置-->
         <param name="inverted" type="bool" value="false"/><!--配置是否倒装,true倒装-->
         <param name="hostip" type="string" value="0.0.0.0"/><!--配置本机监听地址，0.0.0.0表示监听全部-->
-        <param name="sensorip" type="string" value="192.168.198.2"/><!--配置sensor地址-->
+        <param name="sensorip" type="string" value="$(arg device_ip)"/><!--配置sensor地址-->
         <param name="port" type="string" value="2368"/><!--配置本机监听端口-->
         <param name="angle_offset" type="int" value="180"/><!--配置点云旋转角度，可以是负数-->
 
