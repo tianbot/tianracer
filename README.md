@@ -14,14 +14,18 @@ The Tianracer Nano version is a standard platform with all the hardware and soft
  
 [点击这里进入淘宝购买或咨询客服： Purchase from Taobao:](https://item.taobao.com/item.htm?id=564703378940)  
 
-## Appreciation to HyphaROS RaceCar 
+## Appreciation to HyphaROS RaceCar and Lord-Z
 We developed the Tianracer based on the Hypha racecar. Please check out the original authors' repo for more details.
 https://github.com/Hypha-ROS/hypharos_racecar
 
 Developer:   
 * HaoChih, LIN  
-* KaiChun, Wu  
+* KaiChun, WU  
 
+Tianracer gazebo simulation is imported from https://github.com/Lord-Z/ackermann_gazebo
+
+Developer:
+* Yuxing, ZHANG  
 
 ## Customization 
 
