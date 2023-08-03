@@ -1,0 +1,15 @@
+material GreenLight/Image
+        {
+          receive_shadows on
+          technique
+          {
+            pass
+            {
+              ambient 0.5 0.5 0.5 1.0
+              texture_unit
+              {
+                texture greenlight.png
+              }
+            }
+          }
+        }
