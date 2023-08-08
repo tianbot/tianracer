@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <launch>
-    <arg name="joy_mode" default="$(optenv TIANRACER_JOY_MODE dji_dt7)" />
+    <arg name="joy_mode" default="$(optenv TIANRACER_JOY_MODE logitech)" />
     <arg name="joy_dev" default="/dev/tianbot_joystick" />
     <group unless="$(eval 'dji' in joy_mode)">
         <node pkg="joy" type="joy_node" name="joystick">

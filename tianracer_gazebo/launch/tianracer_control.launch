@@ -12,7 +12,7 @@
                                             left_steering_hinge_position_controller right_steering_hinge_position_controller
                                             joint_state_controller"/>
 
-	<!--运行joint_state_publisher节点，发布机器人关节状态-->
+	<!--joint_state_publisher node，publish robot joint state-->
 	<!--<node name = "robot_state_publisher" pkg = "robot_state_publisher" type = "state_publisher">-->
 	<node name= "robot_state_publisher" pkg= "robot_state_publisher" type= "robot_state_publisher">
 		<remap from="/joint_states" to="/tianracer/joint_states"/>
