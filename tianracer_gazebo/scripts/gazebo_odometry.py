@@ -8,12 +8,14 @@ Winter Guerra
 
 import rospy
 from nav_msgs.msg import Odometry
-from geometry_msgs.msg import Pose, Twist, Transform, TransformStamped
+from geometry_msgs.msg import Pose, Twist, Transform, TransformStamped, Vector3Stamped
 from gazebo_msgs.msg import LinkStates
 from std_msgs.msg import Header
 import numpy as np
 import math
+import tf
 import tf2_ros
+import tf2_geometry_msgs
 
 class OdometryNode:
     # Set publishers
@@ -22,6 +24,7 @@ class OdometryNode:
     def __init__(self):
         # init internals
         self.last_received_pose = Pose()
+        self.last_received_pose.orientation.w = 1
         self.last_received_twist = Twist()
         self.last_recieved_stamp = None
 
@@ -44,26 +47,52 @@ class OdometryNode:
             # Extract our current position information
             self.last_received_pose = msg.pose[arrayIndex]
             self.last_received_twist = msg.twist[arrayIndex]
-        self.last_recieved_stamp = rospy.Time.now()
+            
+            # get a Vector3Stamped from the twist_in_gazebo
+            twist_linear = Vector3Stamped()
+            twist_linear.vector = self.last_received_twist.linear
+            
+            # get a TransformStamped from the last_received_pose
+            twist_transform = TransformStamped()
+            
+            # last received pose is base_footprint in gazebo. twist is in gazebo frame.
+            # we want to transform the twist into the base_footprint frame. requires a inverse
+            q=tf.transformations.quaternion_inverse([self.last_received_pose.orientation.x, self.last_received_pose.orientation.y, self.last_received_pose.orientation.z, self.last_received_pose.orientation.w])
+            
+            twist_transform.transform.rotation.x = q[0]
+            twist_transform.transform.rotation.y = q[1]
+            twist_transform.transform.rotation.z = q[2]
+            twist_transform.transform.rotation.w = q[3]
+                
+            # transform the Vector3Stamped into the child frame, base_link
+            twist_linear = tf2_geometry_msgs.do_transform_vector3(twist_linear, twist_transform)
+            
+            ######### the result is not proper ###########
+            #print(twist_linear)
 
+            self.last_received_twist.linear = twist_linear.vector
+        
+        self.last_recieved_stamp = rospy.Time.now()
+          
+            
     def timer_callback(self, event):
         if self.last_recieved_stamp is None:
             return
 
-        cmd = Odometry()
-        cmd.header.stamp = self.last_recieved_stamp
-        cmd.header.frame_id = 'odom'
-        cmd.child_frame_id = 'base_footprint'
-        cmd.pose.pose = self.last_received_pose
-        cmd.twist.twist = self.last_received_twist
-        cmd.pose.covariance =[1e-3, 0, 0, 0, 0, 0,
+        odom = Odometry()
+        odom.header.stamp = self.last_recieved_stamp
+        odom.header.frame_id = 'odom'
+        odom.child_frame_id = 'base_footprint'
+        odom.pose.pose = self.last_received_pose
+        odom.twist.twist = self.last_received_twist
+        odom.pose.covariance =[1e-3, 0, 0, 0, 0, 0,
 						0, 1e-3, 0, 0, 0, 0,
 						0, 0, 1e6, 0, 0, 0,
 						0, 0, 0, 1e6, 0, 0,
 						0, 0, 0, 0, 1e6, 0,
 						0, 0, 0, 0, 0, 1e3]
 
-        cmd.twist.covariance = [1e-9, 0, 0, 0, 0, 0, 
+        odom.twist.covariance = [1e-9, 0, 0, 0, 0, 0, 
                           0, 1e-3, 1e-9, 0, 0, 0,
                           0, 0, 1e6, 0, 0, 0,
                           0, 0, 0, 1e6, 0, 0,
@@ -71,17 +100,17 @@ class OdometryNode:
                           0, 0, 0, 0, 0, 1e-9]
 
 
-        self.pub_odom.publish(cmd)
+        self.pub_odom.publish(odom)
 
         tf = TransformStamped(
             header=Header(
-                frame_id=cmd.header.frame_id,
-                stamp=cmd.header.stamp
+                frame_id=odom.header.frame_id,
+                stamp=odom.header.stamp
             ),
-            child_frame_id=cmd.child_frame_id,
+            child_frame_id=odom.child_frame_id,
             transform=Transform(
-                translation=cmd.pose.pose.position,
-                rotation=cmd.pose.pose.orientation
+                translation=odom.pose.pose.position,
+                rotation=odom.pose.pose.orientation
             )
         )
         self.tf_pub.sendTransform(tf)
