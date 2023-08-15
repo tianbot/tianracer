@@ -1,0 +1,23 @@
+<launch>
+    <!-- Config map file -->
+    <arg name="map" default="tianracer_racetrack.yaml" />
+
+    <!-- Map server, load map-->
+    <node name="map_server" pkg="map_server" type="map_server" args="$(find tianracer_gazebo)/maps/$(arg map)"/>
+
+    <!-- launch gazebo simulation environment -->
+    <include file="$(find tianracer_gazebo)/launch/tianracer_on_racetrack.launch"/>
+
+    <!-- launch tianracer control -->
+    <include file="$(find tianracer_gazebo)/launch/tianracer_control.launch" />
+
+    <!-- move base -->
+    <include file="$(find tianracer_gazebo)/launch/includes/teb_base.launch.xml"/>
+
+    <!-- AMCL -->
+    <include file="$(find tianracer_gazebo)/launch/includes/amcl.launch.xml" />
+
+    <!-- rviz -->
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find tianracer_gazebo)/rviz/nav.rviz"/>
+
+</launch>

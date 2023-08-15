@@ -1,18 +1,19 @@
 <?xml version="1.0"?>
 
 <launch>
-    <arg name="joy_mode" default="$(optenv TIANRACER_JOY_MODE dji_dt7)" />
+    <arg name="joy_mode" default="$(optenv TIANRACER_JOY_MODE logitech)" />
     <arg name="joy_dev" default="/dev/tianbot_joystick" />
     <group unless="$(eval 'dji' in joy_mode)">
         <node pkg="joy" type="joy_node" name="joystick">
             <param name="dev" value="$(arg joy_dev)" />
         </node>
     
-        <node pkg="tianracer_teleop" type="tianracer_joy.py" name="tianracer_joy">
+        <node pkg="tianracer_teleop" type="tianracer_joy.py" name="tianracer_joy" output="screen">
             <!-- for logitech, check if the joypad is set to d mode -->
             <param if="$(eval joy_mode=='X')" name="joy_mode" value="X" />
-            <param name="throttle_scale" value="1.0" type="double"/>
-            <param name="servo_scale" value="1.0" type="double"/>
+            <!-- set the maximum speed of the car to 2.0 m/s and the maximum steering angle to 0.54 rad (31 deg) -->
+            <param name="throttle_max" value="2.0" type="double" />
+            <param name="servo_max" value="0.54" type="double" />
         </node>
     </group>
 </launch>

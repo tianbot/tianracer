@@ -52,11 +52,11 @@
   </gazebo>
 
   <gazebo reference="camera">
-    <material>Gazebo/Gray</material>
+    <material>Gazebo/Black</material>
   </gazebo>
 
   <gazebo reference="real_sense">
-    <material>Gazebo/Grey</material>
+    <material>Gazebo/LightGray</material>
   </gazebo>
 
 
@@ -128,7 +128,7 @@
       <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
         <alwaysOn>true</alwaysOn>
         <updateRate>0.0</updateRate>
-        <cameraName>rrbot/camera1</cameraName>
+        <cameraName>usb_cam</cameraName>
         <imageTopicName>image_raw</imageTopicName>
         <cameraInfoTopicName>camera_info</cameraInfoTopicName>
         <frameName>camera</frameName>

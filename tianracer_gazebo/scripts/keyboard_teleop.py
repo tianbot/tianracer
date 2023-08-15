@@ -7,7 +7,7 @@ import atexit
 import os
 import signal
 from threading import Lock
-from Tkinter import Frame, Label, Tk
+from tkinter import Frame, Label, Tk
 
 import rospy
 from ackermann_msgs.msg import AckermannDriveStamped

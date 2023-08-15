@@ -6,7 +6,7 @@ from geometry_msgs.msg import Twist
 
 import time 
 import threading
-pub = rospy.Publisher("/ackermann_cmd_mux/output", AckermannDriveStamped,queue_size=1)
+pub = rospy.Publisher("/tianracer/ackermann_cmd_stamped", AckermannDriveStamped,queue_size=1)
 
 def thread_job():
     rospy.spin()

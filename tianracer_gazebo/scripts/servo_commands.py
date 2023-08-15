@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import rospy
+import math
 from std_msgs.msg import Bool
 from std_msgs.msg import Float32
 from std_msgs.msg import Float64
@@ -19,21 +20,32 @@ def set_throttle_steer(data):
     pub_pos_left_steering_hinge = rospy.Publisher('/tianracer/left_steering_hinge_position_controller/command', Float64, queue_size=1)
     pub_pos_right_steering_hinge = rospy.Publisher('/tianracer/right_steering_hinge_position_controller/command', Float64, queue_size=1)
 
+    # calculate the throttle (ackermann speed) from joint angular velocity
+    # wheel radius is 0.032 m
+    # if the linear velocity is 1 m/s, the joint angular velocity is 1/0.032 = 31.25 rad/s
     throttle = data.drive.speed*31.25
-    steer = data.drive.steering_angle
-
+    steering_angle = data.drive.steering_angle 
+    # calculate the right and left steering angle. 
+    wheelbase = 0.265
+    track_width = 0.13 # it is the distance between the two front hinges.
+    tan_steer = math.tan(steering_angle)
+    left_steer = math.atan2(wheelbase*tan_steer, wheelbase-track_width*tan_steer/2)
+    right_steer = math.atan2(wheelbase*tan_steer, wheelbase+track_width*tan_steer/2)
+    
+    # The wheel speed difference can be neglected.
+    # the wheel speed is the same as the throttle.
     pub_vel_left_rear_wheel.publish(throttle)
     pub_vel_right_rear_wheel.publish(throttle)
     pub_vel_left_front_wheel.publish(throttle)
     pub_vel_right_front_wheel.publish(throttle)
-    pub_pos_left_steering_hinge.publish(steer)
-    pub_pos_right_steering_hinge.publish(steer)
+    pub_pos_left_steering_hinge.publish(left_steer)
+    pub_pos_right_steering_hinge.publish(right_steer)
 
 def servo_commands():
 
     rospy.init_node('servo_commands', anonymous=True)
 
-    rospy.Subscriber("/ackermann_cmd_mux/output", AckermannDriveStamped, set_throttle_steer)
+    rospy.Subscriber("/tianracer/ackermann_cmd_stamped", AckermannDriveStamped, set_throttle_steer)
 
     # spin() simply keeps python from exiting until this node is stopped
     rospy.spin()

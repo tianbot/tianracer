@@ -1,23 +1,22 @@
 TebLocalPlannerROS:
-
   odom_topic: odom
   map_frame: /map
-      
+
   # Trajectoty 这部分主要是用于调整轨迹
 
   teb_autosize: True #优化期间允许改变轨迹的时域长度
   dt_ref: 0.3 #期望的轨迹时间分辨率
   dt_hysteresis: 0.03 #根据当前时间分辨率自动调整大小的滞后现象，通常约为。建议使用dt ref的10%
-  
+
   #覆盖全局规划器提供的局部子目标的方向;规划局部路径时会覆盖掉全局路径点的方位角,
   #对于车辆的2D规划,可以设置为False,可实现对全局路径的更好跟踪。
   global_plan_overwrite_orientation: True
 
-#指定考虑优化的全局计划子集的最大长度,如果为0或负数：禁用；长度也受本地Costmap大小的限制
-  max_global_plan_lookahead_dist: 3.0 
+  #指定考虑优化的全局计划子集的最大长度,如果为0或负数：禁用；长度也受本地Costmap大小的限制
+  max_global_plan_lookahead_dist: 3.0
 
-  feasibility_check_no_poses: 1 #检测位姿可到达的时间间隔，default：4
-    
+  feasibility_check_no_poses: 2 #检测位姿可到达的时间间隔，default：4
+
   #如果为true，则在目标落后于起点的情况下，可以使用向后运动来初始化基础轨迹
   #(仅在机器人配备了后部传感器的情况下才建议这样做）
   allow_init_with_backwards_motion: False
@@ -33,22 +32,22 @@ TebLocalPlannerROS:
   publish_feedback: False
 
   # Robot
-  max_vel_x: 2.5
+  max_vel_x: 1.8
   max_vel_x_backwards: 1
-  max_vel_theta: 3.5
-  acc_lim_x: 2.5
-  acc_lim_theta: 3.5
+  max_vel_theta: 3.6
+  acc_lim_x: 1.8
+  acc_lim_theta: 3.6
 
   #仅适用于全向轮
-  # max_vel_y (double, default: 0.0)  
+  # max_vel_y (double, default: 0.0)
   # acc_lim_y (double, default: 0.5)
 
   # ********************** Carlike robot parameters ********************
-  min_turning_radius: 0.20     # 最小转弯半径 注意车辆运动学中心是后轮中点
-  wheelbase: 0.33                 # 即前后轮距离
+  min_turning_radius: 0.5 # 最小转弯半径 注意车辆运动学中心是后轮中点
+  wheelbase: 0.26 # 即前后轮距离
 
-#设置为true时，ROS话题（rostopic） cmd_vel/angular/z 内的数据是舵机角度，
-  cmd_angle_instead_rotvel: True 
+  #设置为true时，ROS话题（rostopic） cmd_vel/angular/z 内的数据是舵机角度，
+  cmd_angle_instead_rotvel: True
   # ********************************************************************
 
   # footprint_model: # types: "point", "circular", "two_circles", "line", "polygon" 多边形勿重复第一个顶点，会自动闭合
@@ -56,52 +55,58 @@ TebLocalPlannerROS:
   #   # radius: 0.2 # for type "circular"
   #   line_start: [-0.13, 0.0] # for type "line"
   #   line_end: [0.13, 0.0] # for type "line"
-    # front_offset: 0.2 # for type "two_circles"
-    # front_radius: 0.2 # for type "two_circles"
-    # rear_offset: 0.2 # for type "two_circles"
-    # rear_radius: 0.2 # for type "two_circles"
-    # vertices: [ [0.25, -0.05], [0.18, -0.05], [0.18, -0.18], [-0.19, -0.18], [-0.25, 0], [-0.19, 0.18], [0.18, 0.18], [0.18, 0.05], [0.25, 0.05] ] # for type "polygon"
+  # front_offset: 0.2 # for type "two_circles"
+  # front_radius: 0.2 # for type "two_circles"
+  # rear_offset: 0.2 # for type "two_circles"
+  # rear_radius: 0.2 # for type "two_circles"
+  # vertices: [ [0.25, -0.05], [0.18, -0.05], [0.18, -0.18], [-0.19, -0.18], [-0.25, 0], [-0.19, 0.18], [0.18, 0.18], [0.18, 0.05], [0.25, 0.05] ] # for type "polygon"
 
   # GoalTolerance
   footprint_model:
     type: "polygon"
-    vertices: [[-0.165, -0.165], [-0.165, 0.165], [0.165, 0.165], [0.165, -0.165]]    
+    vertices: [[0.18, 0.10], [0.18, -0.10], [-0.18, -0.10], [-0.18, 0.10]]
 
   xy_goal_tolerance: 0.1
-  yaw_goal_tolerance: 6.28
+  yaw_goal_tolerance: 0.1
   #自由目标速度。设为False时，车辆到达终点时的目标速度为0。
   #TEB是时间最优规划器。缺少目标速度约束将导致车辆“全速冲线”
   free_goal_vel: True
-  
-  # complete_global_plan: True   
+
+  # complete_global_plan: True
   # Obstacles
-      
-  min_obstacle_dist: 0.1 # 与障碍的最小期望距离,
+
+  min_obstacle_dist: 0.2 # 与障碍的最小期望距离,
   include_costmap_obstacles: True #应否考虑到局部costmap的障碍设置为True后才能规避实时探测到的、建图时不存在的障碍物。
-  costmap_obstacles_behind_robot_dist: 3.0 #考虑后面n米内的障碍物2.0
+  costmap_obstacles_behind_robot_dist: 2.0 #考虑后面n米内的障碍物2.0
   obstacle_poses_affected: 30 #为了保持距离，每个障碍物位置都与轨道上最近的位置相连。
   costmap_converter_spin_thread: True
   costmap_converter_rate: 5
 
   # Optimization
-      
-  no_inner_iterations: 5
-  no_outer_iterations: 4
+
+  no_inner_iterations: 3
+  no_outer_iterations: 2
   optimization_activate: True
   optimization_verbose: False
   penalty_epsilon: 0.1
   weight_max_vel_x: 2
-  weight_max_vel_theta: 1
-  weight_acc_lim_x: 1
+  weight_max_vel_y: 0.1
+  weight_max_vel_theta: 2
+  weight_acc_lim_x: 2
+  weight_acc_lim_y: 0.1
   weight_acc_lim_theta: 2 #1
-  weight_kinematics_nh: 1000
-  weight_kinematics_forward_drive: 0.1 #1
-  weight_kinematics_turning_radius: 1 #1
-  weight_optimaltime: 1
+  weight_kinematics_nh: 100
+  weight_kinematics_forward_drive: 100 #1
+  weight_kinematics_turning_radius: 100 #1
+  weight_optimaltime: 0.5
+  weight_shortest_path: 0
   weight_obstacle: 10 #50
-  weight_dynamic_obstacle: 10 # not in use yet
+  weight_inflation: 1
+  weight_dynamic_obstacle: 1 # not in use yet
   # alternative_time_cost: False # not in use yet
-  selection_alternative_time_cost: False
+  selection_alternative_time_cost: True
+  switching_blocking_period: 0.1
+
   # Homotopy Class Planner
 
   enable_homotopy_class_planning: False
