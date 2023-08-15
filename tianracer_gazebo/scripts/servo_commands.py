@@ -29,16 +29,9 @@ def set_throttle_steer(data):
     wheelbase = 0.265
     track_width = 0.13 # it is the distance between the two front hinges.
     tan_steer = math.tan(steering_angle)
-    inner_steer = math.atan2(wheelbase*tan_steer, wheelbase-track_width*tan_steer/2)
-    outer_steer = math.atan2(wheelbase*tan_steer, wheelbase+track_width*tan_steer/2)
+    left_steer = math.atan2(wheelbase*tan_steer, wheelbase-track_width*tan_steer/2)
+    right_steer = math.atan2(wheelbase*tan_steer, wheelbase+track_width*tan_steer/2)
     
-    if steering_angle > 0:
-        left_steer = inner_steer
-        right_steer = outer_steer
-    else:
-        left_steer = outer_steer
-        right_steer = inner_steer
-
     # The wheel speed difference can be neglected.
     # the wheel speed is the same as the throttle.
     pub_vel_left_rear_wheel.publish(throttle)
