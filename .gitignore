@@ -39,15 +39,13 @@
 # python compiled
 *.pyc
 
-# map file
-*.pgm
-
 # speciic cfg
 99.my_tianracer*.sh.em
 tianbot_office*.yaml
 tianbot_maps*.yaml
 tianracer_slam/maps/*.yaml
 tianracer_slam/maps/*.png
+tianracer_slam/maps/*.pgm
 # unused file
 imgui.ini
 .vscode
