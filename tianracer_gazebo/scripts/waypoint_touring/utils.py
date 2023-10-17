@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 # source code was from https://www.guyuehome.com/35146
-# modified by Lr
+# modified by Lr_2002
 import yaml
 import rospy
 import move_base_msgs.msg as move_base_msgs
@@ -11,6 +11,9 @@ import std_msgs.msg as std_msgs
 id_count = 1
 
 def get_waypoints(filename):
+    """
+    read the yaml file 
+    """
     # 目标点文件是yaml格式的：
     with open(filename, 'r') as f:
         data = yaml.load(f)
@@ -18,6 +21,9 @@ def get_waypoints(filename):
     return data['waypoints']
 
 def create_geo_pose(p):
+    """
+    generate the geometry pose
+    """
     pose = geometry_msgs.Pose()
 
     pose.position.x = p['pose']['position']['x']
@@ -30,6 +36,10 @@ def create_geo_pose(p):
     return pose
 
 def create_move_base_goal(p):
+    """
+    generate the goal place
+    p: your goal
+    """
     target = geometry_msgs.PoseStamped()
     target.header.frame_id = p['frame_id']
     target.header.stamp = rospy.Time.now()
@@ -38,6 +48,9 @@ def create_move_base_goal(p):
     return goal
 
 def create_viz_markers(waypoints):
+    """
+    generate rviz_marker
+    """
     marray= viz_msgs.MarkerArray()
     for w in waypoints:
         m_arrow = create_arrow(w)
@@ -47,6 +60,9 @@ def create_viz_markers(waypoints):
     return marray
 
 def create_marker(w):
+    """
+    generate marker
+    """
     global id_count
     m = viz_msgs.Marker()
     m.header.frame_id = w['frame_id']
@@ -61,12 +77,18 @@ def create_marker(w):
     return m
 
 def create_arrow(w):
+    """
+    generate arrow
+    """
     m = create_marker(w)
     m.type = viz_msgs.Marker.ARROW
     m.color = std_msgs.ColorRGBA(0.0,1.0,0.0,1.0)
     return m
 
 def create_text(w):
+    """
+    generate text in rviz
+    """
     m = create_marker(w)
     m.type = viz_msgs.Marker.TEXT_VIEW_FACING
     m.pose.position.z = 2.5

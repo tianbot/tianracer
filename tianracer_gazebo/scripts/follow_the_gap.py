@@ -20,6 +20,13 @@ todo
 """
 
 def make_arrow_points_marker(scale, tial, tip, idnum):
+    """
+    generate arrow makers
+    scale: the scale of the marker
+    tial: which side has no arrow
+    tip: the side has arrow
+    idnum: the num of the arrow
+    """
     m = Marker()
     m.action = Marker.ADD
     m.header.frame_id="map"
@@ -39,6 +46,12 @@ def make_arrow_points_marker(scale, tial, tip, idnum):
 
 
 def make_round(scale, points, idnum):
+    """
+    generate the round (using cylinder to generate)
+    scale: the size of the round(in Vector3)
+    points: the position of the marker
+    idnum: the idnum 
+    """
     m = Marker()
     m.action = Marker.ADD
     m.header.frame_id="map"
@@ -58,11 +71,16 @@ def make_round(scale, points, idnum):
     m.color.g = 0.
     m.color.b = 1
     m.color.a = 0.1
-    # m.points = [tial, tip]
     return m
 
 FILTER_VALUE = 10.0
 def get_range(data, angle, deg=True):
+    """
+    from data(recv from the sub) to get the specific angle data
+    data: from the sub
+    angle: the angle you want to get, usually in deg
+    deg: whether your angle is deg 
+    """
     if deg:
         angle = np.deg2rad(angle)
     dis = data.ranges[int((angle - data.angle_min) / data.angle_increment)]
@@ -71,6 +89,11 @@ def get_range(data, angle, deg=True):
     return dis
 
 def get_gap(dis_list, threshold):
+    """
+    from the distance_list to get the gap 
+    dis_list: distance_list, generated from 'get_range'
+    threshold: the threshold to filter the gap
+    """
     lis = [1 if a > threshold else 0 for a in dis_list]
     tmp = 0
     ans_list = []
@@ -88,6 +111,10 @@ gr, gp, gyaw = 0, 0 ,0
 g_ang = 0
 
 def get_pose(data):
+    """
+    read the position of the model
+    data: recv from the sub
+    """
     global gx, gy, gz, gr, gp, gyaw
     gx = data.pose.pose.position.x
     gy = data.pose.pose.position.y
@@ -100,33 +127,33 @@ def get_pose(data):
     ]
     (gr, gp, gyaw) = euler_from_quaternion(ori)
 
-xx = [i - 60 for i in range(112)]
+INTERVAL = 112 # total interval
+scan_interval = [i - 60 for i in range(INTERVAL)] # the interval you want to scan
+
 def follow_the_gap_callback(data):
-    global gx, gy ,gz
-    start_point = -60
-    INTERVAL = 112
-    end_point = start_point + INTERVAL
-    STEP = 1
-    threshold = 1.1
-    dis_list =[]
+    global gx, gy ,gz, INTERVAL
+    start_point = -60 # from which position to scan 
+    end_point = start_point + INTERVAL # the scan end point
+    STEP = 1 # step_length of the scan
+    threshold = 1.1 # clip threshold
+    dis_list =[] # value to go through to find the gap
     for ang in range(start_point, end_point, STEP):
         dis_list.append(get_range(data, ang))
-    # rospy.loginfo()
-    gap_list = get_gap(dis_list, threshold)
-    print(dis_list)
 
-    print(gap_list)
-    end_idx = gap_list.index(max(gap_list))
-    print('end_idx', end_idx)
-    start_idx = end_idx - max(gap_list) + 1
-    target_angle = (end_idx + start_idx) /2 *STEP + start_point
-    avoidance_angle = 6 
+    gap_list = get_gap(dis_list, threshold)
+    # get the gap list, value stands for the length of the gap
+    end_idx = gap_list.index(max(gap_list)) # find the max value in gap_list and this is the biggest gap endpoint
+    start_idx = end_idx - max(gap_list) + 1 # get the start point idx
+    target_angle = (end_idx + start_idx) /2 *STEP + start_point # get the mid point 
+
+
+    avoidance_angle = 6  # avoidance angle of the gap(usually according to the size of the model)
     if target_angle > 0:
         target_angle -= avoidance_angle
     elif target_angle < 0:
         target_angle += avoidance_angle
     
-    P = -1
+    P = -1 
     global gyaw
 
     steering_angle = target_angle  * P 
@@ -134,20 +161,15 @@ def follow_the_gap_callback(data):
     steering_angle = steering_angle if steering_angle < clip_threhold else clip_threhold
     steering_angle = steering_angle if steering_angle > -clip_threhold else -clip_threhold
     global g_ang 
-    # filt_rate = 0.2
-    # g_ang = g_ang * filt_rate + steering_angle * (1-filt_rate)
-    # steering_angle = g_ang
-    # steering_angle = steering_angle if steering_angle < clip_threhold else clip_threhold
-    # steering_angle = steering_angle if steering_angle > -clip_threhold else -clip_threhold
+    
+    
     dis_ml = Float64MultiArray(data=dis_list)
     frame_pub.publish(dis_ml)
     speed = 1.7
     length = 1  
     gap_angle = target_angle / 180 * 3.14
     ref_yaw = gyaw + gap_angle
-    print(ref_yaw, steering_angle)  
-    # steering_angle = 10
-    # ref_yaw = steering_angle
+
     arrow_pub.publish(make_arrow_points_marker(scale, Point(gx,gy,gz), Point(gx + length * cos(ref_yaw),gy + length * sin(ref_yaw) , gz), 3))
     round_pub.publish(make_round(Vector3(threshold, threshold, 0.1), (gx, gy, gz), 4))
     drive_msg = AckermannDriveStamped()

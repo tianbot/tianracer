@@ -1,12 +1,11 @@
 #! /usr/bin/env python
 # source code was from https://www.guyuehome.com/35146
-# modified by Lr
+# modified by Lr_2002
 import yaml
 import rospy
 import geometry_msgs.msg as geometry_msgs
 
 class WaypointGenerator(object):
-
     def __init__(self, filename):
         # 通过订阅rviz发出的/clicked_point的rostopic，就可以获取鼠标点击的目标点了：
         # Subscriber订阅/clicked_point的同时，交给作为callback函数的_process_pose去处理路标点：

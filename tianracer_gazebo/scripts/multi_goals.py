@@ -1,17 +1,22 @@
 #! /usr/bin/env python
 # source code was from https://www.guyuehome.com/35146
-# modified by Lr
+# modified by Lr_2002
 import random
 import rospy
 import actionlib # 引用actionlib库
-import waypoint_touring.utils as utils # 代码附在后面
+import waypoint_touring.utils as utils
 
 import move_base_msgs.msg as move_base_msgs
 import visualization_msgs.msg as viz_msgs
 
 class TourMachine(object):
-
     def __init__(self, filename, random_visits=False, repeat=True):
+        """
+        init tourmachine
+        filename: path to your yaml file
+        random_visits: determine whether to visit waypoints randomly
+        reapeat: determine whether to visit waypoints repeatly(usually True in 110)
+        """
         self._waypoints = utils.get_waypoints(filename) # 获取一系列目标点的值
 
         action_name = 'move_base'
@@ -19,7 +24,7 @@ class TourMachine(object):
         rospy.loginfo('Wait for %s server' % action_name)
         self._ac_move_base.wait_for_server
         self._counter = 0
-        self._repeat = True
+        self._repeat = repeat
         self._random_visits = random_visits
 
         if self._random_visits:
@@ -48,6 +53,7 @@ class TourMachine(object):
     def _get_next_destination(self):
         """
         根据是否循环，是否随机访问等判断，决定下一个目标点是哪个
+        determine what's the next goal point according to repeat and random
         """
         if self._counter == len(self._waypoints):
             if self._repeat:
@@ -74,7 +80,7 @@ if __name__ == '__main__':
     filename = "/home/tianbot/tianbot_ws/src/tianracer/tianracer_gazebo/scripts/waypoint_touring/points.yaml"
 
     random_visits = rospy.get_param('~random', False)
-    repeat = rospy.get_param('~repeat', False)
+    repeat = rospy.get_param('~repeat', True)
 
     m = TourMachine(filename, random_visits, repeat)
     rospy.loginfo('Initialized')
