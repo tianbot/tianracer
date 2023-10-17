@@ -11,6 +11,10 @@ flag_move = 0
 def set_throttle_steer(data):
 
     global flag_move
+    # print('data is as below:')
+    # print(data)
+    # rospy.logdebug('servo commands as below')
+    # rospy.logdebug(data)
 
     pub_vel_left_rear_wheel = rospy.Publisher('/tianracer/left_rear_wheel_velocity_controller/command', Float64, queue_size=1)
     pub_vel_right_rear_wheel = rospy.Publisher('/tianracer/right_rear_wheel_velocity_controller/command', Float64, queue_size=1)
@@ -63,7 +67,8 @@ def set_throttle_steer(data):
 def servo_commands():
 
     rospy.init_node('servo_commands', anonymous=True)
-
+# INFO for follow the gap use "/drive"
+# for multi-goal use "/tianracer/ackermann_cmd_stamped"
     rospy.Subscriber("/tianracer/ackermann_cmd_stamped", AckermannDriveStamped, set_throttle_steer)
 
     # spin() simply keeps python from exiting until this node is stopped
