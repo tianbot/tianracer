@@ -67,8 +67,7 @@ def set_throttle_steer(data):
 def servo_commands():
 
     rospy.init_node('servo_commands', anonymous=True)
-# INFO for follow the gap use "/drive"
-# for multi-goal use "/tianracer/ackermann_cmd_stamped"
+
     rospy.Subscriber("/tianracer/ackermann_cmd_stamped", AckermannDriveStamped, set_throttle_steer)
 
     # spin() simply keeps python from exiting until this node is stopped

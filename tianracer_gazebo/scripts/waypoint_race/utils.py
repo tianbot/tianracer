@@ -1,6 +1,7 @@
 #! /usr/bin/env python
-# source code was from https://www.guyuehome.com/35146
-# modified by Lr_2002
+# @Source:https://www.guyuehome.com/35146
+# @Time: 2023/10/20 17:04:16
+# @Author: Jeff Wang(Lr_2002)
 import yaml
 import rospy
 import move_base_msgs.msg as move_base_msgs
@@ -20,30 +21,30 @@ def get_waypoints(filename):
 
     return data['waypoints']
 
-def create_geo_pose(p):
+def create_geometry_pose(input_pose):
     """
     generate the geometry pose
     """
     pose = geometry_msgs.Pose()
 
-    pose.position.x = p['pose']['position']['x']
-    pose.position.y = p['pose']['position']['y']
-    pose.position.z = p['pose']['position']['z']
-    pose.orientation.x = p['pose']['orientation']['x']
-    pose.orientation.y = p['pose']['orientation']['y']
-    pose.orientation.z = p['pose']['orientation']['z']
-    pose.orientation.w = p['pose']['orientation']['w']
+    pose.position.x = input_pose['pose']['position']['x']
+    pose.position.y = input_pose['pose']['position']['y']
+    pose.position.z = input_pose['pose']['position']['z']
+    pose.orientation.x = input_pose['pose']['orientation']['x']
+    pose.orientation.y = input_pose['pose']['orientation']['y']
+    pose.orientation.z = input_pose['pose']['orientation']['z']
+    pose.orientation.w = input_pose['pose']['orientation']['w']
     return pose
 
-def create_move_base_goal(p):
+def create_move_base_goal(input_pose):
     """
     generate the goal place
-    p: your goal
+    input_pose: your goal
     """
     target = geometry_msgs.PoseStamped()
-    target.header.frame_id = p['frame_id']
+    target.header.frame_id = input_pose['frame_id']
     target.header.stamp = rospy.Time.now()
-    target.pose = create_geo_pose(p)
+    target.pose = create_geometry_pose(input_pose)
     goal = move_base_msgs.MoveBaseGoal(target)
     return goal
 
@@ -69,7 +70,7 @@ def create_marker(w):
     m.ns = w['name']
     m.id = id_count
     m.action = viz_msgs.Marker.ADD
-    m.pose = create_geo_pose(w)
+    m.pose = create_geometry_pose(w)
     m.scale = geometry_msgs.Vector3(1.0,0.3,0.3)
     m.color = std_msgs.ColorRGBA(0.0,1.0,0.0,1.0)
 

@@ -1,7 +1,8 @@
 #! /usr/bin/env python
 # Created by Chen Yuxuan
 # Modified by Tian Bo
-# Created from the original wall_following file and modified to follow_the_gap by Lr-2002
+# @Time: 2023/10/20 17:02:12
+# @Author: Jeff Wang(Lr_2002)
 import rospy
 import numpy as np
 from sensor_msgs.msg import LaserScan
@@ -16,14 +17,14 @@ import matplotlib.pyplot as plt
 """
 todo
 1. fix the problem to let the car avoide the collision
-2. avoide the re-turn to the back
+2. avoide the U-turn to the back
 """
 
-def make_arrow_points_marker(scale, tial, tip, idnum):
+def display_direction(scale, tail, tip, idnum):
     """
     generate arrow makers
     scale: the scale of the marker
-    tial: which side has no arrow
+    tail: which side has no arrow
     tip: the side has arrow
     idnum: the num of the arrow
     """
@@ -41,11 +42,11 @@ def make_arrow_points_marker(scale, tial, tip, idnum):
     m.color.g = 0.2
     m.color.b = 0.1
     m.color.a = 0.2
-    m.points = [tial, tip]
+    m.points = [tail, tip]
     return m
 
 
-def make_round(scale, points, idnum):
+def display_threshold(scale, points, idnum):
     """
     generate the round (using cylinder to generate)
     scale: the size of the round(in Vector3)
@@ -170,8 +171,8 @@ def follow_the_gap_callback(data):
     gap_angle = target_angle / 180 * 3.14
     ref_yaw = gyaw + gap_angle
 
-    arrow_pub.publish(make_arrow_points_marker(scale, Point(gx,gy,gz), Point(gx + length * cos(ref_yaw),gy + length * sin(ref_yaw) , gz), 3))
-    round_pub.publish(make_round(Vector3(threshold, threshold, 0.1), (gx, gy, gz), 4))
+    arrow_pub.publish(display_direction(scale, Point(gx,gy,gz), Point(gx + length * cos(ref_yaw),gy + length * sin(ref_yaw) , gz), 3))
+    round_pub.publish(display_threshold(Vector3(threshold, threshold, 0.1), (gx, gy, gz), 4))
     drive_msg = AckermannDriveStamped()
     drive_msg.drive.steering_angle=steering_angle 
     drive_msg.drive.speed=speed
@@ -189,7 +190,7 @@ if __name__ == '__main__':
     scale = Vector3(0.05,0.2,0.2)
     pose_sub = rospy.Subscriber('/amcl_pose', PoseWithCovarianceStamped, get_pose)
     scan_sub = rospy.Subscriber('/scan', LaserScan, follow_the_gap_callback)
-    drive_pub = rospy.Publisher('/drive', AckermannDriveStamped, queue_size=1)
+    drive_pub = rospy.Publisher('/tianracer/ackermann_cmd_stamped', AckermannDriveStamped, queue_size=1)
     frame_pub = rospy.Publisher('/image', Float64MultiArray,queue_size=150)
     rospy.spin()
     
