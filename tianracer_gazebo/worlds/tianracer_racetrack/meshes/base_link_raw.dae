@@ -41,7 +41,7 @@
   </library_effects>
   <library_images>
     <image id="aa3_png" name="aa3_png">
-      <init_from>aa3_iflytek.png</init_from>
+      <init_from>aa3.png</init_from>
     </image>
   </library_images>
   <library_materials>
