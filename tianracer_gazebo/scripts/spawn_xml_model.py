@@ -52,9 +52,9 @@ class SpawnXmlModel:
         update self.pose value by add self._counter
         '''
         next_pose = None
-        next_pose = self._pose_data[self._counter -1]
-        self._counter = self._counter + 1
+        next_pose = self._pose_data[self._counter]
         self.pose = utils.create_geometry_pose(next_pose)
+        self._counter = self._counter + 1
         rospy.loginfo("Received %d goal \n pose: %s", self._counter, self.pose)
 
 
