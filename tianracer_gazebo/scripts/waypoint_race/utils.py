@@ -17,7 +17,7 @@ def get_waypoints(filename):
     """
     # 目标点文件是yaml格式的：
     with open(filename, 'r') as f:
-        data = yaml.load(f)
+        data = yaml.load(f,Loader=yaml.FullLoader)
 
     return data['waypoints']
 

@@ -1,0 +1,12 @@
+<launch>
+    <!-- spawn model params -->
+    <param name="model_path" type="str" value="$(find tianracer_gazebo)/model/construction_cone/model.sdf" />
+    <param name="model_name" type="str" value="construction_cone" />
+
+    <!-- model_type : sdf or urdf  -->
+    <param name="model_type" type="str" value="sdf" />
+    <!-- <param name="model_type" type="str" value="urdf" /> -->
+    <param name="pose_data_path" type="str" value="$(find tianracer_gazebo)/config/spawn_pose.yaml" />
+
+    <node name="spawn_xml_model" pkg="tianracer_gazebo" type="spawn_xml_model.py" output="screen" />
+</launch> 
