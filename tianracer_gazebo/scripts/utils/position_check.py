@@ -49,8 +49,8 @@ ana_history_position= (0,0)
 def is_intersect(line1, line2):  
     """  
     判断两个线段是否相交  
-    line1、line2：线段的两个端点，每个端点是一个二元组，如((-0.8541378373856054,-0.57080969486389), (-1.915068709596355,-0.5493092660435841))  
-    返回值：如果相交返回True，否则返回False  
+    line1、line2：线段的两个端点，每个端点是一个二元组，如 ((-0.8541378373856054,-0.57080969486389), (-1.915068709596355,-0.5493092660435841))  
+    返回值：如果相交返回 True，否则返回 False  
     """  
     x1, y1 = line1[0]  
     x2, y2 = line1[1]  
@@ -75,6 +75,12 @@ def is_intersect(line1, line2):
     else:  
         return False
 
+def cal_distance(points):
+    point1 ,point2 = points  
+    x1, y1 = point1  
+    x2, y2 = point2  
+    return ((x2 - x1) ** 2 + (y2 - y1) ** 2) ** 0.5
+
 def analysis(data):
     global ana_history_position,ana_cnt, ana_check_list
     data = data.pose
@@ -82,14 +88,17 @@ def analysis(data):
     x = now_position.x
     y = now_position.y
     now_line = (ana_history_position, (x,y))
+    distance = cal_distance(now_line)
+    # if distance <=0.01:
+    #     distance = 0
     ana_history_position = (x, y)
     # print(history_position)
     tmp = ana_cnt % 3
     if is_intersect(now_line, ana_check_list[tmp]):
         print('已经通过' + str(tmp) +'点')
         ana_cnt +=1 
-        return '已经通过' + str(tmp) +'点', ana_cnt-1
-    return None
+        return ('已经通过' + str(tmp) +'点', ana_cnt-1), distance
+    return None, distance
     # print('----------')
 if __name__ == "__main__":
     try : 

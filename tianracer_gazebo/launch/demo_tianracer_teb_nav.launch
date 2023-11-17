@@ -9,8 +9,7 @@
     <include file="$(find tianracer_gazebo)/launch/tianracer_on_racetrack.launch"/>
 
     <!-- spawn model-->
-    <include file="$(find tianracer_gazebo)/launch/spawn_model.launch" />
-    <!-- <node pkg="tianracer_gazebo" type="spawn_xml_model.py" name="spawn_xml_model" output="screen" /> -->
+    <!-- <include file="$(find tianracer_gazebo)/launch/spawn_model.launch" /> -->
 
     <!-- launch tianracer control -->
     <include file="$(find tianracer_gazebo)/launch/tianracer_control.launch" />
