@@ -34,6 +34,6 @@
         args="-urdf -model tianracer -param robot_description -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -R $(arg R_pos) -P $(arg P_pos) -Y $(arg Y_pos)" />
 
     <!--Launch the simulation joystick control-->
-    <rosparam command="load" file="$(find tianracer_gazebo)/config/keyboard_teleop.yaml" />
-    <node pkg="tianracer_gazebo" type="keyboard_teleop.py" name="keyboard_teleop" />
+    <!-- <rosparam command="load" file="$(find tianracer_gazebo)/config/keyboard_teleop.yaml" /> -->
+    <!-- <node pkg="tianracer_gazebo" type="keyboard_teleop.py" name="keyboard_teleop" /> -->
 </launch>
