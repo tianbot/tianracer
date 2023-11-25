@@ -28,7 +28,7 @@ class FileZipperApp:
         self.configure_button.grid(row=1, column=2, pady=5, padx=10, sticky='e')
 
         # Team NUMBERID Entry
-        self.team_id_label = tk.Label(root, text="队伍名:")
+        self.team_id_label = tk.Label(root, text="队伍名：")
         self.team_id_label.grid(row=2, column=0, pady=5, padx=10, sticky='w')
 
         self.team_id_entry = tk.Entry(root)
@@ -62,24 +62,24 @@ class FileZipperApp:
             name = file.split('/')[-1]
             self.file_listbox.insert(tk.END, name)
             self.file_list.append(file)
-        self.show_msg("已添加 " + files[0] + " 成功! ")
+        self.show_msg("已添加 " + str(files[-1]) + " 成功！")
     
     def delete_files(self):
         selected_indices = self.file_listbox.curselection()
         for index in selected_indices[::-1]:  # Iterate in reverse to avoid index issues
             self.file_listbox.delete(index)
             del self.file_list[index]
-        self.show_msg("已删除选定文件.")
+        self.show_msg("已删除选定文件。")
     
     def configure_sftp(self):
-        self.username = simpledialog.askstring("配置SFTP", "请输入用户名:", initialvalue=self.username)
-        self.password = simpledialog.askstring("配置SFTP", "请输入密码:", show='*', initialvalue=self.password)
-        self.show_msg("SFTP配置已更新.")
+        self.username = simpledialog.askstring("配置SFTP", "请输入用户名：", initialvalue=self.username)
+        self.password = simpledialog.askstring("配置SFTP", "请输入密码：", show='*', initialvalue=self.password)
+        self.show_msg("SFTP配置已更新。")
 
     def zip_files(self):
         team_id = self.team_id_entry.get()
         if not team_id:
-            self.show_error_message("请输入您的队伍名.")
+            self.show_error_message("请输入您的队伍名。")
             return
 	
         zip_filename = f"{team_id}-{self.current_time}.zip"
@@ -111,12 +111,12 @@ class FileZipperApp:
     def upload_via_sftp(self):
         team_id = self.team_id_entry.get()
         if not team_id:
-            self.show_error_message("请先输入你的队名.")
+            self.show_error_message("请先输入你的队名。")
             return
 
         target_ip = self.target_ip_entry.get()
         if not target_ip:
-            self.show_error_message("请输入需要上传到的服务器IP地址.")
+            self.show_error_message("请输入需要上传到的服务器IP地址。")
             return
 
         cnopts = pysftp.CnOpts()
@@ -124,12 +124,12 @@ class FileZipperApp:
 
         try:
             with pysftp.Connection(target_ip, username=self.username, password=self.password, cnopts=cnopts) as sftp:
-                sftp.chdir('./Desktop/submit_works/')
+                sftp.chdir('./Desktop/')
                 sftp.put(f"{team_id}-{self.current_time}.zip", remotepath=f"{team_id}-{self.current_time}.zip")
             print("File uploaded via SFTP.")
             self.show_msg(str(team_id + '-' + self.current_time + '.zip') + '文件上传至' + target_ip + ' 成功')
         except FileNotFoundError:   
-            self.show_error_message("未发现你的压缩文件.")
+            self.show_error_message("未发现你的压缩文件。")
         except Exception as e:
             print(f"Error: {e}")
             self.show_error_message("你输入的IP不可达，请联系工作人员")
