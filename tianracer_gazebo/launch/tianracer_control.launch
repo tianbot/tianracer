@@ -1,13 +1,13 @@
 <?xml version='1.0'?>
 
 <launch>
-
+  <arg name="robot_name"/>
   <!-- Load joint controller configurations from YAML file to parameter server -->
   <rosparam file="$(find tianracer_gazebo)/config/tianracer_control.yaml" command="load"/>
 
   <!-- load the controllers -->
   <node name="controller_manager" pkg="controller_manager" type="spawner" respawn="false"
-        output="screen" ns="/tianracer" args="left_rear_wheel_velocity_controller right_rear_wheel_velocity_controller
+        output="screen" ns="/$(arg robot_name)" args="left_rear_wheel_velocity_controller right_rear_wheel_velocity_controller
                                             left_front_wheel_velocity_controller right_front_wheel_velocity_controller
                                             left_steering_hinge_position_controller right_steering_hinge_position_controller
                                             joint_state_controller"/>

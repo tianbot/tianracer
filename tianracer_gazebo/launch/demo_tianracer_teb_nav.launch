@@ -1,18 +1,21 @@
 <launch>
     <!-- Config map file -->
     <arg name="map" default="tianracer_racetrack.yaml" />
-
+    <arg name="robot_name" default="tianracer"/>
     <!-- Map server, load map-->
     <node name="map_server" pkg="map_server" type="map_server" args="$(find tianracer_gazebo)/maps/$(arg map)"/>
 
     <!-- launch gazebo simulation environment -->
-    <include file="$(find tianracer_gazebo)/launch/tianracer_on_racetrack.launch"/>
-
+    <include file="$(find tianracer_gazebo)/launch/tianracer_on_racetrack.launch">
+        <arg name="robot_name" value="$(arg robot_name)"/>
+    </include>
     <!-- spawn model-->
     <!-- <include file="$(find tianracer_gazebo)/launch/spawn_model.launch" /> -->
 
     <!-- launch tianracer control -->
-    <include file="$(find tianracer_gazebo)/launch/tianracer_control.launch" />
+    <include file="$(find tianracer_gazebo)/launch/tianracer_control.launch" >
+        <arg name="robot_name" value="$(arg robot_name)" />
+    </include>
 
     <!-- move base -->
     <include file="$(find tianracer_gazebo)/launch/includes/teb_base.launch.xml"/>

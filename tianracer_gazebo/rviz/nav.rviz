@@ -199,7 +199,7 @@ Visualization Manager:
           Show Trail: false
           Value: true
       Name: RobotModel
-      Robot Description: robot_description
+      Robot Description: tianracer/robot_description
       TF Prefix: ""
       Update Interval: 0
       Value: true

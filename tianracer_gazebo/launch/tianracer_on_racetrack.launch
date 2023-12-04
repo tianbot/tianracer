@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <launch>
     <!-- 设置launch文件的参数 -->
+    <arg name="robot_name"/>
     <arg name="paused" default="false" />
     <arg name="use_sim_time" default="true" />
     <arg name="gui" default="true" />
@@ -26,12 +27,12 @@
     </include>
 
     <!-- 加载机器人模型描述参数 -->
-    <param name="robot_description"
+    <param name="$(arg robot_name)/robot_description"
         command="$(find xacro)/xacro --inorder '$(find tianracer_gazebo)/urdf/tianracer.xacro'" />
 
     <!-- 在gazebo中加载机器人模型-->
     <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
-        args="-urdf -model tianracer -param robot_description -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -R $(arg R_pos) -P $(arg P_pos) -Y $(arg Y_pos)" />
+        args="-urdf -model tianracer -param $(arg robot_name)/robot_description -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -R $(arg R_pos) -P $(arg P_pos) -Y $(arg Y_pos)" />
 
     <!--Launch the simulation joystick control-->
     <!-- <rosparam command="load" file="$(find tianracer_gazebo)/config/keyboard_teleop.yaml" /> -->
