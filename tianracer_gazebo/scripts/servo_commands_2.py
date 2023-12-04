@@ -16,13 +16,13 @@ def set_throttle_steer(data):
     # rospy.logdebug('servo commands as below')
     # rospy.logdebug(data)
 
-    pub_vel_left_rear_wheel = rospy.Publisher('/tracer_01/left_rear_wheel_velocity_controller/command', Float64, queue_size=1)
-    pub_vel_right_rear_wheel = rospy.Publisher('/tracer_01/right_rear_wheel_velocity_controller/command', Float64, queue_size=1)
-    pub_vel_left_front_wheel = rospy.Publisher('/tracer_01/left_front_wheel_velocity_controller/command', Float64, queue_size=1)
-    pub_vel_right_front_wheel = rospy.Publisher('/tracer_01/right_front_wheel_velocity_controller/command', Float64, queue_size=1)
+    pub_vel_left_rear_wheel = rospy.Publisher('/tianracer_01/left_rear_wheel_velocity_controller/command', Float64, queue_size=1)
+    pub_vel_right_rear_wheel = rospy.Publisher('/tianracer_01/right_rear_wheel_velocity_controller/command', Float64, queue_size=1)
+    pub_vel_left_front_wheel = rospy.Publisher('/tianracer_01/left_front_wheel_velocity_controller/command', Float64, queue_size=1)
+    pub_vel_right_front_wheel = rospy.Publisher('/tianracer_01/right_front_wheel_velocity_controller/command', Float64, queue_size=1)
 
-    pub_pos_left_steering_hinge = rospy.Publisher('/tracer_01/left_steering_hinge_position_controller/command', Float64, queue_size=1)
-    pub_pos_right_steering_hinge = rospy.Publisher('/tracer_01/right_steering_hinge_position_controller/command', Float64, queue_size=1)
+    pub_pos_left_steering_hinge = rospy.Publisher('/tianracer_01/left_steering_hinge_position_controller/command', Float64, queue_size=1)
+    pub_pos_right_steering_hinge = rospy.Publisher('/tianracer_01/right_steering_hinge_position_controller/command', Float64, queue_size=1)
 
     # calculate the throttle (ackermann speed) from joint angular velocity
     # wheel radius is 0.032 m
@@ -68,7 +68,7 @@ def servo_commands():
 
     rospy.init_node('servo_commands', anonymous=True)
 
-    rospy.Subscriber("/tracer_01/ackermann_cmd_stamped", AckermannDriveStamped, set_throttle_steer)
+    rospy.Subscriber("/tianracer_01/ackermann_cmd_stamped", AckermannDriveStamped, set_throttle_steer)
 
     # spin() simply keeps python from exiting until this node is stopped
     rospy.spin()
