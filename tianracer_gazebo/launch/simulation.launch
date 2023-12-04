@@ -1,0 +1,55 @@
+<launch>
+    <arg name="robot_name" default="tianracer" />
+
+    <arg name="map" default="tianracer_racetrack.yaml" />
+
+    <!-- Map server, load map-->
+    <node name="map_server" pkg="map_server" type="map_server" args="$(find tianracer_gazebo)/maps/$(arg map)"/>
+
+    <!-- 设置launch文件的参数 -->
+    <arg name="paused" default="false"/>
+    <arg name="use_sim_time" default="true"/>
+    <arg name="gui" default="true"/>
+    <arg name="headless" default="false"/>
+    <arg name="debug" default="false"/>
+    <arg name="world_name" default="$(find tianracer_gazebo)/worlds/tianracer_racetrack.world" />
+
+    <!--模型车的起点放置位置-->
+    <arg name="x_pos" default="0" />
+    <arg name="y_pos" default="0" />
+    <arg name="z_pos" default="0" />
+    <arg name="R_pos" default="0" />
+    <arg name="P_pos" default="0" />
+    <arg name="Y_pos" default="1.5708" />
+
+    <!--运行gazebo仿真环境-->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="debug" value="$(arg debug)" />
+        <arg name="gui" value="$(arg gui)" />
+        <arg name="paused" value="$(arg paused)" />
+        <arg name="use_sim_time" value="$(arg use_sim_time)" />
+        <arg name="headless" value="$(arg headless)" />
+        <arg name="world_name" value="$(arg world_name)" />
+        <!-- .world文件的地址-->
+    </include>
+
+    <!-- 加载机器人模型描述参数 -->
+    <group ns="$(arg robot_name)">
+        <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find tianracer_gazebo)/urdf/tianracer_run.urdf.xacro' prefix:=$(arg robot_name)" />
+        
+        <!-- 运行joint_state_publisher节点，发布机器人的关节状态  -->
+        <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" >
+            <param name="rate" value="50"/>
+        </node> 
+
+        <!-- 运行robot_state_publisher节点，发布tf  -->
+        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"  output="screen" >
+            <param name="publish_frequency" type="double" value="50.0" />
+        </node>
+
+        <!-- 在gazebo中加载机器人模型-->
+        <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+            args="-urdf -model tianracer -param robot_description -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -R $(arg R_pos) -P $(arg P_pos) -Y $(arg Y_pos)"/>
+    </group>
+
+</launch>

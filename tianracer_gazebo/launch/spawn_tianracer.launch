@@ -1,0 +1,23 @@
+<launch>
+
+  <!-- 迷你机器人，基础参数 -->
+  <arg name="robot_name" default="tianracer_2" />
+  <!-- 仿真环境机器人初始位置 -->
+  <arg name="x_pos" default="-0.8" />
+  <arg name="y_pos" default="0" />
+  <arg name="z_pos" default="0" />
+  <arg name="R_pos" default="0" />
+  <arg name="P_pos" default="0" />
+  <arg name="Y_pos" default="1.5708" />
+
+  <arg name="init_pose" value="-x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -R $(arg R_pos) -P $(arg P_pos) -Y $(arg Y_pos)" />
+  <!-- 迷你机器人模型 -->
+  <include ns="$(arg robot_name)" file="$(find tianracer_gazebo)/launch/includes/model.launch.xml">
+    <arg name="robot_name" value="$(arg robot_name)" />
+  </include>
+
+  <!-- 在gazebo中加载机器人模型-->
+  <node ns="$(arg robot_name)" name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+    args="$(arg init_pose) -urdf -model $(arg robot_name) -param robot_description"/>
+
+</launch>

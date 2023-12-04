@@ -1,4 +1,4 @@
 <launch>
     <param name="filename" value="$(find tianracer_gazebo)/config/spawn_pose.yaml" />
     <node name="generate_spawn_pose" pkg="tianracer_gazebo" type="waypoint_generator.py" output="screen" />
-</launch
+</launch>
