@@ -3,8 +3,9 @@
     <arg name="initial_pose_x" default="0.0"/>
     <arg name="initial_pose_y" default="0.0"/>
     <arg name="initial_pose_a" default="1.5708"/>
+    <arg name="robot_name"/>
 
-    <node pkg="amcl" type="amcl" name="amcl" clear_params="true">
+    <node pkg="amcl" type="amcl" name="amcl" clear_params="true" ns="$(arg robot_name)">
         <param name="min_particles"             value="500"/>
         <param name="max_particles"             value="3000"/>
         <param name="kld_err"                   value="0.02"/>

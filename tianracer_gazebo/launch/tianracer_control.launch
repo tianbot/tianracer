@@ -15,18 +15,18 @@
 	<!--joint_state_publisher node，publish robot joint state-->
 	<!--<node name = "robot_state_publisher" pkg = "robot_state_publisher" type = "state_publisher">-->
 	<node name= "robot_state_publisher" pkg= "robot_state_publisher" type= "robot_state_publisher">
-		<remap from="/joint_states" to="/tianracer/joint_states"/>
+		<remap from="/$(arg robot_name)/joint_states" to="/tianracer/joint_states"/>
 	</node>
 
   <!-- servo node -->
-  <node pkg="tianracer_gazebo" type="servo_commands.py" name="servo_commands" output="screen"/>
+  <node pkg="tianracer_gazebo" type="servo_commands.py" name="servo_commands" ns="$(arg robot_name)" output="screen"/>
 
   <!-- servo node -->
-  <node pkg="tianracer_gazebo" type="transform.py" name="transform" output="screen"/>
+  <node pkg="tianracer_gazebo" type="transform.py" name="transform" ns="$(arg robot_name)" output="screen"/>
 
 
   <!-- Allow for Gazebo to broadcast odom -->
-  <node pkg="tianracer_gazebo" name="gazebo_odometry_node" type="gazebo_odometry.py"/> 
+  <node pkg="tianracer_gazebo" name="gazebo_odometry_node" ns="$(arg robot_name)" type="gazebo_odometry.py"/> 
 
 
 </launch>

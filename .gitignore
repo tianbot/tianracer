@@ -50,3 +50,7 @@ tianracer_slam/maps/*.pgm
 imgui.ini
 .vscode
 */.ipynb_checkpoints/*
+tianracer_gazebo/rviz/demo_tf.rviz
+.gitignore
+.gitignore
+tianracer_gazebo/check_list.md
