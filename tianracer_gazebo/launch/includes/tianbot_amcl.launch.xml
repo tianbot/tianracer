@@ -4,8 +4,9 @@
     <arg name="init_x" default="0" />
     <arg name="init_y" default="0" />
     <arg name="init_a" default="1.5708" />
+    <arg name="robot_name"/>
 
-    <node pkg="amcl" type="amcl" name="amcl" output="screen">
+    <node pkg="amcl" type="amcl" name="amcl" output="screen" ns="$(arg robot_name)">
         <!-- Publish scans from best pose at a max of 10 Hz -->
         <param name="transform_tolerance" value="0.5" />
         <param name="gui_publish_rate" value="10.0"/>
