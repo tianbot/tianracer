@@ -14,7 +14,7 @@
 
 	<!--joint_state_publisher node，publish robot joint state-->
 	<!--<node name = "robot_state_publisher" pkg = "robot_state_publisher" type = "state_publisher">-->
-	<node name= "robot_state_publisher" pkg= "robot_state_publisher" type= "robot_state_publisher">
+	<node name= "robot_state_publisher" pkg= "robot_state_publisher" type= "robot_state_publisher" ns="$(arg robot_name)">
 		<remap from="/$(arg robot_name)/joint_states" to="/tianracer/joint_states"/>
 	</node>
 

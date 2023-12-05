@@ -18,10 +18,11 @@
     </include>
 
     <!-- move base -->
-    <include file="$(find tianracer_gazebo)/launch/includes/teb_base.launch.xml"/>
-
+    <include file="$(find tianracer_gazebo)/launch/includes/teb_base.launch.xml">
+        <arg name="robot_name" value="$(arg robot_name)"/>
+    </include>
     <!-- AMCL -->
-    <include file="$(find tianracer_gazebo)/launch/includes/amcl.launch.xml" >\
+    <include file="$(find tianracer_gazebo)/launch/includes/amcl.launch.xml" >
         <arg name="robot_name" value="$(arg robot_name)"/>
 
     </include>

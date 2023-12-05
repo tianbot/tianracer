@@ -1,18 +1,18 @@
 <?xml version="1.0"?>
 <launch>
+  <arg name="robot_name"/>
+    <node pkg="move_base" ns="$(arg robot_name)" type="move_base" respawn="false" name="move_base" output="screen" clear_params="true">
+      <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
 
-  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen" clear_params="true">
-    <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
+      <rosparam file="$(find tianracer_gazebo)/config/teb/costmap_common_params.yaml" command="load" ns="global_costmap" />
+      <rosparam file="$(find tianracer_gazebo)/config/teb/costmap_common_params.yaml" command="load" ns="local_costmap" />
+      <rosparam file="$(find tianracer_gazebo)/config/teb/local_costmap_params.yaml" command="load" />
+      <rosparam file="$(find tianracer_gazebo)/config/teb/global_costmap_params.yaml" command="load" />
 
-    <rosparam file="$(find tianracer_gazebo)/config/teb/costmap_common_params.yaml" command="load" ns="global_costmap" />
-    <rosparam file="$(find tianracer_gazebo)/config/teb/costmap_common_params.yaml" command="load" ns="local_costmap" />
-    <rosparam file="$(find tianracer_gazebo)/config/teb/local_costmap_params.yaml" command="load" />
-    <rosparam file="$(find tianracer_gazebo)/config/teb/global_costmap_params.yaml" command="load" />
-
-    <rosparam file="$(find tianracer_gazebo)/config/teb/move_base_params.yaml" command="load" />
-    <rosparam file="$(find tianracer_gazebo)/config/teb/base_global_planner_params.yaml" command="load" />
-    <rosparam file="$(find tianracer_gazebo)/config/teb/teb_local_planner_params.yaml" command="load" />
-  </node>
+      <rosparam file="$(find tianracer_gazebo)/config/teb/move_base_params.yaml" command="load" />
+      <rosparam file="$(find tianracer_gazebo)/config/teb/base_global_planner_params.yaml" command="load" />
+      <rosparam file="$(find tianracer_gazebo)/config/teb/teb_local_planner_params.yaml" command="load" />
+    </node>
   
 
   

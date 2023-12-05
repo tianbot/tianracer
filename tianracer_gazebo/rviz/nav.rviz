@@ -235,7 +235,7 @@ Visualization Manager:
       Radius: 0.029999999329447746
       Shaft Diameter: 0.10000000149011612
       Shaft Length: 0.10000000149011612
-      Topic: /move_base/TebLocalPlannerROS/local_plan
+      Topic: /tianracer/move_base/TebLocalPlannerROS/local_plan
       Unreliable: false
       Value: true
     - Alpha: 1
@@ -259,7 +259,7 @@ Visualization Manager:
       Radius: 0.029999999329447746
       Shaft Diameter: 0.10000000149011612
       Shaft Length: 0.10000000149011612
-      Topic: /move_base/TebLocalPlannerROS/global_plan
+      Topic: /tianracer/move_base/TebLocalPlannerROS/global_plan
       Unreliable: false
       Value: true
     - Alpha: 1
@@ -276,7 +276,7 @@ Visualization Manager:
       Shaft Length: 0.23000000417232513
       Shaft Radius: 0.009999999776482582
       Shape: Arrow (Flat)
-      Topic: /move_base/TebLocalPlannerROS/teb_poses
+      Topic: /tianracer/move_base/TebLocalPlannerROS/teb_poses
       Unreliable: false
       Value: true
     - Alpha: 1
@@ -320,7 +320,7 @@ Visualization Manager:
       Shaft Length: 0.5
       Shaft Radius: 0.029999999329447746
       Shape: Arrow
-      Topic: /move_base_simple/goal
+      Topic: /tianracer/move_base_simple/goal
       Unreliable: false
       Value: true
     - Alpha: 0.699999988079071
@@ -329,7 +329,7 @@ Visualization Manager:
       Draw Behind: false
       Enabled: true
       Name: Inflated Obstacles
-      Topic: /move_base/local_costmap/costmap
+      Topic: /tianracer/move_base/local_costmap/costmap
       Unreliable: false
       Use Timestamp: false
       Value: true
@@ -347,7 +347,7 @@ Visualization Manager:
       Draw Behind: false
       Enabled: true
       Name: Map
-      Topic: /move_base/global_costmap/costmap
+      Topic: /tianracer/move_base/global_costmap/costmap
       Unreliable: false
       Use Timestamp: false
       Value: true
@@ -369,7 +369,7 @@ Visualization Manager:
       X std deviation: 0.5
       Y std deviation: 0.5
     - Class: rviz/SetGoal
-      Topic: /move_base_simple/goal
+      Topic: /tianracer/move_base_simple/goal
   Value: true
   Views:
     Current:
