@@ -4,7 +4,7 @@
     <arg name="init_x" default="0" />
     <arg name="init_y" default="0" />
     <arg name="init_a" default="1.5708" />
-    <arg name="robot_name"/>
+    <arg name="robot_name" default="tianracer"/>
 
     <node pkg="amcl" type="amcl" name="amcl" output="screen" ns="$(arg robot_name)">
         <!-- Publish scans from best pose at a max of 10 Hz -->

@@ -19,7 +19,7 @@ import tf2_geometry_msgs
 
 class OdometryNode:
     # Set publishers
-    pub_odom = rospy.Publisher('/odom', Odometry, queue_size=1)
+    pub_odom = rospy.Publisher('/tianracer/odom', Odometry, queue_size=1)
 
     def __init__(self):
         # init internals
@@ -81,8 +81,8 @@ class OdometryNode:
 
         odom = Odometry()
         odom.header.stamp = self.last_recieved_stamp
-        odom.header.frame_id = 'odom'
-        odom.child_frame_id = 'base_footprint'
+        odom.header.frame_id = '/tianracer/odom'
+        odom.child_frame_id = '/tianracer/base_footprint'
         odom.pose.pose = self.last_received_pose
         odom.twist.twist = self.last_received_twist
         odom.pose.covariance =[1e-3, 0, 0, 0, 0, 0,
