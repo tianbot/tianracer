@@ -25,7 +25,7 @@
         <param name="first_map_only"            value="true"/>
         <param name="tf_broadcast"              value="true"/>
         <param name="global_frame_id"           value="map"/>
-        <remap from="scan"                      to="$(arg scan_topic)"/>
+        <remap from="$(arg robot_name)/scan"     to="$(arg robot_name)/scan"/>
         <param name="laser_max_range"           value="3.5"/>
         <param name="laser_max_beams"           value="180"/>
         <param name="laser_z_hit"               value="0.5"/>
