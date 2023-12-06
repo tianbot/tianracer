@@ -1,6 +1,6 @@
 TebLocalPlannerROS:
-  odom_topic: odom
-  map_frame: /map
+  odom_topic: /tianracer/odom
+  map_frame: map
 
   # Trajectoty 这部分主要是用于调整轨迹
 

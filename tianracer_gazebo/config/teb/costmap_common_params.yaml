@@ -18,7 +18,7 @@ obstacle_layer:
   observation_sources: scan
   scan: {
     data_type: LaserScan,
-    topic: /scan,
+    topic: /tianracer/scan,
     marking: true,
     clearing: true
   }

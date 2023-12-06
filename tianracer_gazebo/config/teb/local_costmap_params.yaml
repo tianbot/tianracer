@@ -1,7 +1,7 @@
 local_costmap:
   # global_frame: odom
   global_frame: map
-  robot_base_frame: base_footprint
+  robot_base_frame: tianracer/base_footprint
   transform_tolerance: 0.5
 
   # update_frequency: 10.0
