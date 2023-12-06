@@ -20,7 +20,7 @@
         <param name="initial_pose_a"            value="$(arg initial_pose_a)"/>
         <param name="gui_publish_rate"          value="50.0"/>
 
-        <remap from="scan"                      to="$(arg robot_name)/scan"/>
+        <remap from="scan"                      to="$(arg scan_topic)"/>
         <param name="laser_max_range"           value="3.5"/>
         <param name="laser_max_beams"           value="180"/>
         <param name="laser_z_hit"               value="0.5"/>

@@ -49,7 +49,7 @@ Visualization Manager:
         Z: 0
       Plane: XY
       Plane Cell Count: 80
-      Reference Frame: odom
+      Reference Frame: tianracer/odom
       Value: true
     - Angle Tolerance: 0.10000000149011612
       Class: rviz/Odometry
@@ -83,7 +83,7 @@ Visualization Manager:
         Shaft Length: 1
         Shaft Radius: 0.05000000074505806
         Value: Arrow
-      Topic: /odom
+      Topic: /tianracer/odom
       Unreliable: false
       Value: false
     - Angle Tolerance: 0.10000000149011612
@@ -118,7 +118,7 @@ Visualization Manager:
         Shaft Length: 1
         Shaft Radius: 0.05000000074505806
         Value: Arrow
-      Topic: /odom
+      Topic: /tianracer/odom
       Unreliable: false
       Value: false
     - Alpha: 1
@@ -199,7 +199,7 @@ Visualization Manager:
           Show Trail: false
           Value: true
       Name: RobotModel
-      Robot Description: tianracer/robot_description
+      Robot Description: tianracer/robot_description # must be same with robot_description
       TF Prefix: ""
       Update Interval: 0
       Value: true
@@ -302,7 +302,7 @@ Visualization Manager:
       Size (Pixels): 3
       Size (m): 0.009999999776482582
       Style: Points
-      Topic: /scan
+      Topic: /tianracer/scan
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
