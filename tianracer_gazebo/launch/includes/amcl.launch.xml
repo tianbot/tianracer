@@ -20,6 +20,11 @@
         <param name="initial_pose_a"            value="$(arg initial_pose_a)"/>
         <param name="gui_publish_rate"          value="50.0"/>
 
+
+        <param name="use_map_topic"             value="true"/>
+        <param name="first_map_only"            value="true"/>
+        <param name="tf_broadcast"              value="true"/>
+        <param name="global_frame_id"           value="map"/>
         <remap from="scan"                      to="$(arg scan_topic)"/>
         <param name="laser_max_range"           value="3.5"/>
         <param name="laser_max_beams"           value="180"/>
