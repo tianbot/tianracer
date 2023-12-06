@@ -101,7 +101,7 @@ class OdometryNode:
 
 
         self.pub_odom.publish(odom)
-
+        # print('gazebo_odom changing')
         tf = TransformStamped(
             header=Header(
                 frame_id=odom.header.frame_id,

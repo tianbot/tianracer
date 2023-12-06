@@ -12,8 +12,8 @@ from nav_msgs.msg import Odometry
 from geometry_msgs.msg import TransformStamped
 
 # 定义部分参数
-frame_name  = "odom"
-child_frame_name = "base_footprint"
+frame_name  = "tianracer/odom"
+child_frame_name = "tianracer/base_footprint"
 pub_name    = "odom_topic"
 imu_name    = "imu_data"
 joint_states_name   = "/tianracer/joint_states"

@@ -26,7 +26,7 @@
 
 
   <!-- Allow for Gazebo to broadcast odom -->
-  <node pkg="tianracer_gazebo" name="gazebo_odometry_node" ns="$(arg robot_name)" type="gazebo_odometry.py"/> 
+  <node pkg="tianracer_gazebo" name="gazebo_odometry_node" ns="$(arg robot_name)" type="gazebo_odometry.py" output='screen'/> 
 
 
 </launch>
