@@ -3,7 +3,7 @@
     <arg name="map" default="tianracer_racetrack.yaml" />
     <arg name="robot_name" default="tianracer"/>
     <!-- Map server, load map-->
-    <node name="map_server" pkg="map_server" type="map_server"  args="$(find tianracer_gazebo)/maps/$(arg map)"/>
+    <node name="map_server" ns="$(arg robot_name)" pkg="map_server" type="map_server"  args="$(find tianracer_gazebo)/maps/$(arg map)"/>
 
     <!-- launch gazebo simulation environment -->
     <include file="$(find tianracer_gazebo)/launch/tianracer_on_racetrack.launch">
@@ -29,5 +29,5 @@
 
     <!-- rviz -->
     <node pkg="rviz" type="rviz" name="rviz" args="-d $(find tianracer_gazebo)/rviz/nav.rviz"/>
-    <node pkg="tf" type="static_transform_publisher" name="map2odom" args="0 0 0 0 0 0 map $(arg robot_name)/odom 20 "/>
+    <!-- <node pkg="tf" type="static_transform_publisher" name="map2odom" args="0 0 0 0 0 0 map $(arg robot_name)/odom 20 "/> -->
 </launch>
