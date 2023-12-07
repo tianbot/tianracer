@@ -1,0 +1,27 @@
+<launch>
+  <arg name="robot_name_1" default="tianracer_01" />
+  <arg name="robot_name_2" default="tianracer_02" /> 
+
+  <include file="$(find tianracer_gazebo)/launch/simulation_2.launch" >
+    <arg name="robot_name" value="$(arg robot_name_1)" />
+  </include>
+  <include file="$(find tianracer_gazebo)/launch/spawn_tianracer.launch">
+    <arg name="robot_name" value="$(arg robot_name_2)" />
+    <!--the position is controlled by the static transform-->
+    <arg name="y_pos" value="1.5"/>
+  </include>
+   <!--
+  <node pkg="tf" type="static_transform_publisher" name="world_to_global_1" args="0 0 0 0 0 0 world $(arg robot_name_1)/odom 20" />
+  <node pkg="tf" type="static_transform_publisher" name="world_to_global_2" args="0 0 0 0 0 0 world $(arg robot_name_2)/odom 20" />
+  <node pkg="tianracer_gazebo" type="tianracer_tf.py" name="tianracer_tf" output="screen">
+    <param name="target_frame" value="$(arg robot_name_1)/base_link" />
+    <param name="follower_robot_name" value="$(arg robot_name_2)" />
+    <param name="set_distance" value="0.5" />
+  </node>
+  -->
+  <!-- launch tianracer control -->
+
+
+  <!-- RVIZ可视化调试工具 -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find tianracer_gazebo)/rviz/demo_tf.rviz" />
+</launch>

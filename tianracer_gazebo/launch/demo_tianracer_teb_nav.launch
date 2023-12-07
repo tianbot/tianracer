@@ -8,6 +8,9 @@
     <!-- launch gazebo simulation environment -->
     <include file="$(find tianracer_gazebo)/launch/tianracer_on_racetrack.launch"/>
 
+    <!-- spawn model-->
+    <!-- <include file="$(find tianracer_gazebo)/launch/spawn_model.launch" /> -->
+
     <!-- launch tianracer control -->
     <include file="$(find tianracer_gazebo)/launch/tianracer_control.launch" />
 

@@ -1,5 +1,4 @@
-tianracer:
-  #上面的tianracer是运行动命名空间 Publish all joint states --公布所有--------------------
+ #Publish all joint states --公布所有--------------------
   joint_state_controller:
     type: joint_state_controller/JointStateController
     publish_rate: 50

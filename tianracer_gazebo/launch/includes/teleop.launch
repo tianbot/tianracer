@@ -1,0 +1,11 @@
+<launch>
+
+  <arg name="robot_name" default="tracer_01" />
+  <arg name="cmd_vel_topic" default="cmd_vel" />
+
+  <node pkg="teleop_twist_keyboard" ns="$(arg robot_name)" type="teleop_twist_keyboard.py" name="tbm_teleop_keyboard"  output="screen">
+    <param name="speed" value="0.15" type="double"/>
+    <param name="turn" value="0.8" type="double"/>
+  </node>
+
+</launch>
