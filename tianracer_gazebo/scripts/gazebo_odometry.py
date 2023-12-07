@@ -39,7 +39,7 @@ class OdometryNode:
     def sub_robot_pose_update(self, msg):
         # Find the index of the racecar
         try:
-            arrayIndex = msg.name.index('tianracer::base_footprint')
+            arrayIndex = msg.name.index('tianracer::tianracer/base_footprint')
         except ValueError as e:
             # Wait for Gazebo to startup
             pass
@@ -84,6 +84,7 @@ class OdometryNode:
         odom.header.frame_id = '/tianracer/odom'
         odom.child_frame_id = '/tianracer/base_footprint'
         odom.pose.pose = self.last_received_pose
+        # print("pose ", self.last_received_pose)
         odom.twist.twist = self.last_received_twist
         odom.pose.covariance =[1e-3, 0, 0, 0, 0, 0,
 						0, 1e-3, 0, 0, 0, 0,
