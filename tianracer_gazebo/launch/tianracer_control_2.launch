@@ -2,7 +2,6 @@
 
 <launch>
   <arg name="robot_name" default="tianracer_01"/>
-  
   <!-- Load joint controller configurations from YAML file to parameter server -->
   <rosparam file="$(find tianracer_gazebo)/config/tianracer_control_2.yaml" command="load" ns="$(arg robot_name)"/>
   <!-- load the controllers -->

@@ -97,8 +97,8 @@
         </noise>
       </ray>
       <plugin name="gazebo_ros_hokuyo_controller" filename="libgazebo_ros_laser.so">
-        <topicName>/tianracer_01/scan</topicName>
-        <frameName>/tianracer_01/base_footprint</frameName>
+        <topicName>/${tf_prefix}scan</topicName>
+        <frameName>/${tf_prefix}base_footprint</frameName>
       </plugin>
     </sensor>
   </gazebo>

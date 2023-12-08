@@ -6,7 +6,7 @@ from geometry_msgs.msg import Twist
 
 import time 
 import threading
-robot_name = rospy.get_param('/robot_name', default="tianracer")
+robot_name = rospy.get_param('robot_name', default="tianracer")
 pub = rospy.Publisher(f"/{robot_name}/ackermann_cmd_stamped", AckermannDriveStamped,queue_size=1)
 
 def thread_job():

@@ -23,15 +23,15 @@
 
       <!-- reset frame_id parameters using user input data -->
       <param unless="$(eval robot_name=='/')" name="local_costmap/robot_base_frame" value="$(arg robot_name)/$(arg base_frame_id)"/>
-      <param unless="$(eval robot_name=='/')" name="local_costmap/global_frame" value="$(arg robot_name)/$(arg odom_frame_id)"/>
-      <param unless="$(eval robot_name=='/')" name="local_costmap/scan/sensor_frame" value="$(arg robot_name)/laser"/>
-      <param unless="$(eval robot_name=='/')" name="local_costmap/scan/topic" value="$(arg robot_name)/scan"/>
+      <param unless="$(eval robot_name=='/')" name="local_costmap/global_frame" value="$(arg global_frame_id)"/>
+      <param unless="$(eval robot_name=='/')" name="local_costmap/scan/sensor_frame" value="$(arg robot_name)/l$(arg laser_frame_id)"/>
+      <param unless="$(eval robot_name=='/')" name="local_costmap/scan/topic" value="$(arg robot_name)/$(arg laser_topic)"/>
       <param unless="$(eval robot_name=='/')" name="global_costmap/robot_base_frame" value="$(arg robot_name)/$(arg base_frame_id)"/>
       <param unless="$(eval robot_name=='/')" name="global_costmap/global_frame" value="$(arg global_frame_id)"/>
       <param unless="$(eval robot_name=='/')" name="global_costmap/scan/sensor_frame" value="$(arg robot_name)/$(arg laser_frame_id)"/>
       <param unless="$(eval robot_name=='/')" name="global_costmap/scan/topic" value="$(arg robot_name)/$(arg laser_topic)"/>
-      <param unless="$(eval robot_name=='/')" name="odom_topic" value="$(arg robot_name)/$(arg laser_topic)"/>
-      <param unless="$(eval robot_name=='/')" name="map_frame" value="$(arg robot_name)/$(arg map_frame)"/>
+      <param unless="$(eval robot_name=='/')" name="TebLocalPlannerROS/odom_topic" value="$(arg robot_name)/$(arg odom_topic)"/>
+      <param unless="$(eval robot_name=='/')" name="TebLocalPlannerROS/map_frame" value="$(arg map_frame)"/>
     </node>
   </group>
   

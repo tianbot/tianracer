@@ -2,6 +2,10 @@
 
   <!-- 迷你机器人，基础参数 -->
   <arg name="robot_name" default="tianracer_2" />
+  <arg name="map" default="tianracer_racetrack.yaml" />
+
+  <!-- Map server, load map-->
+  <node name="map_server" pkg="map_server" type="map_server" ns="$(arg robot_name)" args="$(find tianracer_gazebo)/maps/$(arg map)"/>
   <!-- 仿真环境机器人初始位置 -->
   <arg name="x_pos" default="0" />
   <arg name="y_pos" default="0" />

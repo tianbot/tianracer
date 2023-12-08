@@ -7,7 +7,7 @@ from std_msgs.msg import Float64
 from ackermann_msgs.msg import AckermannDriveStamped
 
 flag_move = 0
-robot_name = rospy.get_param('/robot_name', default="tianracer")
+robot_name = rospy.get_param('robot_name', default="tianracer")
 def set_throttle_steer(data):
 
     global flag_move

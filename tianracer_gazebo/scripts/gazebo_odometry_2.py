@@ -17,7 +17,7 @@ import tf
 import tf2_ros
 import tf2_geometry_msgs
 
-robot_name = rospy.get_param('/robot_name', default="tianracer")
+robot_name = rospy.get_param('robot_name', default="tianracer")
 class OdometryNode:
     # Set publishers
     pub_odom = rospy.Publisher(f'/{robot_name}/odom', Odometry, queue_size=1)
