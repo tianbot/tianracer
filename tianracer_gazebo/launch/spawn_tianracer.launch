@@ -5,10 +5,12 @@
   <arg name="map" default="tianracer_racetrack.yaml" />
 
   <!-- Map server, load map-->
-  <node name="map_server" pkg="map_server" type="map_server" ns="$(arg robot_name)" args="$(find tianracer_gazebo)/maps/$(arg map)"/>
+  <node name="map_server" pkg="map_server" type="map_server" ns="$(arg robot_name)" args="$(find tianracer_gazebo)/maps/$(arg map)">
+    <param name="frame_id" value="$(arg robot_name)/map" />
+  </node>
   <!-- 仿真环境机器人初始位置 -->
   <arg name="x_pos" default="0" />
-  <arg name="y_pos" default="0" />
+  <arg name="y_pos" default="-1.5" />
   <arg name="z_pos" default="0" />
   <arg name="R_pos" default="0" />
   <arg name="P_pos" default="0" />
@@ -35,6 +37,7 @@
   <!-- AMCL -->
   <include file="$(find tianracer_gazebo)/launch/includes/amcl_2.launch.xml">
       <arg name="robot_name" value="$(arg robot_name)" />
+      <arg name="initial_pose_y" value="$(arg y_pos)"/>
   </include>
 
 </launch>

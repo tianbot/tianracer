@@ -174,8 +174,8 @@ def follow_the_gap_callback(data):
     arrow_pub.publish(display_direction(scale, Point(gx,gy,gz), Point(gx + length * cos(ref_yaw),gy + length * sin(ref_yaw) , gz), 3))
     round_pub.publish(display_threshold(Vector3(threshold, threshold, 0.1), (gx, gy, gz), 4))
     drive_msg = AckermannDriveStamped()
-    drive_msg.drive.steering_angle=steering_angle 
-    drive_msg.drive.speed=speed
+    drive_msg.drive.steering_angle=0 
+    drive_msg.drive.speed=0.5
     drive_pub.publish(drive_msg)
 
 
@@ -188,10 +188,10 @@ if __name__ == '__main__':
     arrow_pub = rospy.Publisher("visualization_marker_show_orientation", Marker, queue_size=10)
     round_pub = rospy.Publisher("round_show", Marker, queue_size=10)
     scale = Vector3(0.05,0.2,0.2)
-    pose_sub = rospy.Subscriber('/amcl_pose', PoseWithCovarianceStamped, get_pose)
-    scan_sub = rospy.Subscriber('/scan', LaserScan, follow_the_gap_callback)
-    drive_pub = rospy.Publisher('/tianracer/ackermann_cmd_stamped', AckermannDriveStamped, queue_size=1)
-    frame_pub = rospy.Publisher('/image', Float64MultiArray,queue_size=150)
+    pose_sub = rospy.Subscriber('amcl_pose', PoseWithCovarianceStamped, get_pose)
+    scan_sub = rospy.Subscriber('scan', LaserScan, follow_the_gap_callback)
+    drive_pub = rospy.Publisher('ackermann_cmd_stamped', AckermannDriveStamped, queue_size=1)
+    frame_pub = rospy.Publisher('image', Float64MultiArray,queue_size=150)
     rospy.spin()
     
   except rospy.ROSInterruptException:

@@ -20,7 +20,7 @@ import tf2_geometry_msgs
 robot_name = rospy.get_param('robot_name', default="tianracer")
 class OdometryNode:
     # Set publishers
-    pub_odom = rospy.Publisher(f'/{robot_name}/odom', Odometry, queue_size=1)
+    pub_odom = rospy.Publisher('odom', Odometry, queue_size=1)
 
     def __init__(self):
         # init internals

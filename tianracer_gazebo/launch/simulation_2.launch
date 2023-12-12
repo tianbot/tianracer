@@ -5,8 +5,9 @@
     <arg name="map" default="tianracer_racetrack.yaml" />
 
     <!-- Map server, load map-->
-    <node name="map_server" pkg="map_server" type="map_server" ns="$(arg robot_name)" args="$(find tianracer_gazebo)/maps/$(arg map)"/>
-
+    <node name="map_server" pkg="map_server" type="map_server" ns="$(arg robot_name)" args="$(find tianracer_gazebo)/maps/$(arg map)">
+      <param name="frame_id" value="$(arg robot_name)/map" />
+    </node>
     <!-- 设置launch文件的参数 -->
     <arg name="paused" default="false"/>
     <arg name="use_sim_time" default="true"/>

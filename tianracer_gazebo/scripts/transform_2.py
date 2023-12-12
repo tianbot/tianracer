@@ -7,7 +7,7 @@ from geometry_msgs.msg import Twist
 import time 
 import threading
 robot_name = rospy.get_param('robot_name', default="tianracer")
-pub = rospy.Publisher(f"/{robot_name}/ackermann_cmd_stamped", AckermannDriveStamped,queue_size=1)
+pub = rospy.Publisher("ackermann_cmd_stamped", AckermannDriveStamped,queue_size=1)
 
 def thread_job():
     rospy.spin()
@@ -18,7 +18,7 @@ def callback(data):
 
     msg = AckermannDriveStamped()
     msg.header.stamp = rospy.Time.now()
-    msg.header.frame_id = "base_link"
+    msg.header.frame_id = f"/{robot_name}/base_footprint"
 
     msg.drive.speed = speed
     msg.drive.acceleration = 1

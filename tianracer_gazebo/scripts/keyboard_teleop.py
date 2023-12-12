@@ -111,7 +111,7 @@ def main():
     max_steering_angle = rospy.get_param("~max_steering_angle", 0.6)
 
     state_pub = rospy.Publisher(
-        "/ackermann_cmd_mux/output", AckermannDriveStamped, queue_size=1
+        "/tianracer_01/ackermann_cmd_stamped", AckermannDriveStamped, queue_size=1
     )
     rospy.Timer(rospy.Duration(0.1), publish_cb)
     atexit.register(exit_func)
