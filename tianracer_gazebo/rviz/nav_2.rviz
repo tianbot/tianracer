@@ -50,7 +50,7 @@ Visualization Manager:
         Z: 0
       Plane: XY
       Plane Cell Count: 80
-      Reference Frame: tianracer_01/odom
+      Reference Frame: tianracer_02/odom
       Value: true
     - Angle Tolerance: 0.10000000149011612
       Class: rviz/Odometry
@@ -84,7 +84,7 @@ Visualization Manager:
         Shaft Length: 1
         Shaft Radius: 0.05000000074505806
         Value: Arrow
-      Topic: /tianracer_01/odom
+      Topic: /tianracer_02/odom
       Unreliable: false
       Value: false
     - Angle Tolerance: 0.10000000149011612
@@ -119,7 +119,7 @@ Visualization Manager:
         Shaft Length: 1
         Shaft Radius: 0.05000000074505806
         Value: Arrow
-      Topic: /tianracer_01/odom
+      Topic: /tianracer_02/odom
       Unreliable: false
       Value: false
     - Alpha: 1
@@ -200,7 +200,7 @@ Visualization Manager:
           Show Trail: false
           Value: true
       Name: RobotModel
-      Robot Description: tianracer_01/robot_description # must be same with robot_description
+      Robot Description: tianracer_02/robot_description # must be same with robot_description
       TF Prefix: ""
       Update Interval: 0
       Value: true
@@ -294,7 +294,7 @@ Visualization Manager:
       Draw Behind: true
       Enabled: true
       Name: Map
-      Topic: /tianracer_01/map
+      Topic: /tianracer_02/map
       Unreliable: false
       Use Timestamp: false
       Value: true
@@ -319,7 +319,7 @@ Visualization Manager:
       Radius: 0.029999999329447746
       Shaft Diameter: 0.10000000149011612
       Shaft Length: 0.10000000149011612
-      Topic: /tianracer_01/move_base/TebLocalPlannerROS/local_plan
+      Topic: /tianracer_02/move_base/TebLocalPlannerROS/local_plan
       Unreliable: false
       Value: true
     - Alpha: 1
@@ -343,7 +343,7 @@ Visualization Manager:
       Radius: 0.029999999329447746
       Shaft Diameter: 0.10000000149011612
       Shaft Length: 0.10000000149011612
-      Topic: /tianracer_01/move_base/TebLocalPlannerROS/global_plan
+      Topic: /tianracer_02/move_base/TebLocalPlannerROS/global_plan
       Unreliable: false
       Value: true
     - Alpha: 1
@@ -360,7 +360,7 @@ Visualization Manager:
       Shaft Length: 0.23000000417232513
       Shaft Radius: 0.009999999776482582
       Shape: Arrow (Flat)
-      Topic: /tianracer_01/move_base/TebLocalPlannerROS/teb_poses
+      Topic: /tianracer_02/move_base/TebLocalPlannerROS/teb_poses
       Unreliable: false
       Value: true
     - Alpha: 1
@@ -386,7 +386,7 @@ Visualization Manager:
       Size (Pixels): 3
       Size (m): 0.009999999776482582
       Style: Points
-      Topic: /tianracer_01/scan
+      Topic: /tianracer_02/scan
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
@@ -404,7 +404,7 @@ Visualization Manager:
       Shaft Length: 0.5
       Shaft Radius: 0.029999999329447746
       Shape: Arrow
-      Topic: /tianracer_01/move_base_simple/goal
+      Topic: /tianracer_02/move_base_simple/goal
       Unreliable: false
       Value: true
     - Alpha: 0.699999988079071
@@ -413,7 +413,7 @@ Visualization Manager:
       Draw Behind: false
       Enabled: true
       Name: Inflated Obstacles
-      Topic: /tianracer_01/move_base/local_costmap/costmap
+      Topic: /tianracer_02/move_base/local_costmap/costmap
       Unreliable: false
       Use Timestamp: false
       Value: true
@@ -431,7 +431,7 @@ Visualization Manager:
       Draw Behind: false
       Enabled: true
       Name: Map
-      Topic: /tianracer_01/move_base/global_costmap/costmap
+      Topic: /tianracer_02/move_base/global_costmap/costmap
       Unreliable: false
       Use Timestamp: false
       Value: true
@@ -439,7 +439,7 @@ Visualization Manager:
   Global Options:
     Background Color: 0; 0; 0
     Default Light: true
-    Fixed Frame: tianracer_01/map
+    Fixed Frame: map
     Frame Rate: 30
   Name: root
   Tools:
@@ -449,11 +449,11 @@ Visualization Manager:
     - Class: rviz/Select
     - Class: rviz/SetInitialPose
       Theta std deviation: 0.2617993950843811
-      Topic: /tianracer_01/initialpose
+      Topic: /tianracer_02/initialpose
       X std deviation: 0.5
       Y std deviation: 0.5
     - Class: rviz/SetGoal
-      Topic: /tianracer_01/move_base_simple/goal
+      Topic: /tianracer_02/move_base_simple/goal
   Value: true
   Views:
     Current:
