@@ -42,6 +42,6 @@
         <param name="odom_alpha4"               value="0.1"/>
         <param name="odom_frame_id"             value="$(arg robot_name)/odom"/>
         <param name="base_frame_id"             value="$(arg robot_name)/base_footprint"/>
-        <param name="global_frame_id"           value="$(arg robot_name)/map"/>
+        <!-- <param name="global_frame_id"           value="map"/> -->
     </node>
 </launch>

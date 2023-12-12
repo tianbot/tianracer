@@ -7,8 +7,8 @@
   <arg name="laser_frame_id"   default="laser"/>
   <arg name="odom_topic" default="odom" />
   <arg name="laser_topic" default="scan" />
-  <arg name="map_frame" default="odmn" />
-  <arg name="map_topic" default="odmn" />
+  <arg name="map_frame" default="odom" />
+  <arg name="map_topic" default="odom" />
   <group ns="$(arg robot_name)">
     <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen" clear_params="true">
       <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
@@ -27,13 +27,13 @@
       <param unless="$(eval robot_name=='/')" name="local_costmap/global_frame" value="$(arg robot_name)/$(arg odom_frame_id)"/>
 <!--      <param unless="$(eval robot_name=='/')" name="local_costmap/static_layer/map_topic" value="$(arg robot_name)/$(arg map_topic)"/>-->
       <param unless="$(eval robot_name=='/')" name="local_costmap/scan/sensor_frame" value="$(arg robot_name)/l$(arg laser_frame_id)"/>
-      <param unless="$(eval robot_name=='/')" name="local_costmap/scan/topic" value="$(arg robot_name)/$(arg laser_topic)"/>
+      <param unless="$(eval robot_name=='/')" name="local_costmap/scan/topic" value="/$(arg robot_name)/$(arg laser_topic)"/>
       <param unless="$(eval robot_name=='/')" name="global_costmap/robot_base_frame" value="$(arg robot_name)/$(arg base_frame_id)"/>
-      <param unless="$(eval robot_name=='/')" name="global_costmap/global_frame" value="$(arg robot_name)/$(arg global_frame_id)"/>
+      <param unless="$(eval robot_name=='/')" name="global_costmap/global_frame" value="$(arg global_frame_id)"/>
 <!--      <param unless="$(eval robot_name=='/')" name="global_costmap/static_layer/map_topic" value="$(arg robot_name)/$(arg map_topic)"/>-->
       <param unless="$(eval robot_name=='/')" name="global_costmap/scan/sensor_frame" value="$(arg robot_name)/$(arg laser_frame_id)"/>
-      <param unless="$(eval robot_name=='/')" name="global_costmap/scan/topic" value="$(arg robot_name)/$(arg laser_topic)"/>
-      <param unless="$(eval robot_name=='/')" name="TebLocalPlannerROS/odom_topic" value="$(arg robot_name)/$(arg odom_topic)"/>
+      <param unless="$(eval robot_name=='/')" name="global_costmap/scan/topic" value="/$(arg robot_name)/$(arg laser_topic)"/>
+      <param unless="$(eval robot_name=='/')" name="TebLocalPlannerROS/odom_topic" value="/$(arg robot_name)/$(arg odom_topic)"/>
       <param unless="$(eval robot_name=='/')" name="TebLocalPlannerROS/map_frame" value="$(arg robot_name)/$(arg map_frame)"/>
     </node>
   </group>
