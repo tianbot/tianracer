@@ -63,7 +63,11 @@
   <!-- Gazebo Plugins -->
   <gazebo>
     <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+<<<<<<< HEAD
       <robotNamespace>${tf_prefix}</robotNamespace>
+=======
+      <robotNamespace>/${tf_prefix}</robotNamespace>
+>>>>>>> origin/feature_one_sim
       <robotParam>robot_description</robotParam>
       <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
       <legacyModeNS>true</legacyModeNS>
@@ -97,8 +101,13 @@
         </noise>
       </ray>
       <plugin name="gazebo_ros_hokuyo_controller" filename="libgazebo_ros_laser.so">
+<<<<<<< HEAD
         <topicName>/scan</topicName>
         <frameName>laser</frameName>
+=======
+        <topicName>/${tf_prefix}scan</topicName>
+        <frameName>/${tf_prefix}base_footprint</frameName>
+>>>>>>> origin/feature_one_sim
       </plugin>
     </sensor>
   </gazebo>

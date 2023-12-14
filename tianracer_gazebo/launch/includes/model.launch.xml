@@ -6,6 +6,7 @@
     <arg name="gui" default="False" />
 
     <!-- 加载机器人模型描述参数 -->
+<<<<<<< HEAD
     <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find tianracer_gazebo)/urdf/tianracer_run.urdf.xacro'  prefix:=$(arg robot_name)" />
     <!-- 运行joint_state_publisher节点，发布机器人的关节状态  -->
     <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" >
@@ -17,5 +18,8 @@
         <param name="publish_frequency" type="double" value="50.0" />
         <remap from="/joint_states" to="$(arg robot_name)/joint_states"/>
     </node>
+=======
+    <param name="robot_description" command="$(find xacro)/xacro '$(find tianracer_gazebo)/urdf/tianracer_run.urdf.xacro'  prefix:=$(arg robot_name)" />
+>>>>>>> origin/feature_one_sim
     
 </launch>

@@ -1,15 +1,13 @@
 <launch>
-<<<<<<< HEAD
-    <arg name="robot_name" default="tianracer" />
-=======
+    <!-- 这一版本删除了joint_state_publisher和 robot_state_publisher-->
     <arg name="robot_name" default="tianracer_01" />
->>>>>>> origin/feature_one_sim
 
     <arg name="map" default="tianracer_racetrack.yaml" />
 
     <!-- Map server, load map-->
-    <node name="map_server" pkg="map_server" type="map_server" args="$(find tianracer_gazebo)/maps/$(arg map)"/>
-
+    <node name="map_server" pkg="map_server" type="map_server" ns="$(arg robot_name)" args="$(find tianracer_gazebo)/maps/$(arg map)">
+      <param name="frame_id" value="map" />
+    </node>
     <!-- 设置launch文件的参数 -->
     <arg name="paused" default="false"/>
     <arg name="use_sim_time" default="true"/>
@@ -36,29 +34,12 @@
         <!-- .world文件的地址-->
     </include>
 
-<<<<<<< HEAD
-    <!-- 加载机器人模型描述参数 -->
-    <group ns="$(arg robot_name)">
-        <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find tianracer_gazebo)/urdf/tianracer_run.urdf.xacro' prefix:=$(arg robot_name)" />
-=======
     <!-- 加载机器人模型描述参数 (删除inorder选项，因为它在ROS Melodic中成为默认设置)-->
     <group ns="$(arg robot_name)">
         <param name="robot_description" command="$(find xacro)/xacro '$(find tianracer_gazebo)/urdf/tianracer_run.urdf.xacro' prefix:=$(arg robot_name)" />
->>>>>>> origin/feature_one_sim
-        
-        <!-- 运行joint_state_publisher节点，发布机器人的关节状态  -->
-        <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" >
-            <param name="rate" value="50"/>
-        </node> 
-
-        <!-- 运行robot_state_publisher节点，发布tf  -->
-        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"  output="screen" >
-            <param name="publish_frequency" type="double" value="50.0" />
-        </node>
-
         <!-- 在gazebo中加载机器人模型-->
         <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
-            args="-urdf -model tianracer -param robot_description -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -R $(arg R_pos) -P $(arg P_pos) -Y $(arg Y_pos)"/>
+            args="-urdf -model $(arg robot_name) -param robot_description -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -R $(arg R_pos) -P $(arg P_pos) -Y $(arg Y_pos)"/>
     </group>
 
     <include file="$(find tianracer_gazebo)/launch/tianracer_control_2.launch" >
@@ -73,5 +54,7 @@
     <include file="$(find tianracer_gazebo)/launch/includes/amcl_2.launch.xml">
         <arg name="robot_name" value="$(arg robot_name)" />
     </include>
-
+    <!-- <node pkg="tf" type="static_transform_publisher" name="world_to_global_1" args="0 0 0 0 0 0 $(arg robot_name)/map $(arg robot_name)/odom 20" /> -->
+    <!-- rviz -->
+    <!-- <node pkg="rviz" type="rviz" name="rviz" args="-d $(find tianracer_gazebo)/rviz/nav.rviz"/> -->
 </launch>

@@ -2,12 +2,17 @@
   <arg name="robot_name_1" default="tianracer_01" />
   <arg name="robot_name_2" default="tianracer_02" /> 
 
+<<<<<<< HEAD
   <include file="$(find tianracer_gazebo)/launch/simulation.launch" >
+=======
+  <include file="$(find tianracer_gazebo)/launch/simulation_2.launch" >
+>>>>>>> origin/feature_one_sim
     <arg name="robot_name" value="$(arg robot_name_1)" />
   </include>
   <include file="$(find tianracer_gazebo)/launch/spawn_tianracer.launch">
     <arg name="robot_name" value="$(arg robot_name_2)" />
     <!--the position is controlled by the static transform-->
+<<<<<<< HEAD
     <arg name="y_pos" value="1.5"/>
   </include>
    <!--
@@ -19,9 +24,25 @@
     <param name="set_distance" value="0.5" />
   </node>
   -->
+=======
+    <arg name="y_pos" value="-4"/>
+  </include>
+   
+  <!-- <node pkg="tianracer_gazebo" type="tianracer_tf.py" name="tianracer_tf" output="screen">
+    <param name="target_frame" value="$(arg robot_name_1)/base_footprint" />
+    <param name="follower_robot_name" value="$(arg robot_name_2)" />
+    <param name="set_distance" value="0.5" />
+  </node> -->
+ 
+>>>>>>> origin/feature_one_sim
   <!-- launch tianracer control -->
 
 
   <!-- RVIZ可视化调试工具 -->
+<<<<<<< HEAD
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find tianracer_gazebo)/rviz/demo_tf.rviz" />
+=======
+  <node name="rviz_1" pkg="rviz" type="rviz" args="-d $(find tianracer_gazebo)/rviz/nav_1.rviz" />
+  <node name="rviz_2" pkg="rviz" type="rviz" args="-d $(find tianracer_gazebo)/rviz/nav_2.rviz" />
+>>>>>>> origin/feature_one_sim
 </launch>
