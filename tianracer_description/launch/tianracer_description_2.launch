@@ -11,9 +11,6 @@
         <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
             <param name="use_gui" value="$(arg gui)" />
         </node>
-        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
-            <remap from="/tf" to="/$(arg robot_name)/tf"/>
-            <remap from="/tf_static" to="/$(arg robot_name)/tf_static"/>
-        </node>
+        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
     </group>
 </launch>
