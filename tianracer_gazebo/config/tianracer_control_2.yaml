@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-tianracer_01:
-  #上面的tianracer_01是运行动命名空间 Publish all joint states --公布所有--------------------
-=======
  #Publish all joint states --公布所有--------------------
->>>>>>> origin/feature_one_sim
   joint_state_controller:
     type: joint_state_controller/JointStateController
     publish_rate: 50

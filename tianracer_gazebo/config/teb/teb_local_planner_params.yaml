@@ -1,10 +1,6 @@
 TebLocalPlannerROS:
   odom_topic: odom
-<<<<<<< HEAD
-  map_frame: /map
-=======
   map_frame: odom
->>>>>>> origin/feature_one_sim
 
   # Trajectoty 这部分主要是用于调整轨迹
 

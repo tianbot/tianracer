@@ -2,11 +2,6 @@
 
   <!-- 迷你机器人，基础参数 -->
   <arg name="robot_name" default="tianracer_2" />
-<<<<<<< HEAD
-  <!-- 仿真环境机器人初始位置 -->
-  <arg name="x_pos" default="0" />
-  <arg name="y_pos" default="0" />
-=======
   <arg name="map" default="tianracer_racetrack.yaml" />
 
   <!-- Map server, load map-->
@@ -16,7 +11,6 @@
   <!-- 仿真环境机器人初始位置 -->
   <arg name="x_pos" default="0" />
   <arg name="y_pos" default="-1.5" />
->>>>>>> origin/feature_one_sim
   <arg name="z_pos" default="0" />
   <arg name="R_pos" default="0" />
   <arg name="P_pos" default="0" />
@@ -43,10 +37,7 @@
   <!-- AMCL -->
   <include file="$(find tianracer_gazebo)/launch/includes/amcl_2.launch.xml">
       <arg name="robot_name" value="$(arg robot_name)" />
-<<<<<<< HEAD
-=======
       <arg name="initial_pose_y" value="$(arg y_pos)"/>
->>>>>>> origin/feature_one_sim
   </include>
 
 </launch>

@@ -6,12 +6,8 @@ from geometry_msgs.msg import Twist
 
 import time 
 import threading
-<<<<<<< HEAD
-pub = rospy.Publisher("/tianracer_01/ackermann_cmd_stamped", AckermannDriveStamped,queue_size=1)
-=======
 robot_name = rospy.get_param('robot_name', default="tianracer")
 pub = rospy.Publisher("ackermann_cmd_stamped", AckermannDriveStamped,queue_size=1)
->>>>>>> origin/feature_one_sim
 
 def thread_job():
     rospy.spin()
@@ -20,15 +16,6 @@ def callback(data):
     speed = data.linear.x 
     turn = data.angular.z
 
-<<<<<<< HEAD
-    msg = AckermannDriveStamped();
-    msg.header.stamp = rospy.Time.now();
-    msg.header.frame_id = "base_link";
-
-    msg.drive.speed = speed;
-    msg.drive.acceleration = 1;
-    msg.drive.jerk = 1;
-=======
     msg = AckermannDriveStamped()
     msg.header.stamp = rospy.Time.now()
     msg.header.frame_id = f"/{robot_name}/base_footprint"
@@ -36,7 +23,6 @@ def callback(data):
     msg.drive.speed = speed
     msg.drive.acceleration = 1
     msg.drive.jerk = 1
->>>>>>> origin/feature_one_sim
     msg.drive.steering_angle = turn
     msg.drive.steering_angle_velocity = 1
 
