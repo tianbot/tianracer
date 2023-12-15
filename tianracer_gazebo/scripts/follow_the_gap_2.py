@@ -174,8 +174,8 @@ def follow_the_gap_callback(data):
     arrow_pub.publish(display_direction(scale, Point(gx,gy,gz), Point(gx + length * cos(ref_yaw),gy + length * sin(ref_yaw) , gz), 3))
     round_pub.publish(display_threshold(Vector3(threshold, threshold, 0.1), (gx, gy, gz), 4))
     drive_msg = AckermannDriveStamped()
-    drive_msg.drive.steering_angle=0 
-    drive_msg.drive.speed=0.5
+    drive_msg.drive.steering_angle=steering_angle
+    drive_msg.drive.speed=speed
     drive_pub.publish(drive_msg)
 
 
