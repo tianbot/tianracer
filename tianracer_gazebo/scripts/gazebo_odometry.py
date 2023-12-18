@@ -17,9 +17,10 @@ import tf
 import tf2_ros
 import tf2_geometry_msgs
 
+robot_name = rospy.get_param('robot_name', default="tianracer")
 class OdometryNode:
     # Set publishers
-    pub_odom = rospy.Publisher('/odom', Odometry, queue_size=1)
+    pub_odom = rospy.Publisher('odom', Odometry, queue_size=1)
 
     def __init__(self):
         # init internals
@@ -39,7 +40,7 @@ class OdometryNode:
     def sub_robot_pose_update(self, msg):
         # Find the index of the racecar
         try:
-            arrayIndex = msg.name.index('tianracer::base_footprint')
+            arrayIndex = msg.name.index(f'{robot_name}::{robot_name}/base_footprint')
         except ValueError as e:
             # Wait for Gazebo to startup
             pass
@@ -81,8 +82,8 @@ class OdometryNode:
 
         odom = Odometry()
         odom.header.stamp = self.last_recieved_stamp
-        odom.header.frame_id = 'odom'
-        odom.child_frame_id = 'base_footprint'
+        odom.header.frame_id = f'{robot_name}/odom'
+        odom.child_frame_id = f'{robot_name}/base_footprint'
         odom.pose.pose = self.last_received_pose
         odom.twist.twist = self.last_received_twist
         odom.pose.covariance =[1e-3, 0, 0, 0, 0, 0,

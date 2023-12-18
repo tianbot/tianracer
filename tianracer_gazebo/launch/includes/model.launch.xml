@@ -6,6 +6,6 @@
     <arg name="gui" default="False" />
 
     <!-- 加载机器人模型描述参数 -->
-    <param name="robot_description" command="$(find xacro)/xacro '$(find tianracer_gazebo)/urdf/tianracer_run.urdf.xacro'  prefix:=$(arg robot_name)" />
+    <param name="robot_description" command="$(find xacro)/xacro '$(find tianracer_gazebo)/urdf/tianracer_run.xacro'  prefix:=$(arg robot_name)" />
     
 </launch>

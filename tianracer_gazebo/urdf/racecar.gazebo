@@ -3,7 +3,7 @@
 
   <!-- Gazebo references -->
 
-  <gazebo reference="base_link">
+  <gazebo reference="${tf_prefix}base_link">
     <mu1 value="0.0" />
     <mu2 value="0.0" />
     <kp value="10000000.0" />
@@ -11,7 +11,7 @@
     <material>Gazebo/DarkGray</material>
   </gazebo>
 
-  <gazebo reference="left_rear_wheel">
+  <gazebo reference="${tf_prefix}left_rear_wheel">
     <mu1 value="2.0" />
     <mu2 value="2.0" />
     <kp value="10000000.0" />
@@ -20,7 +20,7 @@
     <material>Gazebo/Black</material>
   </gazebo>
 
-  <gazebo reference="right_rear_wheel">
+  <gazebo reference="${tf_prefix}right_rear_wheel">
     <mu1 value="2.0" />
     <mu2 value="2.0" />
     <kp value="10000000.0" />
@@ -29,7 +29,7 @@
     <material>Gazebo/Black</material>
   </gazebo>
 
-  <gazebo reference="left_front_wheel">
+  <gazebo reference="${tf_prefix}left_front_wheel">
     <mu1 value="2.0" />
     <mu2 value="2.0" />
     <kp value="10000000.0" />
@@ -38,7 +38,7 @@
     <material>Gazebo/Black</material>
   </gazebo>
 
-  <gazebo reference="right_front_wheel">
+  <gazebo reference="${tf_prefix}right_front_wheel">
     <mu1 value="2.0" />
     <mu2 value="2.0" />
     <kp value="10000000.0" />
@@ -47,15 +47,15 @@
     <material>Gazebo/Black</material>
   </gazebo>
 
-  <gazebo reference="laser">
+  <gazebo reference="${tf_prefix}laser">
     <material>Gazebo/Gray</material>
   </gazebo>
 
-  <gazebo reference="camera">
+  <gazebo reference="${tf_prefix}camera">
     <material>Gazebo/Black</material>
   </gazebo>
 
-  <gazebo reference="real_sense">
+  <gazebo reference="${tf_prefix}real_sense">
     <material>Gazebo/LightGray</material>
   </gazebo>
 
@@ -63,7 +63,7 @@
   <!-- Gazebo Plugins -->
   <gazebo>
     <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
-      <robotNamespace>/tianracer</robotNamespace>
+      <robotNamespace>/${tf_prefix}</robotNamespace>
       <robotParam>robot_description</robotParam>
       <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
       <legacyModeNS>true</legacyModeNS>
@@ -72,7 +72,7 @@
 
   <!-- hokuyo -->
 
-  <gazebo reference="laser">
+  <gazebo reference="${tf_prefix}laser">
     <sensor type="ray" name="hokuyo_sensor">
       <pose>0 0 0.0124 0 0 0</pose>
       <visualize>false</visualize>
@@ -97,15 +97,15 @@
         </noise>
       </ray>
       <plugin name="gazebo_ros_hokuyo_controller" filename="libgazebo_ros_laser.so">
-        <topicName>/scan</topicName>
-        <frameName>laser</frameName>
+        <topicName>/${tf_prefix}scan</topicName>
+        <frameName>/${tf_prefix}base_footprint</frameName>
       </plugin>
     </sensor>
   </gazebo>
 
 
   <!-- camera -->
-  <gazebo reference="camera">
+  <gazebo reference="${tf_prefix}camera">
     <sensor type="camera" name="camera">
       <update_rate>30.0</update_rate>
       <camera name="camera">
@@ -142,7 +142,7 @@
     </sensor>
   </gazebo>
 
-  <gazebo reference="real_sense">
+  <gazebo reference="${tf_prefix}real_sense">
     <sensor type="depth" name="real_sense">
       <always_on>true</always_on>
       <update_rate>20.0</update_rate>
@@ -179,7 +179,7 @@
     </sensor>
   </gazebo>
 
-  <gazebo reference="imu">
+  <gazebo reference="${tf_prefix}imu">
     <material>Gazebo/Orange</material>
     <gravity>true</gravity>
     <sensor name="imu_sensor" type="imu">

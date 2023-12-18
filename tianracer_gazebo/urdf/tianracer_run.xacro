@@ -10,7 +10,7 @@
     <xacro:property name="tf_prefix" value="${prefix}/" />
     </xacro:unless>
 
-    <xacro:include filename="$(find tianracer_gazebo)/urdf/tianracer.urdf.xacro" />
+    <xacro:include filename="$(find tianracer_gazebo)/urdf/tianracer.xacro" />
     <tianbot_mini/>
 
 </robot>
