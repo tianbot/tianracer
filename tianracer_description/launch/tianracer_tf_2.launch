@@ -3,7 +3,7 @@
 <launch>
   <arg name="base" default="$(optenv TIANRACER_BASE compact)" />
   <arg name="lidar" default="$(optenv TIANRACER_LIDAR rplidar_a2)" />
-  <arg name="robot_name" default="tianracer_01"/>
+  <arg name="robot_name" default="tianracer"/>
 
   <include if="$(eval base == 'compact')" file="$(find tianracer_description)/launch/tianracer_description_2.launch">
     <arg name="robot_name" value="$(arg robot_name)"/>

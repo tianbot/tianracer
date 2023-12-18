@@ -3,7 +3,7 @@
 <launch>
   <arg name="serial_port" default="$(optenv TIANRACER_BASE_PORT /dev/ttyUSB1)" />
   <arg name="serial_baudrate" default="$(optenv TIANRACER_BASE_BAUDRATE 115200)" />
-  <arg name="robot_name" default="tianracer_01"/>
+  <arg name="robot_name" default="tianracer"/>
 
   <arg name="base_frame" default="base_link"/>
   <arg name="odom_frame" default="odom"/>
@@ -34,7 +34,7 @@
       <rosparam command="load" file="$(find tianracer_core)/param/tianbot_ekf_params.yaml" />
       <!-- <remap from="/tf" to="/$(arg robot_name)/tf"/>
       <remap from="/tf_static" to="/$(arg robot_name)/tf_static"/> -->
-      <param unless="$(eval robot_name=='/')" name="map_frame" value="$(arg robot_name)/$(arg map_frame)"/>
+      <param unless="$(eval robot_name=='/')" name="map_frame" value="$(arg map_frame)"/>
       <param unless="$(eval robot_name=='/')" name="odom_frame" value="$(arg robot_name)/$(arg odom_frame)"/>
       <param unless="$(eval robot_name=='/')" name="base_link_frame" value="$(arg robot_name)/$(arg base_link_frame)"/>
       <param unless="$(eval robot_name=='/')" name="world_frame" value="$(arg robot_name)/$(arg world_frame)"/>
