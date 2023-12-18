@@ -1,19 +1,24 @@
 <launch>
+    <!-- Define the robot's name, default is "tianracer_01" -->
     <arg name="robot_name" default="tianracer_01" />
 
+    <!-- Specify the default map to be used, "tianracer_racetrack.yaml" in this case -->
     <arg name="map" default="tianracer_racetrack.yaml" />
 
-    <!-- Map server, load map-->
-    <node name="map_server" pkg="map_server" type="map_server" args="$(find tianracer_gazebo)/maps/$(arg map)"/>
+    <!-- Map server node to load and serve the map -->
+    <node name="map_server" pkg="map_server" type="map_server" ns="$(arg robot_name)" args="$(find tianracer_gazebo)/maps/$(arg map)">
+        <!-- Set the frame ID for the map -->
+        <param name="frame_id" value="map" />
+    </node>
 
-    <!-- 设置launch文件的参数 -->
+    <!-- Define launch file parameters in Gazebo-->
     <arg name="paused" default="false"/>
     <arg name="use_sim_time" default="true"/>
     <arg name="gui" default="true"/>
     <arg name="headless" default="false"/>
     <arg name="debug" default="false"/>
 
-    <!--模型车的起点放置位置-->
+    <!-- Define the initial pose for the model car -->
     <arg name="x_pos" default="0" />
     <arg name="y_pos" default="0" />
     <arg name="z_pos" default="0" />
@@ -21,7 +26,7 @@
     <arg name="P_pos" default="0" />
     <arg name="Y_pos" default="1.5708" />
 
-    <!--运行gazebo仿真环境-->
+    <!-- Run the Gazebo simulation environment using the "empty_world.launch" file -->
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
         <arg name="debug" value="$(arg debug)" />
         <arg name="gui" value="$(arg gui)" />
@@ -29,38 +34,28 @@
         <arg name="use_sim_time" value="$(arg use_sim_time)" />
         <arg name="headless" value="$(arg headless)" />
         <arg name="world_name" value="$(find tianracer_gazebo)/worlds/tianracer_racetrack.world" />
-        <!-- .world文件的地址-->
     </include>
 
-    <!-- 加载机器人模型描述参数 (删除inorder选项，因为它在ROS Melodic中成为默认设置)-->
+    <!-- Load the robot model description parameters -->
     <group ns="$(arg robot_name)">
-        <param name="robot_description" command="$(find xacro)/xacro '$(find tianracer_gazebo)/urdf/tianracer_run.urdf.xacro' prefix:=$(arg robot_name)" />
-        
-        <!-- 运行joint_state_publisher节点，发布机器人的关节状态  -->
-        <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" >
-            <param name="rate" value="50"/>
-        </node> 
-
-        <!-- 运行robot_state_publisher节点，发布tf  -->
-        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"  output="screen" >
-            <param name="publish_frequency" type="double" value="50.0" />
-        </node>
-
-        <!-- 在gazebo中加载机器人模型-->
+        <param name="robot_description" command="$(find xacro)/xacro '$(find tianracer_gazebo)/urdf/tianracer_run.xacro' prefix:=$(arg robot_name)" />
+        <!-- Spawn the robot model in Gazebo -->
         <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
-            args="-urdf -model tianracer -param robot_description -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -R $(arg R_pos) -P $(arg P_pos) -Y $(arg Y_pos)"/>
+            args="-urdf -model $(arg robot_name) -param robot_description -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -R $(arg R_pos) -P $(arg P_pos) -Y $(arg Y_pos)"/>
     </group>
 
-    <include file="$(find tianracer_gazebo)/launch/tianracer_control_2.launch" >
+    <!-- Include the tianracer control launch file -->
+    <include file="$(find tianracer_gazebo)/launch/tianracer_control.launch" >
         <arg name="robot_name" value="$(arg robot_name)" />
     </include>
-    <!-- move base -->
-    <include file="$(find tianracer_gazebo)/launch/includes/teb_base_2.launch.xml">
+    
+    <!-- Include the move base launch file -->
+    <include file="$(find tianracer_gazebo)/launch/includes/teb_base.launch.xml">
         <arg name="robot_name" value="$(arg robot_name)" />
     </include>
 
-    <!-- AMCL -->
-    <include file="$(find tianracer_gazebo)/launch/includes/amcl_2.launch.xml">
+    <!-- Include the AMCL launch file -->
+    <include file="$(find tianracer_gazebo)/launch/includes/amcl.launch.xml">
         <arg name="robot_name" value="$(arg robot_name)" />
     </include>
 

@@ -5,8 +5,9 @@
 
 <!-- transmission macros -->
 
+
 <xacro:macro name="wheel_transmission" params="name">
-  <transmission name="${name}_transmission" type="SimpleTransmission">
+  <transmission name="${tf_prefix}_${name}_transmission" type="SimpleTransmission">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="${name}_joint">
       <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
@@ -19,7 +20,7 @@
 </xacro:macro>
 
 <xacro:macro name="steering_hinge_transmission" params="name">
-  <transmission name="${name}_transmission" type="SimpleTransmission">
+  <transmission name="${tf_prefix}_${name}_transmission" type="SimpleTransmission">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="${name}_joint">
       <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>

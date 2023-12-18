@@ -1,9 +1,0 @@
-<launch>
-  <arg name="robot_name_1" default="tianracer_01" />
-  <arg name="robot_name_2" default="tianracer_02" />    
-  <node pkg="tianracer_gazebo" type="tianracer_tf.py" name="tianracer_tf" output="screen">
-    <param name="target_frame" value="$(arg robot_name_1)/base_footprint" />
-    <param name="follower_robot_name" value="$(arg robot_name_2)" />
-    <param name="set_distance" value="0.5" />
-  </node>
-</launch>

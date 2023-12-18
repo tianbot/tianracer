@@ -26,16 +26,16 @@
   <node ns="$(arg robot_name)" name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
     args="$(arg init_pose) -urdf -model $(arg robot_name) -param robot_description"/>
   
-  <include file="$(find tianracer_gazebo)/launch/tianracer_control_2.launch" >
+  <include file="$(find tianracer_gazebo)/launch/tianracer_control.launch" >
       <arg name="robot_name" value="$(arg robot_name)" />
   </include>
   <!-- move base -->
-  <include file="$(find tianracer_gazebo)/launch/includes/teb_base_2.launch.xml">
+  <include file="$(find tianracer_gazebo)/launch/includes/teb_base.launch.xml">
       <arg name="robot_name" value="$(arg robot_name)" />
   </include>
 
   <!-- AMCL -->
-  <include file="$(find tianracer_gazebo)/launch/includes/amcl_2.launch.xml">
+  <include file="$(find tianracer_gazebo)/launch/includes/amcl.launch.xml">
       <arg name="robot_name" value="$(arg robot_name)" />
       <arg name="initial_pose_y" value="$(arg y_pos)"/>
   </include>
