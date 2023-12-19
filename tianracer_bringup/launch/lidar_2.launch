@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<launch>
+  <arg name="lidar" default="$(optenv TIANRACER_LIDAR rplidar_a2)" />
+  <arg name="model" default="$(optenv TIANRACER_LIDAR_MODEL a2)" />
+  <arg name="robot_name" default="tianracer"/>
+
+  <include if="$(eval 'osight' in lidar)" file="$(find tianracer_bringup)/launch/includes/lidar/osight_iexxx.launch.xml"/>
+
+  <include if="$(eval 'rplidar' in lidar)" file="$(find tianracer_bringup)/launch/includes/lidar/rplidar.launch.xml">
+    <arg name="model" value="$(arg model)" />
+  </include>
+
+  <include if="$(eval 'richbeam' in lidar)" file="$(find tianracer_bringup)/launch/includes/lidar/bm_scan_2.launch.xml">
+    <arg name="robot_name" value="$(arg robot_name)"/>
+  </include>
+
+  <include if="$(eval 'velodyne' in lidar)" file="$(find velodyne_pointcloud)/launch/VLP16_points.launch" />
+
+  <include if="$(eval 'rslidar' in lidar)" file="$(find tianracer_bringup)/launch/includes/lidar/rslidar.launch.xml" />
+</launch>
+

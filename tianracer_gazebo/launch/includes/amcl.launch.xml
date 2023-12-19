@@ -1,10 +1,19 @@
 <launch>
+    <!-- Define the default scan topic as "scan" -->
     <arg name="scan_topic" default="scan"/>
+    
+    <!-- Define default initial pose values -->
     <arg name="initial_pose_x" default="0.0"/>
     <arg name="initial_pose_y" default="0.0"/>
     <arg name="initial_pose_a" default="1.5708"/>
+    
+    <!-- Define the default robot name as "tianracer" -->
+    <arg name="robot_name" default="tianracer" />
 
-    <node pkg="amcl" type="amcl" name="amcl" clear_params="true">
+    <!-- Launch the AMCL (Adaptive Monte Carlo Localization) node -->
+    <node pkg="amcl" type="amcl" name="amcl" clear_params="true" ns="$(arg robot_name)">
+        
+        <!-- AMCL algorithm parameters -->
         <param name="min_particles"             value="500"/>
         <param name="max_particles"             value="3000"/>
         <param name="kld_err"                   value="0.02"/>
@@ -14,12 +23,17 @@
         <param name="transform_tolerance"       value="0.5"/>
         <param name="recovery_alpha_slow"       value="0.00"/>
         <param name="recovery_alpha_fast"       value="0.00"/>
+        
+        <!-- Initial pose parameters -->
         <param name="initial_pose_x"            value="$(arg initial_pose_x)"/>
         <param name="initial_pose_y"            value="$(arg initial_pose_y)"/>
         <param name="initial_pose_a"            value="$(arg initial_pose_a)"/>
         <param name="gui_publish_rate"          value="50.0"/>
 
-        <remap from="scan"                      to="$(arg scan_topic)"/>
+        <!-- Remap the laser scan topic -->
+        <remap from="$(arg robot_name)/scan"    to="$(arg robot_name)/$(arg scan_topic)"/>
+
+        <!-- Laser model parameters -->
         <param name="laser_max_range"           value="3.5"/>
         <param name="laser_max_beams"           value="180"/>
         <param name="laser_z_hit"               value="0.5"/>
@@ -30,13 +44,20 @@
         <param name="laser_lambda_short"        value="0.1"/>
         <param name="laser_likelihood_max_dist" value="2.0"/>
         <param name="laser_model_type"          value="likelihood_field"/>
+        
+        <!-- Map-related parameters -->
+        <param name="use_map_topic" value="true"/>
+        <param name="first_map_only" value="true"/>
+        <param name="tf_broadcast" value="true"/>
 
+        <!-- Odometry model parameters -->
         <param name="odom_model_type"           value="diff"/>
         <param name="odom_alpha1"               value="0.1"/>
         <param name="odom_alpha2"               value="0.1"/>
         <param name="odom_alpha3"               value="0.1"/>
         <param name="odom_alpha4"               value="0.1"/>
-        <param name="odom_frame_id"             value="odom"/>
-        <param name="base_frame_id"             value="base_footprint"/>
+        <param name="odom_frame_id"             value="$(arg robot_name)/odom"/>
+        <param name="base_frame_id"             value="$(arg robot_name)/base_footprint"/>
+        <param name="global_frame_id"           value="map"/>
     </node>
 </launch>
