@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find tianracer_gazebo)/urdf/macros_tf.xacro" />
+
+  <link name="${tf_prefix}base_footprint">
+  </link>
+
+  <link name="${tf_prefix}base_link">
+    <visual>
+      <geometry>
+        <!-- <box size="0.28 0.1 0.03"/> -->
+        <mesh filename="package://tianracer_description/meshes/base_link.STL" />
+      </geometry>
+      <origin xyz="-0.13 0 0" rpy="0 0 0" />
+
+      <material name="gray">
+        <color rgba="0.5 0.5 0.5 1.0" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.28 0.1 0.03" />
+      </geometry>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+    </collision>
+
+  </link>
+
+  <joint name="base_link2base_footprint" type="fixed">
+    <parent link="${tf_prefix}base_footprint" />
+    <child link="${tf_prefix}base_link" />
+    <origin xyz="0 0 0.032" rpy="0 0 0" />
+  </joint>
+
+
+  <link name="${tf_prefix}base_inertia">
+    <inertial>
+      <origin xyz="0 0 0" />
+      <mass value="4" />
+      <inertia ixx="0.0264" ixy="0" ixz="0" iyy="0.0294" iyz="0" izz="0.00364" />
+    </inertial>
+  </link>
+
+
+  <joint name="chassis_inertia_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <parent link="${tf_prefix}base_link" />
+    <child link="${tf_prefix}base_inertia" />
+  </joint>
+
+
+  <link name="${tf_prefix}left_steering_hinge">
+    <visual>
+      <geometry>
+        <cylinder radius="0.01" length="0.005" />
+        <!-- <sphere radius="0.015" /> -->
+      </geometry>
+      <origin xyz="0 0 0" rpy="1.57 0 0" />
+      <material name="black">
+        <color rgba="0.0 0.0 0.0 1.0" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="0.01" length="0.005" />
+        <!-- <sphere radius="0.015" /> -->
+      </geometry>
+      <origin xyz="0.0 0.0 0.0" rpy="1.57 0.0 0.0" />
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" />
+      <mass value="0.5" />
+      <inertia ixx="1.35E-05" ixy="0" ixz="0" iyy="1.35E-05" iyz="0" izz="2.5E-05" />
+    </inertial>
+  </link>
+
+
+  <joint name="left_steering_hinge_joint" type="revolute">
+    <parent link="${tf_prefix}base_link" />
+    <child link="${tf_prefix}left_steering_hinge" />
+    <origin xyz="0.13 0.065 0" />
+    <axis xyz="0 0 1" />
+    <limit lower="-0.6" upper="0.6" effort="5.0" velocity="1000.0" />
+  </joint>
+  <xacro:steering_hinge_transmission name="left_steering_hinge"/>
+
+
+  <link name="${tf_prefix}left_front_wheel">
+    <visual>
+      <geometry>
+        <cylinder radius="0.033" length="0.02" />
+      </geometry>
+      <origin xyz="0 0 0" rpy="1.57 0 0" />
+      <material name="black">
+        <color rgba="0.0 0.0 0.0 1.0" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="0.032" length="0.02" />
+      </geometry>
+      <origin xyz="0.0 0.0 0.0" rpy="1.57 0.0 0.0" />
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" />
+      <mass value="2.0" />
+      <inertia ixx="6.64E-04" ixy="0" ixz="0" iyy="6.64E-04" iyz="0" izz="1.02E-03" />
+    </inertial>
+  </link>
+
+  <joint name="left_front_wheel_joint" type="continuous">
+    <parent link="${tf_prefix}left_steering_hinge" />
+    <child link="${tf_prefix}left_front_wheel" />
+    <origin xyz="0 0.025 0" />
+    <axis xyz="0 1 0" />
+    <limit effort="10" velocity="1000" />
+  </joint>
+  <xacro:wheel_transmission name="left_front_wheel"/>
+
+
+  <link name="${tf_prefix}right_steering_hinge">
+    <visual>
+      <geometry>
+        <cylinder radius="0.01" length="0.005" />
+      </geometry>
+      <origin xyz="0 0 0" rpy="1.57 0 0" />
+      <material name="black">
+        <color rgba="0.0 0.0 0.0 1.0" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="0.01" length="0.005" />
+      </geometry>
+      <origin xyz="0.0 0.0 0.0" rpy="1.57 0.0 0.0" />
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" />
+      <mass value="0.5" />
+      <inertia ixx="1.35E-05" ixy="0" ixz="0" iyy="1.35E-05" iyz="0" izz="2.5E-05" />
+    </inertial>
+  </link>
+
+  <joint name="right_steering_hinge_joint" type="revolute">
+    <parent link="${tf_prefix}base_link" />
+    <child link="${tf_prefix}right_steering_hinge" />
+    <origin xyz="0.13 -0.065 0" />
+    <axis xyz="0 0 1" />
+    <limit lower="-0.6" upper="0.6" effort="5.0" velocity="1000.0" />
+  </joint>
+  <xacro:steering_hinge_transmission name="right_steering_hinge"/>
+
+
+  <link name="${tf_prefix}right_front_wheel">
+    <visual>
+      <geometry>
+        <cylinder radius="0.033" length="0.02" />
+      </geometry>
+      <origin xyz="0 0 0" rpy="1.57 0 0" />
+      <material name="black">
+        <color rgba="0.0 0.0 0.0 1.0" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="0.032" length="0.02" />
+      </geometry>
+      <origin xyz="0.0 0.0 0.0" rpy="1.57 0.0 0.0" />
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" />
+      <mass value="2.0" />
+      <inertia ixx="6.64E-04" ixy="0" ixz="0" iyy="6.64E-04" iyz="0" izz="1.02E-03" />
+    </inertial>
+  </link>
+
+  <joint name="right_front_wheel_joint" type="continuous">
+    <parent link="${tf_prefix}right_steering_hinge" />
+    <child link="${tf_prefix}right_front_wheel" />
+    <origin xyz="0 -0.025 0" />
+    <axis xyz="0 1 0" />
+    <limit effort="10" velocity="1000" />
+  </joint>
+  <xacro:wheel_transmission name="right_front_wheel"/>
+
+
+  <link name="${tf_prefix}left_rear_wheel">
+    <visual>
+      <geometry>
+        <cylinder radius="0.032" length="0.02" />
+      </geometry>
+      <origin xyz="0 0 0" rpy="1.57 0 0" />
+      <material name="black">
+        <color rgba="0.0 0.0 0.0 1.0" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="0.032" length="0.02" />
+      </geometry>
+      <origin xyz="0.0 0.0 0.0" rpy="1.57 0.0 0.0" />
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" />
+      <mass value="2.0" />
+      <inertia ixx="6.64E-04" ixy="0" ixz="0" iyy="6.64E-04" iyz="0" izz="1.02E-03" />
+    </inertial>
+  </link>
+
+  <joint name="left_rear_wheel_joint" type="continuous">
+    <parent link="${tf_prefix}base_link" />
+    <child link="${tf_prefix}left_rear_wheel" />
+    <origin xyz="-0.13 0.09 0" />
+    <axis xyz="0 1 0" />
+    <limit effort="10" velocity="1000" />
+  </joint>
+  <xacro:wheel_transmission name="left_rear_wheel"/>
+
+
+  <link name="${tf_prefix}right_rear_wheel">
+    <visual>
+      <geometry>
+        <cylinder radius="0.032" length="0.02" />
+      </geometry>
+      <origin xyz="0 0 0" rpy="1.57 0 0" />
+      <material name="black">
+        <color rgba="0.0 0.0 0.0 1.0" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="0.032" length="0.02" />
+      </geometry>
+      <origin xyz="0.0 0.0 0.0" rpy="1.57 0.0 0.0" />
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" />
+      <mass value="2.0" />
+      <inertia ixx="6.64E-04" ixy="0" ixz="0" iyy="6.64E-04" iyz="0" izz="1.02E-03" />
+    </inertial>
+  </link>
+
+  <joint name="right_rear_wheel_joint" type="continuous">
+    <parent link="${tf_prefix}base_link" />
+    <child link="${tf_prefix}right_rear_wheel" />
+    <origin xyz="-0.13 -0.09 0" />
+    <axis xyz="0 1 0" />
+    <limit effort="10" velocity="1000" />
+  </joint>
+  <xacro:wheel_transmission name="right_rear_wheel"/>
+
+  <link name="${tf_prefix}camera">
+    <visual>
+      <geometry>
+        <!-- <box size="0.005 0.03 0.03"/> -->
+        <mesh filename="package://tianracer_description/meshes/camera.STL" />
+      </geometry>
+      <origin xyz="0 0 -0.025" rpy="0 0 0" />
+      <material name="black">
+        <color rgba="0.0 0.0 0.0 1.0" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.005 0.03 0.03" />
+      </geometry>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" />
+      <mass value="0.05" />
+      <inertia ixx="6.64E-04" ixy="0" ixz="0" iyy="6.64E-04" iyz="0" izz="1.02E-03" />
+    </inertial>
+  </link>
+
+  <joint name="camera_joint" type="fixed">
+    <parent link="${tf_prefix}base_link" />
+    <child link="${tf_prefix}camera" />
+    <origin xyz="0.14851 0.0022137 0.0975" />
+    <axis xyz="0 0 1" />
+  </joint>
+
+
+  <link name="${tf_prefix}real_sense">
+    <visual>
+      <geometry>
+        <!-- <box size="0.01 0.1 0.02"/> -->
+        <mesh filename="package://tianracer_description/meshes/real_sense.STL" />
+      </geometry>
+      <origin xyz="0 0 -0.025" rpy="0 0 0" />
+      <material name="black">
+        <color rgba="0.0 0.0 0.0 1.0" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.01 0.1 0.02" />
+      </geometry>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" />
+      <mass value="0.05" />
+      <inertia ixx="6.64E-04" ixy="0" ixz="0" iyy="6.64E-04" iyz="0" izz="1.02E-03" />
+    </inertial>
+  </link>
+
+  <joint name="realsense_joint" type="fixed">
+    <parent link="${tf_prefix}base_link" />
+    <child link="${tf_prefix}real_sense" />
+    <origin xyz="0.18864 0.0038046 0.052021" />
+    <axis xyz="0 0 1" />
+  </joint>
+
+  <link name="${tf_prefix}realsense_depth" />
+  <joint name="realsense_depth_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="-1.5708 0 -1.5708" />
+    <parent link="${tf_prefix}real_sense" />
+    <child link="${tf_prefix}realsense_depth" />
+  </joint>
+
+
+  <link name="${tf_prefix}laser">
+    <visual>
+      <geometry>
+        <!-- <cylinder radius="0.03" length="0.06" /> -->
+        <mesh filename="package://tianracer_description/meshes/laser.STL" />
+      </geometry>
+      <origin xyz="0 0 -0.025" rpy="0 0 0" />
+      <material name="black">
+        <color rgba="0.0 0.0 0.0 1.0" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="0.03" length="0.06" />
+      </geometry>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" />
+      <mass value="0.1" />
+      <inertia ixx="6.64E-04" ixy="0" ixz="0" iyy="6.64E-04" iyz="0" izz="1.02E-03" />
+    </inertial>
+  </link>
+
+  <joint name="laser_joint" type="fixed">
+    <parent link="${tf_prefix}base_link" />
+    <child link="${tf_prefix}laser" />
+    <origin xyz="0.093603 0 0.12377" />
+    <axis xyz="0 0 1" />
+  </joint>
+
+  <link name="${tf_prefix}imu">
+    <visual>
+      <geometry>
+        <box size="0.01 0.01 0.005" />
+      </geometry>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <material name="black">
+        <color rgba="0.0 0.0 0.0 1.0" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.01 0.01 0.005" />
+      </geometry>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" />
+      <mass value="0.05" />
+      <inertia ixx="6.64E-04" ixy="0" ixz="0" iyy="6.64E-04" iyz="0" izz="1.02E-03" />
+    </inertial>
+  </link>
+
+  <joint name="imu_joint" type="fixed">
+    <parent link="${tf_prefix}base_link" />
+    <child link="${tf_prefix}imu" />
+    <origin xyz="0 0 0.02" />
+    <axis xyz="0 0 1" />
+  </joint>
+
+  <xacro:include filename="$(find tianracer_gazebo)/urdf/racecar.urdf.gazebo" />
+
+</robot>

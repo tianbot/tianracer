@@ -11,6 +11,7 @@
   <!-- 仿真环境机器人初始位置 -->
   <arg name="x_pos" default="0" />
   <arg name="y_pos" default="-1.5" />
+
   <arg name="z_pos" default="0" />
   <arg name="R_pos" default="0" />
   <arg name="P_pos" default="0" />
@@ -31,10 +32,12 @@
   </include>
   <!-- move base -->
   <include file="$(find tianracer_gazebo)/launch/includes/teb_base.launch.xml">
+
       <arg name="robot_name" value="$(arg robot_name)" />
   </include>
 
   <!-- AMCL -->
+
   <include file="$(find tianracer_gazebo)/launch/includes/amcl.launch.xml">
       <arg name="robot_name" value="$(arg robot_name)" />
       <arg name="initial_pose_y" value="$(arg y_pos)"/>

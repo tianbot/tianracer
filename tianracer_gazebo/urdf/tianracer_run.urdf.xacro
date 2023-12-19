@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<robot name="tianracer" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:property name="prefix" value="$(arg prefix)" />
+
+    <xacro:if value="${prefix == '/' or prefix == '' or prefix == ' '}">
+    <xacro:property name="tf_prefix" value="" />
+    </xacro:if>
+
+    <xacro:unless value="${prefix == '/' or prefix == '' or prefix == ' '}">
+    <xacro:property name="tf_prefix" value="${prefix}/" />
+    </xacro:unless>
+
+    <xacro:include filename="$(find tianracer_gazebo)/urdf/tianracer.urdf.xacro" />
+    <tianbot_mini/>
+
+</robot>
