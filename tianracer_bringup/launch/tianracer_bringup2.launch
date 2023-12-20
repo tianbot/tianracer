@@ -10,7 +10,7 @@
         <arg name="robot_name" value="$(arg robot_name)"/>
     </include>
     <include file="$(find tianracer_bringup)/launch/rgbd_camera.launch"/>
-    <!-- <include file="$(find tianracer_bringup)/launch/usb_cam.launch" ns="$(arg robot_name)"/> -->
+    <include file="$(find tianracer_bringup)/launch/usb_cam.launch" ns="$(arg robot_name)"/>
     <include file="$(find tianracer_bringup)/launch/gps.launch"/>
     <include file="$(find tianracer_bringup)/launch/bridge.launch" />
     <include file="$(find tianracer_core)/launch/tianracer_core_2.launch">
