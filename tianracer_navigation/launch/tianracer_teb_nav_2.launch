@@ -9,7 +9,7 @@
  -->
 <launch>
     <arg name="robot_name" default="tianracer"/>
-    <arg name="use_rviz" default="false" />
+    <arg name="use_rviz" default="true" />
     
     <!-- for amcl -->
     <arg name="init_x" default="0.0" />
