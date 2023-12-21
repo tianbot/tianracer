@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-
+<!-- Now the default is 'richbeam' in lidar, only the 'bm_scan.launch.xml' file has been modified -->
 <launch>
   <arg name="lidar" default="$(optenv TIANRACER_LIDAR rplidar_a2)" />
   <arg name="model" default="$(optenv TIANRACER_LIDAR_MODEL a2)" />

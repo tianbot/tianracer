@@ -2,7 +2,7 @@
 
 <launch>
     <arg name="robot_name" default="tianracer"/>
-    <include file="$(find tianracer_description)/launch/tianracer_tf_2.launch">
+    <include file="$(find tianracer_description)/launch/tianracer_tf_2.launch" ns="$(arg robot_name)">
         <arg name="robot_name" value="$(arg robot_name)"/>
     </include>
     <include file="$(find tianracer_teleop)/launch/joystick_teleop.launch"/>

@@ -5,7 +5,7 @@
     <arg name="model" default="$(optenv TIANRACER_LIDAR_MODEL)" />
     <arg name="device_ip" default="$(optenv TIANRACER_LIDAR_IP)" />
     <arg name="robot_name" default="tianracer"/>
-    <!-- todo fix the laser  -->
+
     <node name="richbeam_lidar" pkg="lakibeam1" type="lakibeam1_scan_node" >
         <remap from="richbeam_lidar/scan" to="scan" />
         <param name="frame_id" type="string" value="$(arg robot_name)/laser"/><!--frame_id设置-->
