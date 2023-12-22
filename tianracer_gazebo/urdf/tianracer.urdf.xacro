@@ -2,7 +2,7 @@
 
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <xacro:include filename="$(find tianracer_gazebo)/urdf/macros.xacro" />
+  <xacro:include filename="$(find tianracer_gazebo)/urdf/macros_tf.xacro" />
 
   <link name="${tf_prefix}base_footprint">
   </link>
@@ -383,6 +383,6 @@
     <axis xyz="0 0 1" />
   </joint>
 
-  <xacro:include filename="$(find tianracer_gazebo)/urdf/racecar.gazebo" />
+  <xacro:include filename="$(find tianracer_gazebo)/urdf/racecar.urdf.gazebo" />
 
 </robot>

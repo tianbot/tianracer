@@ -1,0 +1,24 @@
+<launch>
+  <!-- Define two robot names for use in the launch file -->
+  <arg name="robot_name_1" default="tianracer_01" />
+  <arg name="robot_name_2" default="tianracer_02" /> 
+
+  <!-- Include the simulation launch file for the first robot -->
+  <include file="$(find tianracer_gazebo)/launch/simulation.launch" >
+    <arg name="robot_name" value="$(arg robot_name_1)" />
+  </include>
+
+  <!-- Include the launch file for spawning the second robot in Gazebo -->
+  <include file="$(find tianracer_gazebo)/launch/spawn_tianracer.launch">
+    <arg name="robot_name" value="$(arg robot_name_2)" />
+    <!-- Set the Y position of the robot, controlled by a static transform -->
+    <arg name="y_pos" value="-1.5"/>
+  </include>
+
+  <!-- Launch RViz for visualization and debugging -->
+  <!-- RViz for the first robot -->
+  <node name="rviz_1" pkg="rviz" type="rviz" args="-d $(find tianracer_gazebo)/rviz/nav_tianracer_01.rviz" />
+  <!-- RViz for the second robot -->
+  <node name="rviz_2" pkg="rviz" type="rviz" args="-d $(find tianracer_gazebo)/rviz/nav_tianracer_02.rviz" />
+</launch>
+

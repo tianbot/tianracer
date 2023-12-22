@@ -1,0 +1,4 @@
+<launch>  
+  <arg name="robot_name" default="tianracer"/>
+  <node pkg="tianracer_gazebo" type="follow_the_gap.py" name="$(arg robot_name)_follow_the_gap" ns="$(arg robot_name)" output="screen"/>
+</launch>

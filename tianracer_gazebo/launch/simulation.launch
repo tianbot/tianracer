@@ -1,0 +1,69 @@
+<launch>
+
+    <!-- Define the robot's name, default is "tianracer_01" -->
+    <arg name="robot_name" default="tianracer_01" />
+
+    <!-- Specify the default map to be used, "tianracer_racetrack.yaml" in this case -->
+    <arg name="map" default="tianracer_racetrack.yaml" />
+
+    <!-- Map server node to load and serve the map -->
+    <node name="map_server" pkg="map_server" type="map_server" ns="$(arg robot_name)" args="$(find tianracer_gazebo)/maps/$(arg map)">
+        <!-- Set the frame ID for the map -->
+        <param name="frame_id" value="map" />
+    </node>
+
+    <!-- Define launch file parameters in Gazebo-->
+
+    <arg name="paused" default="false"/>
+    <arg name="use_sim_time" default="true"/>
+    <arg name="gui" default="true"/>
+    <arg name="headless" default="false"/>
+    <arg name="debug" default="false"/>
+
+    <!-- Define the initial pose for the model car -->
+
+    <arg name="x_pos" default="0" />
+    <arg name="y_pos" default="0" />
+    <arg name="z_pos" default="0" />
+    <arg name="R_pos" default="0" />
+    <arg name="P_pos" default="0" />
+    <arg name="Y_pos" default="1.5708" />
+
+
+    <!-- Run the Gazebo simulation environment using the "empty_world.launch" file -->
+
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="debug" value="$(arg debug)" />
+        <arg name="gui" value="$(arg gui)" />
+        <arg name="paused" value="$(arg paused)" />
+        <arg name="use_sim_time" value="$(arg use_sim_time)" />
+        <arg name="headless" value="$(arg headless)" />
+        <arg name="world_name" value="$(find tianracer_gazebo)/worlds/tianracer_racetrack.world" />
+
+    </include>
+
+    <!-- Load the robot model description parameters -->
+    <group ns="$(arg robot_name)">
+        <param name="robot_description" command="$(find xacro)/xacro '$(find tianracer_gazebo)/urdf/tianracer_run.xacro' prefix:=$(arg robot_name)" />
+        <!-- Spawn the robot model in Gazebo -->
+        <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+            args="-urdf -model $(arg robot_name) -param robot_description -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -R $(arg R_pos) -P $(arg P_pos) -Y $(arg Y_pos)"/>
+    </group>
+
+    <!-- Include the tianracer control launch file -->
+    <include file="$(find tianracer_gazebo)/launch/tianracer_control.launch" >
+        <arg name="robot_name" value="$(arg robot_name)" />
+    </include>
+    
+    <!-- Include the move base launch file -->
+    <include file="$(find tianracer_gazebo)/launch/includes/teb_base.launch.xml">
+        <arg name="robot_name" value="$(arg robot_name)" />
+    </include>
+
+    <!-- Include the AMCL launch file -->
+    <include file="$(find tianracer_gazebo)/launch/includes/amcl.launch.xml">
+
+        <arg name="robot_name" value="$(arg robot_name)" />
+    </include>
+
+</launch>
