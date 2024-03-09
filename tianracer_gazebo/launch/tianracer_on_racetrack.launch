@@ -6,14 +6,16 @@
     <arg name="gui" default="true" />
     <arg name="headless" default="false" />
     <arg name="debug" default="false" />
+    <arg name="world" default="tianracer_racetrack" />
+
     <!--模型车的起点放置位置-->
     <arg name="x_pos" default="0" />
     <arg name="y_pos" default="0" />
-    <arg name="z_pos" default="0" />
+    <arg name="z_pos" default="1" />
     <arg name="R_pos" default="0" />
     <arg name="P_pos" default="0" />
     <arg name="Y_pos" default="1.5708" />
-
+    
     <!--运行gazebo仿真环境-->
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
         <arg name="debug" value="$(arg debug)" />
@@ -21,7 +23,7 @@
         <arg name="paused" value="$(arg paused)" />
         <arg name="use_sim_time" value="$(arg use_sim_time)" />
         <arg name="headless" value="$(arg headless)" />
-        <arg name="world_name" value="$(find tianracer_gazebo)/worlds/tianracer_racetrack.world" />
+        <arg name="world_name" value="$(find tianracer_gazebo)/worlds/$(arg world).world" />
         <!-- .world文件的地址-->
     </include>
 

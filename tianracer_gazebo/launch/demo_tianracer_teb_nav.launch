@@ -1,12 +1,14 @@
 <launch>
     <!-- Config map file -->
-    <arg name="map" default="tianracer_racetrack.yaml" />
+    <arg name="world" default="tianracer_racetrack" />
 
     <!-- Map server, load map-->
-    <node name="map_server" pkg="map_server" type="map_server" args="$(find tianracer_gazebo)/maps/$(arg map)"/>
+    <node name="map_server" pkg="map_server" type="map_server" args="$(find tianracer_gazebo)/maps/$(arg world).yaml"/>
 
     <!-- launch gazebo simulation environment -->
-    <include file="$(find tianracer_gazebo)/launch/tianracer_on_racetrack.launch"/>
+    <include file="$(find tianracer_gazebo)/launch/tianracer_on_racetrack.launch">
+        <arg name="world" value="$(arg world)" />
+    </include>
 
     <!-- spawn model-->
     <!-- <include file="$(find tianracer_gazebo)/launch/spawn_model.launch" /> -->
