@@ -7,6 +7,7 @@
     <arg name="headless" default="false" />
     <arg name="debug" default="false" />
     <arg name="world" default="tianracer_racetrack" />
+    <arg name="robot_name" default="tianracer_01" />
 
     <!--模型车的起点放置位置-->
     <arg name="x_pos" default="0" />
@@ -28,14 +29,13 @@
     </include>
 
     <!-- 加载机器人模型描述参数 -->
-    <param name="robot_description"
-        command="$(find xacro)/xacro --inorder '$(find tianracer_gazebo)/urdf/tianracer.xacro'" />
+    <group ns="$(arg robot_name)">
+        <param name="robot_description"
+            command="$(find xacro)/xacro '$(find tianracer_gazebo)/urdf/tianracer_run.xacro' prefix:=$(arg robot_name)" />
 
-    <!-- 在gazebo中加载机器人模型-->
-    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
-        args="-urdf -model tianracer -param robot_description -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -R $(arg R_pos) -P $(arg P_pos) -Y $(arg Y_pos)" />
-
-    <!--Launch the simulation joystick control-->
-    <!-- <rosparam command="load" file="$(find tianracer_gazebo)/config/keyboard_teleop.yaml" /> -->
-    <!-- <node pkg="tianracer_gazebo" type="keyboard_teleop.py" name="keyboard_teleop" /> -->
+        <!-- 在gazebo中加载机器人模型-->
+        <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+            args="-urdf -model $(arg robot_name) -param robot_description -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -R $(arg R_pos) -P $(arg P_pos) -Y $(arg Y_pos)" />
+    </group>
+    
 </launch>
