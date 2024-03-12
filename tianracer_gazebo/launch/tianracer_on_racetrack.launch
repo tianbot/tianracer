@@ -1,15 +1,17 @@
 <?xml version="1.0"?>
 <launch>
-    <!-- 设置launch文件的参数 -->
+    <!-- set param of launch file -->
     <arg name="paused" default="false" />
     <arg name="use_sim_time" default="true" />
     <arg name="gui" default="true" />
     <arg name="headless" default="false" />
     <arg name="debug" default="false" />
     <arg name="world" default="tianracer_racetrack" />
-    <arg name="robot_name" default="tianracer_01" />
+    <arg name="robot_name" />
+    <!-- <arg name="robot_name" default="tianracer" if="$(eval arg('robot_name') == '/')"/> -->
+    <!-- <arg name="robot_name" value="$(arg robot_name)" unless="$(eval arg('robot_name') == '/')" /> -->
 
-    <!--模型车的起点放置位置-->
+    <!--set model initialpose-->
     <arg name="x_pos" default="0" />
     <arg name="y_pos" default="0" />
     <arg name="z_pos" default="1" />
@@ -17,7 +19,7 @@
     <arg name="P_pos" default="0" />
     <arg name="Y_pos" default="1.5708" />
     
-    <!--运行gazebo仿真环境-->
+    <!--launch Gazebo Env-->
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
         <arg name="debug" value="$(arg debug)" />
         <arg name="gui" value="$(arg gui)" />
@@ -25,15 +27,12 @@
         <arg name="use_sim_time" value="$(arg use_sim_time)" />
         <arg name="headless" value="$(arg headless)" />
         <arg name="world_name" value="$(find tianracer_gazebo)/worlds/$(arg world).world" />
-        <!-- .world文件的地址-->
     </include>
 
-    <!-- 加载机器人模型描述参数 -->
-    <group ns="$(arg robot_name)">
+    <!-- launch within namespace -->
+    <group ns="$(arg robot_name)" >
         <param name="robot_description"
             command="$(find xacro)/xacro '$(find tianracer_gazebo)/urdf/tianracer_run.xacro' prefix:=$(arg robot_name)" />
-
-        <!-- 在gazebo中加载机器人模型-->
         <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
             args="-urdf -model $(arg robot_name) -param robot_description -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -R $(arg R_pos) -P $(arg P_pos) -Y $(arg Y_pos)" />
     </group>
