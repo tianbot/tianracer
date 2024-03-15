@@ -38,6 +38,22 @@ def set_throttle_steer(data):
         
         v_lr = v_rr = v_lf = v_rf =  throttle
 
+        # # calculate the linear velocity for each wheel
+        # # seems no obvious difference
+        
+        # angular_velocity = throttle*tan_steer/wheelbase
+        # if abs(steering_angle) > 0.0001:    
+        #     # rear using wheel width
+        #     v_lr = throttle - angular_velocity*wheel_width/2
+        #     v_rr = throttle + angular_velocity*wheel_width/2
+        #     # front
+        #     v_lf = (wheelbase/math.sin(left_steer) - hinge_length) * angular_velocity
+        #     v_rf = (wheelbase/math.sin(right_steer) + hinge_length) * angular_velocity
+        # else:
+        #     v_lr = v_rr = v_lf = v_rf =  throttle
+        
+        # print(throttle, v_lf,v_lr,v_rf,v_rr)
+
     # Check if emergency brake is active
     else:
         # Set all wheel velocities and steering angles to zero for emergency brake
