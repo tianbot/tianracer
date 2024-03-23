@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+
+<launch>
+    <arg name="robot_name" default="$(optenv TIANRACER_NAME /)" doc="robot name [tianracer_No1, tianracer_No2, tianracer_No3, ...]"/>
+    <arg name="lidar_ip" default="$(optenv TIANRACER_LIDAR_IP 192.168.198.2)" />
+    <arg name="lidar_name" default="richbeam_lidar" />
+    <arg name="lidar_model" default="$(optenv TIANRACER_LIDAR_MODEL lakibeam1)" />
+    <arg name="lidar_serial" default="/dev/ttyUSB0" />
+    <arg name="frame_id" default="laser" />
+
+    <group ns="$(arg robot_name)">
+        <node name="$(arg lidar_name)" pkg="lakibeam1" type="lakibeam1_scan_node" output="screen">
+            <remap from="$(arg lidar_name)/scan" to="scan" />
+            <param name="frame_id" type="string" value="$(arg frame_id)"/><!--frame_id设置-->
+            <param unless="$(eval robot_name=='/')" name="frame_id" type="string" value="$(arg robot_name)/$(arg frame_id)"/>
+            <param name="output_topic" type="string" value="scan" /><!--topic设置-->
+            <param name="inverted" type="bool" value="false"/><!--配置是否倒装,true倒装-->
+            <param name="hostip" type="string" value="0.0.0.0"/><!--配置本机监听地址，0.0.0.0表示监听全部-->
+            <param name="sensorip" type="string" value="$(arg lidar_ip)"/><!--配置sensor地址-->
+            <param name="port" type="string" value="2368"/><!--配置本机监听端口-->
+            <param name="angle_offset" type="int" value="180"/><!--配置点云旋转角度，可以是负数-->
+            <param name="scanfreq" type="string" value="30" /><!--配置扫描频率，范围：10、20、25、30-->
+            <param name="filter" type="string" value="3" /><!--配置滤波选项，范围：3、2、1、0 -->
+            <param name="laser_enable" type="string" value="true" /><!--雷达扫描使能，范围：true、false-->
+            <param name="scan_range_start" type="string" value="45" /><!--雷达扫描起始角度，范围：45~315-->
+            <param name="scan_range_stop" type="string" value="315" /><!--雷达扫描结束角度，范围：45~315，结束角度必须大于起始角度-->
+        </node>
+    </group>    
+</launch>

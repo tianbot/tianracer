@@ -1,7 +1,7 @@
 <launch>
 
   <!-- 迷你机器人，基础参数 -->
-  <arg name="robot_name" default="tianracer_2" />
+  <arg name="robot_name" default="tianracer_02"/>
   <arg name="map" default="tianracer_racetrack.yaml" />
 
   <!-- Map server, load map-->
