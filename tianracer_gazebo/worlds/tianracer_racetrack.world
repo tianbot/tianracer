@@ -12,7 +12,7 @@
         <quadratic>0.001</quadratic>
       </attenuation>
       <direction>-0.5 0.1 -0.9</direction>
-    </light>
+          </light>
     <model name='ground_plane'>
       <static>1</static>
       <link name='link'>
@@ -86,7 +86,7 @@
     </spherical_coordinates>
     <model name='tianracer_racetrack'>
       <link name='base_link'>
-        <pose frame=''>0 0 0 0 -0 0</pose>
+        <pose frame=''>-1.75 1.3 0 -0 0</pose>
         <inertial>
           <pose frame=''>-0.05223 -0.083962 0.198622 0 -0 0</pose>
           <mass>1665.21</mass>
@@ -122,7 +122,7 @@
           </surface>
         </collision>
         <collision name='base_link_fixed_joint_lump__wall_collision_1'>
-          <pose frame=''>0 0 0 1.5708 -0 0</pose>
+          <pose frame=''>0 0 0 0 -0 0</pose>
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
@@ -153,7 +153,7 @@
           </geometry>
         </visual>
         <visual name='base_link_fixed_joint_lump__wall_visual_1'>
-          <pose frame=''>0 0 0 1.5708 -0 0</pose>
+          <pose frame=''>0 0 0 0 -0 0</pose>
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
@@ -168,10 +168,10 @@
       <pose frame=''>0 0 0 0 -0 0</pose>
     </model>
     <state world_name='default'>
-      <sim_time>96 74000000</sim_time>
-      <real_time>96 491205574</real_time>
-      <wall_time>1621394448 140700159</wall_time>
-      <iterations>96074</iterations>
+      <sim_time>80 166000000</sim_time>
+      <real_time>80 550180991</real_time>
+      <wall_time>1710850886 340458357</wall_time>
+      <iterations>80166</iterations>
       <model name='ground_plane'>
         <pose frame=''>0 0 0 0 -0 0</pose>
         <scale>1 1 1</scale>
@@ -183,22 +183,22 @@
         </link>
       </model>
       <model name='tianracer_racetrack'>
-        <pose frame=''>-1.40308 -1.87573 0.004995 -1.5708 -0 1.58297</pose>
+        <pose frame=''>-1.76622 1.30224 0.004988 -3e-06 -0 1.1e-05</pose>
         <scale>1 1 1</scale>
         <link name='base_link'>
-          <pose frame=''>-1.40308 -1.87573 0.004995 -1.5708 -0 1.58297</pose>
+          <pose frame=''>-1.76622 1.30224 0.004988 -3e-06 -0 1.1e-05</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>-0.002002 -0.002596 -9.74986 0.009339 -0.159019 -0.000231</acceleration>
-          <wrench>-3.33354 -4.32307 -16235.6 0 -0 0</wrench>
+          <acceleration>0.002196 1.53139 0.247169 -1.24423 0.005606 0.00014</acceleration>
+          <wrench>3.65757 2550.08 411.588 0 -0 0</wrench>
         </link>
       </model>
       <light name='sun'>
-        <pose frame=''>0 0 10 0 -0 0</pose>
+        <pose>0 0 10 0 -0 0</pose>
       </light>
     </state>
     <gui fullscreen='0'>
       <camera name='user_camera'>
-        <pose frame=''>4.53606 -3.88965 20.6647 0 1.33164 2.96418</pose>
+        <pose frame=''>-12.3699 -4.14337 25.1011 0 1.0658 0.252182</pose>
         <view_controller>orbit</view_controller>
         <projection_type>perspective</projection_type>
       </camera>

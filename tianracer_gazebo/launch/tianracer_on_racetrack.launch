@@ -17,7 +17,7 @@
     <arg name="z_pos" default="1" />
     <arg name="R_pos" default="0" />
     <arg name="P_pos" default="0" />
-    <arg name="Y_pos" default="1.5708" />
+    <arg name="Y_pos" default="0" />
     
     <!--launch Gazebo Env-->
     <include file="$(find gazebo_ros)/launch/empty_world.launch">

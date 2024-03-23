@@ -70,10 +70,17 @@ def set_throttle_steer(data):
 
 def emergency_brake(req):
     global emergency_brake_active
-    emergency_brake_active = True
-    rospy.logwarn("Emergency brake activated!")
-    return EmptyResponse()
 
+    if emergency_brake_active:
+        rospy.logwarn("Emergency brake state has deactivated!")
+        emergency_brake_active = False
+        return EmptyResponse()
+    else:
+        emergency_brake_active = True
+        rospy.logwarn("Emergency brake activated! If you want to reset it, please call the service again!")
+        rospy.loginfo("The default command is : rosservice call /tianracer/emergency_brake")
+        return EmptyResponse()
+    
 def servo_commands():
 
     rospy.init_node('servo_commands', anonymous=True)
