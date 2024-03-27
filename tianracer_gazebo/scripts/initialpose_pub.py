@@ -74,7 +74,7 @@ class InitialPosePublisher():
             pose_msg.pose.covariance[35] = 0.1
 
             # 发布消息
-            rospy.loginfo("Publishing initialpose message: %s", pose_msg)
+            # rospy.loginfo("Publishing initialpose message: %s", pose_msg)
             self.publisher.publish(pose_msg)
 
             # Check for rospy.is_shutdown() to allow termination with Ctrl+C
@@ -112,7 +112,7 @@ class InitialPosePublisher():
             pose_msg.pose.covariance[28] = 0.1
             pose_msg.pose.covariance[35] = 0.1
 
-            rospy.loginfo("Publishing initialpose message: %s", pose_msg)
+            # rospy.loginfo("Publishing initialpose message: %s", pose_msg)
             self.publisher.publish(pose_msg)
 
         exit()
