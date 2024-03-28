@@ -1,26 +1,73 @@
 <launch>
     <!-- Config map file -->
-    <arg name="map" default="tianracer_racetrack.yaml" />
-
-    <!-- Map server, load map-->
-    <node name="map_server" pkg="map_server" type="map_server" args="$(find tianracer_gazebo)/maps/$(arg map)"/>
-
-    <!-- launch gazebo simulation environment -->
-    <include file="$(find tianracer_gazebo)/launch/tianracer_on_racetrack.launch"/>
-
-    <!-- spawn model-->
-    <!-- <include file="$(find tianracer_gazebo)/launch/spawn_model.launch" /> -->
-
-    <!-- launch tianracer control -->
-    <include file="$(find tianracer_gazebo)/launch/tianracer_control.launch" />
-
-    <!-- move base -->
-    <include file="$(find tianracer_gazebo)/launch/includes/teb_base.launch.xml"/>
-
-    <!-- AMCL -->
-    <include file="$(find tianracer_gazebo)/launch/includes/amcl.launch.xml" />
+    <arg name="world" default="tianracer_racetrack" />
+    <arg name="robot_name" default="$(optenv TIANRACER_NAME /)" doc="robot name [tianracer_No1, tianracer_No2, tianracer_No3, ...]"/>
+    <arg name="namespace" default="tianracer"/>
 
     <!-- rviz -->
-    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find tianracer_gazebo)/rviz/nav.rviz"/>
+    <group if="$(eval arg('robot_name') == '/')">
+
+        <!-- Map server, load map-->
+        <node name="map_server" pkg="map_server" type="map_server" ns="$(arg namespace)" args="$(find tianracer_gazebo)/maps/$(arg world).yaml" >
+            <param name="frame_id" value="map" />
+        </node>
+
+        <!-- launch gazebo simulation environment -->
+        <include file="$(find tianracer_gazebo)/launch/tianracer_on_racetrack.launch">
+            <arg name="world" value="$(arg world)" />
+            <arg name="robot_name" value="$(arg namespace)" />
+        </include>
+
+        <!-- launch tianracer control -->
+        <include file="$(find tianracer_gazebo)/launch/tianracer_control.launch" >
+            <arg name="robot_name" value="$(arg namespace)" />
+        </include>
+
+        <!-- move base -->
+        <include file="$(find tianracer_gazebo)/launch/includes/teb_base.launch.xml" >
+            <arg name="robot_name" value="$(arg namespace)" />
+        </include>
+
+        <!-- AMCL -->
+        <include file="$(find tianracer_gazebo)/launch/includes/amcl.launch.xml" >
+            <arg name="robot_name" value="$(arg namespace)" />
+        </include>
+
+        <node pkg="rviz" type="rviz" name="rviz" args="-d $(find tianracer_gazebo)/rviz/nav.rviz"/>
+    </group>
+
+    <group unless="$(eval arg('robot_name') == '/')">
+
+        <!-- Map server, load map-->
+        <node name="map_server" pkg="map_server" type="map_server" ns="$(arg robot_name)" args="$(find tianracer_gazebo)/maps/$(arg world).yaml" >
+            <param name="frame_id" value="map" />
+        </node>
+
+        <!-- launch gazebo simulation environment -->
+        <include file="$(find tianracer_gazebo)/launch/tianracer_on_racetrack.launch">
+            <arg name="world" value="$(arg world)" />
+            <arg name="robot_name" value="$(arg robot_name)" />
+        </include>
+
+        <!-- spawn model-->
+        <!-- <include file="$(find tianracer_gazebo)/launch/spawn_model.launch" /> -->
+
+        <!-- launch tianracer control -->
+        <include file="$(find tianracer_gazebo)/launch/tianracer_control.launch" >
+            <arg name="robot_name" value="$(arg robot_name)" />
+        </include>
+
+        <!-- move base -->
+        <include file="$(find tianracer_gazebo)/launch/includes/teb_base.launch.xml" >
+            <arg name="robot_name" value="$(arg robot_name)" />
+        </include>
+
+        <!-- AMCL -->
+        <include file="$(find tianracer_gazebo)/launch/includes/amcl.launch.xml" >
+            <arg name="robot_name" value="$(arg robot_name)" />
+        </include>
+
+        <node pkg="rviz" type="rviz" name="rviz" args="-d $(find tianracer_gazebo)/rviz/nav_$(arg robot_name).rviz"/>
+    </group>
 
 </launch>

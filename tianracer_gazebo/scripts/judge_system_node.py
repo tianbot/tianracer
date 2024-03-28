@@ -14,11 +14,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import rospy
 from judge_system import judger
 
 if __name__=="__main__":
-    # rospy.init_node("judger")
 
     with judger as judge:
-        judge.run()
+        judge.__init__()

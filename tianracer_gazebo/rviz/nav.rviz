@@ -6,6 +6,7 @@ Panels:
       Expanded:
         - /Global Options1
         - /RobotModel1/Links1/base_footprint1
+        # - /RobotModel2/Links2/base_footprint2
         - /Pose Array1
       Splitter Ratio: 0.6526610255241394
     Tree Height: 787
@@ -49,7 +50,7 @@ Visualization Manager:
         Z: 0
       Plane: XY
       Plane Cell Count: 80
-      Reference Frame: odom
+      Reference Frame: tianracer/odom
       Value: true
     - Angle Tolerance: 0.10000000149011612
       Class: rviz/Odometry
@@ -83,7 +84,7 @@ Visualization Manager:
         Shaft Length: 1
         Shaft Radius: 0.05000000074505806
         Value: Arrow
-      Topic: /odom
+      Topic: /tianracer/odom
       Unreliable: false
       Value: false
     - Angle Tolerance: 0.10000000149011612
@@ -118,7 +119,7 @@ Visualization Manager:
         Shaft Length: 1
         Shaft Radius: 0.05000000074505806
         Value: Arrow
-      Topic: /odom
+      Topic: /tianracer/odom
       Unreliable: false
       Value: false
     - Alpha: 1
@@ -199,7 +200,7 @@ Visualization Manager:
           Show Trail: false
           Value: true
       Name: RobotModel
-      Robot Description: robot_description
+      Robot Description: tianracer/robot_description # must be same with robot_description
       TF Prefix: ""
       Update Interval: 0
       Value: true
@@ -210,7 +211,7 @@ Visualization Manager:
       Draw Behind: true
       Enabled: true
       Name: Map
-      Topic: /map
+      Topic: /tianracer/map
       Unreliable: false
       Use Timestamp: false
       Value: true
@@ -235,7 +236,7 @@ Visualization Manager:
       Radius: 0.029999999329447746
       Shaft Diameter: 0.10000000149011612
       Shaft Length: 0.10000000149011612
-      Topic: /move_base/TebLocalPlannerROS/local_plan
+      Topic: /tianracer/move_base/TebLocalPlannerROS/local_plan
       Unreliable: false
       Value: true
     - Alpha: 1
@@ -259,7 +260,7 @@ Visualization Manager:
       Radius: 0.029999999329447746
       Shaft Diameter: 0.10000000149011612
       Shaft Length: 0.10000000149011612
-      Topic: /move_base/TebLocalPlannerROS/global_plan
+      Topic: /tianracer/move_base/TebLocalPlannerROS/global_plan
       Unreliable: false
       Value: true
     - Alpha: 1
@@ -276,7 +277,7 @@ Visualization Manager:
       Shaft Length: 0.23000000417232513
       Shaft Radius: 0.009999999776482582
       Shape: Arrow (Flat)
-      Topic: /move_base/TebLocalPlannerROS/teb_poses
+      Topic: /tianracer/move_base/TebLocalPlannerROS/teb_poses
       Unreliable: false
       Value: true
     - Alpha: 1
@@ -302,7 +303,7 @@ Visualization Manager:
       Size (Pixels): 3
       Size (m): 0.009999999776482582
       Style: Points
-      Topic: /scan
+      Topic: /tianracer/scan
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
@@ -320,7 +321,7 @@ Visualization Manager:
       Shaft Length: 0.5
       Shaft Radius: 0.029999999329447746
       Shape: Arrow
-      Topic: /move_base_simple/goal
+      Topic: /tianracer/move_base_simple/goal
       Unreliable: false
       Value: true
     - Alpha: 0.699999988079071
@@ -329,7 +330,7 @@ Visualization Manager:
       Draw Behind: false
       Enabled: true
       Name: Inflated Obstacles
-      Topic: /move_base/local_costmap/costmap
+      Topic: /tianracer/move_base/local_costmap/costmap
       Unreliable: false
       Use Timestamp: false
       Value: true
@@ -347,7 +348,7 @@ Visualization Manager:
       Draw Behind: false
       Enabled: true
       Name: Map
-      Topic: /move_base/global_costmap/costmap
+      Topic: /tianracer/move_base/global_costmap/costmap
       Unreliable: false
       Use Timestamp: false
       Value: true
@@ -365,11 +366,11 @@ Visualization Manager:
     - Class: rviz/Select
     - Class: rviz/SetInitialPose
       Theta std deviation: 0.2617993950843811
-      Topic: /initialpose
+      Topic: /tianracer/initialpose
       X std deviation: 0.5
       Y std deviation: 0.5
     - Class: rviz/SetGoal
-      Topic: /move_base_simple/goal
+      Topic: /tianracer/move_base_simple/goal
   Value: true
   Views:
     Current:

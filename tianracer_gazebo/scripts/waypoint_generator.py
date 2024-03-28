@@ -2,16 +2,20 @@
 # source code was from https://www.guyuehome.com/35146
 # @Time: 2023/10/20  17:03:06
 # @Author: Jeff Wang(Lr_2002)
+
+import os
 import yaml
 import rospy
 import geometry_msgs.msg as geometry_msgs
+
+robot_name = os.getenv("TIANRACER_NAME", "tianracer")
 
 class WaypointGenerator(object):
     def __init__(self, filename):
         """
         Subscrib "/move_base_simple/goal" which has orientation for the move_base 
         """
-        self._sub_pose = rospy.Subscriber('/move_base_simple/goal', geometry_msgs.PoseStamped, self._process_pose, queue_size=1)
+        self._sub_pose = rospy.Subscriber(f'{robot_name}/move_base_simple/goal', geometry_msgs.PoseStamped, self._process_pose, queue_size=1)
         self._waypoints = []
         self._filename = filename
 
@@ -31,15 +35,17 @@ class WaypointGenerator(object):
     def _write_file(self):
         way_pts = {}
         way_pts['waypoints'] = self._waypoints
-        # 把目标点输出成yaml文件：
-        with open(self._filename, 'a') as f:
-            print("-------",self._filename)
-            f.write(yaml.dump(way_pts, default_flow_style=False))
+        # 把目标点输出成 yaml 文件
+        try:
+            with open(self._filename, 'a') as f:
+                print("-------\n",self._filename)
+                f.write(yaml.dump(way_pts, default_flow_style=False))
+        except FileNotFoundError as e:
+            rospy.logerr(e)
 
     def spin(self):
         rospy.spin()
         self._write_file()
-
 
 if __name__ == '__main__':
 

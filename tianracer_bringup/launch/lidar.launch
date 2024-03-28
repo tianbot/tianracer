@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 
 <launch>
-  <arg name="lidar" default="$(optenv TIANRACER_LIDAR rplidar_a2)" />
-  <arg name="model" default="$(optenv TIANRACER_LIDAR_MODEL a2)" />
+  <arg name="lidar" default="$(optenv TIANRACER_LIDAR richbeam)" />
+  <arg name="model" default="$(optenv TIANRACER_LIDAR_MODEL lakibeam1)" />
 
   <include if="$(eval 'osight' in lidar)" file="$(find tianracer_bringup)/launch/includes/lidar/osight_iexxx.launch.xml"/>
 
@@ -10,10 +10,9 @@
     <arg name="model" value="$(arg model)" />
   </include>
 
-  <include if="$(eval 'richbeam' in lidar)" file="$(find tianracer_bringup)/launch/includes/lidar/bm_scan.launch.xml"/>
+  <include if="$(eval 'richbeam' in lidar)" file="$(find tianracer_bringup)/launch/includes/lidar/richbeam_lidar.launch.xml"/>
 
   <include if="$(eval 'velodyne' in lidar)" file="$(find velodyne_pointcloud)/launch/VLP16_points.launch" />
 
   <include if="$(eval 'rslidar' in lidar)" file="$(find tianracer_bringup)/launch/includes/lidar/rslidar.launch.xml" />
 </launch>
-

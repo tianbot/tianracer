@@ -1,0 +1,12 @@
+<launch>
+    <!-- 迷你机器人，基础参数 -->
+    <arg name="robot_name" />
+  
+    <arg name="model" />
+    <arg name="gui" default="False" />
+
+    <!-- 加载机器人模型描述参数 -->
+
+    <param name="robot_description" command="$(find xacro)/xacro '$(find tianracer_gazebo)/urdf/tianracer_run.xacro'  prefix:=$(arg robot_name)" />
+    
+</launch>

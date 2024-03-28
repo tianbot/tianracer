@@ -6,7 +6,8 @@ from geometry_msgs.msg import Twist
 
 import time 
 import threading
-pub = rospy.Publisher("/tianracer/ackermann_cmd_stamped", AckermannDriveStamped,queue_size=1)
+robot_name = rospy.get_param('robot_name', default="tianracer")
+pub = rospy.Publisher("ackermann_cmd_stamped", AckermannDriveStamped,queue_size=1)
 
 def thread_job():
     rospy.spin()
@@ -15,13 +16,13 @@ def callback(data):
     speed = data.linear.x 
     turn = data.angular.z
 
-    msg = AckermannDriveStamped();
-    msg.header.stamp = rospy.Time.now();
-    msg.header.frame_id = "base_link";
+    msg = AckermannDriveStamped()
+    msg.header.stamp = rospy.Time.now()
+    msg.header.frame_id = f"{robot_name}/base_footprint"
 
-    msg.drive.speed = speed;
-    msg.drive.acceleration = 1;
-    msg.drive.jerk = 1;
+    msg.drive.speed = speed
+    msg.drive.acceleration = 1
+    msg.drive.jerk = 1
     msg.drive.steering_angle = turn
     msg.drive.steering_angle_velocity = 1
 
@@ -40,5 +41,3 @@ if __name__ == '__main__':
     except rospy.ROSInterruptException:
         pass
 
-
-########################
