@@ -49,4 +49,6 @@ tianracer_slam/maps/*.pgm
 # unused file
 imgui.ini
 .vscode
+.history
+.idea
 */.ipynb_checkpoints/*
