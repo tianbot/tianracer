@@ -1,71 +1,70 @@
 #! /usr/bin/env python
-import rospy 
+
+# @Time: 2023/10/20 17:02:46
+# @Author: Jeff Wang(Lr_2002)
+# LastEditors: sujit-168 su2054552689@gmail.com
+# LastEditTime: 2024-03-26 14:49:24
+
+import rospy, rospkg, os, sys
 from geometry_msgs.msg import PoseStamped
 from gazebo_msgs.msg import ModelStates
-"""
-^Cx: 0.0
-y: 0.0
-z: 0.0
-!!!!!
-x: -1.428780526600578
-y: -1.8670595822647775
-z: 0.005000608851099014
-!!!!!
-x: -0.8541378373856054
-y: -0.57080969486389
-z: 0.00999173701919729
-!!!!!
-----------
 
-
-t1 
-
-
-----------
-x: 0.0
-y: 0.0
-z: 0.0
-!!!!!
-x: -1.422532436312003
-y: -1.8682248254146507
-z: 0.004994101676492821
-!!!!!
-x: -1.915068709596355
-y: -0.5493092660435841
-z: 0.019212890862272014
-
-
-
-
-
-"""
-ana_check1 = ( (-0.8541378373856054,-0.57080969486389) , (-1.915068709596355,-0.5493092660435841))
-ana_check2 = ( (-1.0395616340369942, -7.876568553760501), (-1.0041087134758948,-8.944819502545196))
-ana_check3 = ( (-0.5749616124606485 ,-0.9118791656634234), (0.42296276126638904 ,-1.0242940945768384))
+# sys.path.append("..")
+sys.path.append(os.path.abspath(__file__+"/../.."))
+import waypoint_race.utils as utils
 
 ana_cnt = 0
-ana_check_list = [ana_check1, ana_check2, ana_check3]
+ana_check_list = []
 ana_history_position= (0,0)
+
+def load_checkpoint(file_name):
+    """
+        description: load score check point from yaml file_name.yaml
+        args:        file_name: is the file name of the yaml file.
+        return:  global ana_check_list
+    """
+
+    _checkpoint = utils.get_waypoints(file_name)
+
+    for _count in range(len(_checkpoint)):
+        _point = _checkpoint[_count]
+        _point_x = utils.create_geometry_pose(_point).position.x
+        _point_y = utils.create_geometry_pose(_point).position.y
+        
+        if _count % 2 == 0:
+            # Combine the current point and next point into a tuple
+            _pair = (_point_x, _point_y),
+        else:
+            # Combine the previously combined tuple and the current point into a new tuple.
+            # The points follow the order of operations, that is, the points in () come first.
+            _pair = _pair + ((_point_x, _point_y),)
+
+            # add the tuple combined into the ana_check_list
+            ana_check_list.append(_pair)
+
+    # print(ana_check_list)
+
 def is_intersect(line1, line2):  
-    """  
-    判断两个线段是否相交  
-    line1、line2：线段的两个端点，每个端点是一个二元组，如 ((-0.8541378373856054,-0.57080969486389), (-1.915068709596355,-0.5493092660435841))  
-    返回值：如果相交返回 True，否则返回 False  
+    """
+        description: determine whether two Line Segments Intersect 
+        args:        line1, line2:  is the Line two end points Of A Line Segment, Each of which is A binary
+                     , such as ((-0.8541378373856054,-0.57080969486389), (-1.915068709596355,-0.5493092660435841))  
+        return:   True or False
     """  
     x1, y1 = line1[0]  
     x2, y2 = line1[1]  
     x3, y3 = line2[0]  
-    x4, y4 = line2[1]  
+    x4, y4 = line2[1]
       
-    # 判断两条线段是否平行  
+    # determine whether The Two Line Segments Are Parallel 
     if (y4 - y3) * (x2 - x1) == (y2 - y1) * (x4 - x3):  
         return False  
       
-    # 判断点是否在线段上  
+    # determine whether the point is in line 
     def is_on_segment(x, y, x1, y1, x2, y2):  
         return min(x1, x2) <= x <= max(x1, x2) and min(y1, y2) <= y <= max(y1, y2)  
       
-    # 判断线段是否相交  
+    # determine whether the line segments intersect 
     ua = ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3)) / ((y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1))  
     ub = ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3)) / ((y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1))  
     if 0 <= ua <= 1 and 0 <= ub <= 1:  
@@ -76,6 +75,9 @@ def is_intersect(line1, line2):
         return False
 
 def cal_distance(points):
+    """
+        calc the L2 norm distance
+    """
     point1 ,point2 = points  
     x1, y1 = point1  
     x2, y2 = point2  
@@ -99,12 +101,28 @@ def analysis(data):
         ana_cnt +=1 
         return ('已经通过' + str(tmp) +'点', ana_cnt-1), distance
     return None, distance
-    # print('----------')
+
+def test():
+    package_name = "tianracer_gazebo"
+
+    # Get the package path
+    try:
+        pkg_path = rospkg.RosPack().get_path(package_name)
+
+        # Construct the path to scripts directory
+        filename= os.path.join(pkg_path, "scripts/waypoint_race/check_points.yaml")
+        # print(f"check_point.yaml: {filename}")
+    except rospkg.ResourceNotFound:
+        rospy.logerr("Package '%s' not found" % package_name)
+        exit(1)
+
+    filename = rospy.get_param("~filename",filename)
+
+    load_checkpoint(filename)
+
+test()
+
 if __name__ == "__main__":
-    try : 
-        print('starting')
-        rospy.init_node("analysis")
-        states = rospy.Subscriber("/gazebo/model_states", ModelStates, callback=analysis)
-        rospy.spin()
-    except rospy.ROSInterruptException:
-        pass
+    rospy.init_node("analysis")
+    states = rospy.Subscriber("/gazebo/model_states", ModelStates, callback=analysis)
+    rospy.spin()
