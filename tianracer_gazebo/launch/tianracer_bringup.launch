@@ -1,0 +1,11 @@
+<launch>
+    <arg name="world" default="tianracer_racetrack" />
+    <arg name="robot_name" default="tianracer" />
+    <include file="$(find tianracer_gazebo)/launch/tianracer_on_racetrack.launch" >
+        <arg name="world" value="$(arg world)" />
+        <arg name="robot_name" value="$(arg robot_name)" />
+    </include>
+    <include file="$(find tianracer_gazebo)/launch/tianracer_control.launch" >
+        <arg name="robot_name" value="$(arg robot_name)" />
+    </include>
+</launch>
