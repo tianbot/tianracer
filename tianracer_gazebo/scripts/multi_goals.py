@@ -12,7 +12,9 @@ import waypoint_race.utils as utils
 
 import move_base_msgs.msg as move_base_msgs
 import visualization_msgs.msg as viz_msgs
-    
+
+world = os.getenv("TIANRACER_WORLD", "tianracer_racetrack")
+
 class RaceStateMachine(object):
     def __init__(self, filename, repeat=True):
         """
@@ -82,7 +84,7 @@ if __name__ == '__main__':
         pkg_path = rospkg.RosPack().get_path(package_name)
 
         # Construct the path to scripts directory
-        filename= os.path.join(pkg_path, "scripts/waypoint_race/points.yaml")
+        filename= os.path.join(pkg_path, f"scripts/waypoint_race/{world}_points.yaml")
         print(f"yaml: {filename}")
     except rospkg.ResourceNotFound:
         rospy.logerr("Package '%s' not found" % package_name)

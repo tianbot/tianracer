@@ -3,7 +3,7 @@
 # @Time: 2023/10/20 17:02:46
 # @Author: Jeff Wang(Lr_2002)
 # LastEditors: sujit-168 su2054552689@gmail.com
-# LastEditTime: 2024-03-26 14:49:24
+# LastEditTime: 2024-04-08 11:34:11
 
 import rospy, rospkg, os, sys
 from geometry_msgs.msg import PoseStamped
@@ -12,6 +12,9 @@ from gazebo_msgs.msg import ModelStates
 # sys.path.append("..")
 sys.path.append(os.path.abspath(__file__+"/../.."))
 import waypoint_race.utils as utils
+
+world = os.getenv("TIANRACER_WORLD", "tianracer_racetrack")
+robot_name = os.getenv("TIANRACER_NAME", "tianracer")
 
 ana_cnt = 0
 ana_check_list = []
@@ -85,8 +88,12 @@ def cal_distance(points):
 
 def analysis(data):
     global ana_history_position,ana_cnt, ana_check_list
-    data = data.pose
-    now_position = data[2].position
+    robot_data = data.name
+    pose_data = data.pose
+    robot_index = robot_data.index(robot_name)
+    now_position = pose_data[robot_index].position
+    # print(f"robot_name: {robot_name} index: {robot_index} pose: {now_position}")  # debug
+    
     x = now_position.x
     y = now_position.y
     now_line = (ana_history_position, (x,y))
@@ -110,7 +117,7 @@ def test():
         pkg_path = rospkg.RosPack().get_path(package_name)
 
         # Construct the path to scripts directory
-        filename= os.path.join(pkg_path, "scripts/waypoint_race/check_points.yaml")
+        filename= os.path.join(pkg_path, f"scripts/waypoint_race/{world}_check_points.yaml")
         # print(f"check_point.yaml: {filename}")
     except rospkg.ResourceNotFound:
         rospy.logerr("Package '%s' not found" % package_name)
@@ -123,6 +130,6 @@ def test():
 test()
 
 if __name__ == "__main__":
-    rospy.init_node("analysis")
+    rospy.init_node(f"{robot_name}_analysis")
     states = rospy.Subscriber("/gazebo/model_states", ModelStates, callback=analysis)
     rospy.spin()
