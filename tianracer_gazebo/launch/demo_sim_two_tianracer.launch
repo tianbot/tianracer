@@ -1,17 +1,20 @@
 <launch>
   <!-- Define two robot names for use in the launch file -->
   <arg name="robot_name_1" default="tianracer_01" />
-  <arg name="robot_name_2" default="tianracer_02" /> 
+  <arg name="robot_name_2" default="tianracer_02" />
+  <arg name="world" default="$(optenv TIANRACER_WORLD tianracer_racetrack)" doc="world name [racetrack_1, racetrack_2, racetrack_3, ...]"/>
 
   <!-- Include the simulation launch file for the first robot -->
   <include file="$(find tianracer_gazebo)/launch/simulation.launch" >
     <arg name="robot_name" value="$(arg robot_name_1)" />
+    <arg name="world" value="$(arg world)" />
   </include>
 
   <!-- Include the launch file for spawning the second robot in Gazebo -->
   <include file="$(find tianracer_gazebo)/launch/spawn_tianracer.launch">
     <arg name="robot_name" value="$(arg robot_name_2)" />
     <!-- Set the Y position of the robot, controlled by a static transform -->
+    <arg name="world" value="$(arg world)" />
     <arg name="y_pos" value="-1.5"/>
   </include>
 
