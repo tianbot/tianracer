@@ -2,13 +2,13 @@
 
 <launch>
     <arg name="robot_name" default="$(optenv TIANRACER_NAME tianracer)" doc="robot name [tianracer_No1, tianracer_No2, tianracer_No3, ...]"/>
-    <arg name="map_file" default="$(optenv TIANRACER_MAP_FILE tianbot_office)" />
-    <arg name="map_path" default="$(find tianracer_slam)/maps" />
+    <arg name="map_file" default="$(optenv TIANRACER_MAP_FILE racetrack)" />
+    <arg name="map_path" default="$(find tianracer_gazebo)/maps" />
     <arg name="slam_methods" default="gmapping" doc="slam type [gmapping, cartographer, hector, karto, frontier_exploration]"/>
     <node unless="$(eval slam_methods=='cartographer')" pkg="map_server" type="map_saver" name="map_saver" 
         args="-f $(arg map_path)/$(arg map_file) map:=/$(arg robot_name)/map" 
         output="screen" ns="tianracer"/>
     <node if="$(eval slam_methods=='cartographer')" pkg="map_server" type="map_saver" name="map_saver" 
-        args="--occ 51 --free 49 -f $(arg map_path)/$(arg map_file) map:=/$(arg robot_name)/map" 
+        args="--occ 51 --free 49 -f $(arg map_path)/$(arg map_file) map:=/$(arg robot_name)/map frame_id:=/map" 
         output="screen" ns="tianracer"/>
 </launch>

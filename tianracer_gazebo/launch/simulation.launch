@@ -2,9 +2,10 @@
 
     <!-- Define the robot's name, default is "tianracer_01" -->
     <arg name="robot_name" default="tianracer_01" />
+    <arg name="world" default="tianracer_racetrack" />
 
     <!-- Specify the default map to be used, "tianracer_racetrack.yaml" in this case -->
-    <arg name="map" default="tianracer_racetrack.yaml" />
+    <arg name="map" default="$(arg world).yaml" />
 
     <!-- Map server node to load and serve the map -->
     <node name="map_server" pkg="map_server" type="map_server" ns="$(arg robot_name)" args="$(find tianracer_gazebo)/maps/$(arg map)">
@@ -38,7 +39,7 @@
         <arg name="paused" value="$(arg paused)" />
         <arg name="use_sim_time" value="$(arg use_sim_time)" />
         <arg name="headless" value="$(arg headless)" />
-        <arg name="world_name" value="$(find tianracer_gazebo)/worlds/tianracer_racetrack.world" />
+        <arg name="world_name" value="$(find tianracer_gazebo)/worlds/$(arg world).world" />
 
     </include>
 

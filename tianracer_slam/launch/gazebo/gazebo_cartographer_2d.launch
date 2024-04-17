@@ -15,7 +15,7 @@
 -->
 
 <launch>
-  <param name="/use_sim_time" value="false" />
+  <param name="/use_sim_time" value="true" />
   <arg name="robot_name" default="$(optenv TIANRACER_NAME tianracer)" doc="robot name [tianracer_No1, tianracer_No2, tianracer_No3, ...]"/>
   <group ns="$(arg robot_name)">
     <node pkg="tf" name="map_to_ns_map" type="static_transform_publisher" args="0 0 0 0 0 0 /map /$(arg robot_name)/map 1000" />
@@ -32,3 +32,4 @@
         type="cartographer_occupancy_grid_node" args="-resolution 0.025" />
   </group>
 </launch>
+

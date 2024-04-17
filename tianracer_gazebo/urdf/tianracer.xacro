@@ -251,7 +251,7 @@
   </joint>
   <xacro:wheel_transmission name="right_rear_wheel"/>
 
-  <link name="${tf_prefix}camera">
+  <link name="${tf_prefix}camera_link">
     <visual>
       <geometry>
         <!-- <box size="0.005 0.03 0.03"/> -->
@@ -277,7 +277,7 @@
 
   <joint name="camera_joint" type="fixed">
     <parent link="${tf_prefix}base_link" />
-    <child link="${tf_prefix}camera" />
+    <child link="${tf_prefix}camera_link" />
     <origin xyz="0.14851 0.0022137 0.0975" />
     <axis xyz="0 0 1" />
   </joint>
@@ -353,7 +353,7 @@
     <axis xyz="0 0 1" />
   </joint>
 
-  <link name="${tf_prefix}imu">
+  <link name="${tf_prefix}imu_link">
     <visual>
       <geometry>
         <box size="0.01 0.01 0.005" />
@@ -378,7 +378,7 @@
 
   <joint name="imu_joint" type="fixed">
     <parent link="${tf_prefix}base_link" />
-    <child link="${tf_prefix}imu" />
+    <child link="${tf_prefix}imu_link" />
     <origin xyz="0 0 0.02" />
     <axis xyz="0 0 1" />
   </joint>
