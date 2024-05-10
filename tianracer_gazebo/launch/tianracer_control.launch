@@ -12,20 +12,11 @@
                                             joint_state_controller"/>
 
 	<!--joint_state_publisher node，publish robot joint state-->
-	<!--<node name = "robot_state_publisher" pkg = "robot_state_publisher" type = "state_publisher">-->
   <group ns="$(arg robot_name)">
-      <param name="robot_name" type="string" value="$(arg robot_name)"/>
-      <node name= "robot_state_publisher" pkg= "robot_state_publisher" type= "robot_state_publisher">
-        <remap from="/joint_states" to="/$(arg robot_name)/joint_states"/>
-      </node>
-      <!-- servo node -->
-      <node pkg="tianracer_gazebo" type="servo_commands.py" name="servo_commands" output="screen"/>
-
-      <!-- servo node -->
-      <node pkg="tianracer_gazebo" type="transform.py" name="nav_sim" output="screen"/>
-      <!-- Allow for Gazebo to broadcast odom -->
-      <node pkg="tianracer_gazebo" name="gazebo_odometry_node" type="gazebo_odometry.py" output="screen"/> 
+        <!-- <node name="joint_state_publisher_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" /> -->
+        <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" >
+          <param name="publish_frequency" type="double" value="100.0" />
+        </node>
   </group>
-  
-
 </launch>

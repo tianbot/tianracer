@@ -1,8 +1,13 @@
 <launch>
     <arg name="robot_name" default="$(optenv TIANRACER_NAME /)" doc="robot name [tianracer_No1, tianracer_No2, tianracer_No3, ...]"/>
     <arg name="namespace" default="tianracer"/>
+
     <!-- rviz -->
     <group if="$(eval arg('robot_name') == '/')">
+        <!-- bringup -->
+        <include file="$(find tianracer_gazebo)/launch/tianracer_bringup.launch">
+            <arg name="robot_name" value="$(arg namespace)" />
+        </include>
 
         <!-- move base -->
         <include file="$(find tianracer_gazebo)/launch/includes/teb_base.launch.xml" >
@@ -18,6 +23,10 @@
     </group>
 
     <group unless="$(eval arg('robot_name') == '/')">
+        <!-- bringup -->
+        <include file="$(find tianracer_gazebo)/launch/tianracer_bringup.launch">
+            <arg name="robot_name" value="$(arg robot_name)" />
+        </include>
 
         <!-- move base -->
         <include file="$(find tianracer_gazebo)/launch/includes/teb_base.launch.xml" >
