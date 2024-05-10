@@ -1,0 +1,16 @@
+<launch>
+    <arg name="x_pos" default="0.0"/>
+    <arg name="y_pos" default="0.0"/>
+    <arg name="z_pos" default="0.0"/>
+    <arg name="R_pos" default="0.0"/>
+    <arg name="P_pos" default="0.0"/>
+    <arg name="Y_pos" default="0.0"/>
+    <node pkg="tianracer_gazebo" type="initialpose_pub.py" name="initialpose_publisher" output="screen" >
+        <param name="x_pos" value="$(arg x_pos)"/>
+        <param name="y_pos" value="$(arg y_pos)"/>
+        <param name="z_pos" value="$(arg z_pos)"/>
+        <param name="R_pos" value="$(arg R_pos)"/>
+        <param name="P_pos" value="$(arg P_pos)"/>
+        <param name="Y_pos" value="$(arg Y_pos)"/>
+    </node>
+</launch>
