@@ -62,8 +62,7 @@
 
   <!-- Gazebo Plugins -->
   <gazebo>
-    <plugin name="gazebo_ros_ackermann_drive" filename="libgazebo_ros_ackermann_drive.so">
-    <!-- <plugin name="gazebo_ros_ackermann_drive" filename="$(find tianracer_gazebo)/plugins/libgazebo_ros_ackermann_drive.so"> -->
+    <plugin name="gazebo_ros_ackermann_drive" filename="$(find tianracer_gazebo)/plugins/libgazebo_ros_ackermann_drive.so">
 
       <ros>
         <namespace>demo</namespace>
