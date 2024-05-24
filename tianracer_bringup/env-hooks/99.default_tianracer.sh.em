@@ -7,6 +7,7 @@
 : ${TIANRACER_THROTTLE_DIRECTION:=normal} # normal, reverse
 : ${TIANRACER_BRIDGE:=disabled} # enabled,disabled 
 : ${TIANRACER_RGBD_CAMERA:=none} #realsense_d415, realsense_d435, astra, astra_pro, xtion, none 
+: ${TIANRACER_RGBD_CAMERA_MODEL:=none} #d415,d435i,d455 for realsense_d. dabai, genimi for orbbec. 
 : ${TIANRACER_VIDEO_DEVICE:=none} # /dev/video0 for most of the usb_cams.If you want init usb_cam in jet_cam, this should be set to none.
 #/dev/video2 if using realsense, none
 : ${TIANRACER_LIDAR:=rplidar_a2} # rplidar, velodyne_vlp16, osight, rslidar, hokuyo, sick, richbeam, etc..
@@ -25,6 +26,7 @@ export TIANRACER_STEERING_DIRECTION
 export TIANRACER_THROTTLE_DIRECTION
 export TIANRACER_BRIDGE
 export TIANRACER_RGBD_CAMERA
+export TIANRACER_RGBD_CAMERA_MODEL
 export TIANRACER_VIDEO_DEVICE
 export TIANRACER_LIDAR
 export TIANRACER_LIDAR_MODEL

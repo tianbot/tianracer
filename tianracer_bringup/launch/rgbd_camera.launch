@@ -2,9 +2,12 @@
 
 <launch>
     <arg name="rgbd_camera" default="$(optenv TIANRACER_RGBD_CAMERA realsense_d415)" />
-    <include if="$(eval 'realsense_d' in rgbd_camera)" file="$(find realsense2_camera)/launch/rs_rgbd.launch" >
+
+    <include if="$(eval 'realsense_d415' in rgbd_camera)" file="$(find tianracer_bringup)/launch/includes/rs_camera.launch.xml" >
     </include>
 
+    <include if="$(eval 'realsense_d455' in rgbd_camera)" file="$(find tianracer_bringup)/launch/includes/rs_camera_with_imu_stereo.launch.xml" >
+    </include>
 
     <include if="$(eval 'astra' in rgbd_camera)" file="$(find tianracer_bringup)/launch/includes/astra.launch.xml" >
         <arg name="rgbd_camera" value="$(arg rgbd_camera)" />
