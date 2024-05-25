@@ -3,14 +3,16 @@
 import rospy
 from nav_msgs.msg import Odometry
 from sensor_msgs.msg import JointState
-from geometry_msgs.msg import Pose, Twist, Transform, TransformStamped
+from geometry_msgs.msg import Pose, Twist, Quaternion, Transform, TransformStamped
 import numpy as np
 import math
 import tf2_ros
+from tf.transformations import quaternion_from_euler, quaternion_multiply
 
 robot_name = rospy.get_param('robot_name', default="tianracer")
 wheel_radius = 0.032  # Wheel radius in meters
 wheel_base = 0.265     # Distance between left and right wheels
+wheel_width = 0.18
 
 class OdometryNode:
     pub_odom = rospy.Publisher('odom', Odometry, queue_size=1)
@@ -18,49 +20,46 @@ class OdometryNode:
     def __init__(self):
         self.pose = Pose()
         self.pose.orientation.w = 1  # initial quaternion needs to be normalized
+        self.theta = 0  # Initialize orientation
         self.velocity = 0  # Initialize linear velocity
         self.angular_velocity = 0  # Initialize angular velocity
-        self.last_time = rospy.Time.now()
-        self.last_left_wheel_position = 0
-        self.last_right_wheel_position = 0
+        self.last_time = rospy.Time(0)  # Initialize time
         self.tf_pub = tf2_ros.TransformBroadcaster()
         rospy.Subscriber('/tianracer/joint_states', JointState, self.joint_state_callback)
-        rospy.Timer(rospy.Duration(0.05), self.timer_callback)  # 20 Hz
+        rospy.Timer(rospy.Duration(0.02), self.timer_callback)  # 50 Hz
 
     def joint_state_callback(self, msg):
         current_time = rospy.Time.now()
         dt = (current_time - self.last_time).to_sec()
-        rospy.loginfo("dt: %f", dt)
+        
+        # Check if this is the first callback
+        if self.last_time == rospy.Time(0):  # Initial condition check
+            # Initialize last_time and last positions for wheels
+            self.last_time = current_time
+            self.left_wheel_idx = msg.name.index('left_rear_wheel_joint')
+            self.right_wheel_idx = msg.name.index('right_rear_wheel_joint')
+            return  # Skip the rest of the processing for the first callback
         
         # The state of each joint (revolute or prismatic) is defined by:
         #  * the position of the joint (rad or m),
         #  * the velocity of the joint (rad/s or m/s) and 
         #  * the effort that is applied in the joint (Nm or N).
-
-        left_wheel_idx = msg.name.index('left_rear_wheel_joint')
-        right_wheel_idx = msg.name.index('right_rear_wheel_joint')
         
-        left_wheel_position = msg.position[left_wheel_idx]
-        right_wheel_position = msg.position[right_wheel_idx]
-
-        # Calculate the traveled distance since last update
-        delta_left_wheel = (left_wheel_position - self.last_left_wheel_position) * wheel_radius
-        delta_right_wheel = (right_wheel_position - self.last_right_wheel_position) * wheel_radius
-
         # Calculate average forward velocity and angular velocity
-        # self.velocity = (delta_left_wheel + delta_right_wheel) / 2 / dt
-        # self.angular_velocity = (delta_right_wheel - delta_left_wheel) / wheel_base / dt
-        self.velocity = (msg.velocity[left_wheel_idx] * wheel_radius + msg.velocity[right_wheel_idx] * wheel_radius) / 2
-        self.angular_velocity = (msg.velocity[right_wheel_idx] * wheel_radius - msg.velocity[left_wheel_idx] * wheel_radius) / wheel_base
+        self.velocity = (msg.velocity[self.left_wheel_idx] * wheel_radius + msg.velocity[self.right_wheel_idx] * wheel_radius) / 2
+        self.angular_velocity = (msg.velocity[self.right_wheel_idx] * wheel_radius - msg.velocity[self.left_wheel_idx] * wheel_radius) / wheel_width
         
         # Update the pose
-        self.pose.position.x += self.velocity * math.cos(self.pose.orientation.z) * dt
-        self.pose.position.y += self.velocity * math.sin(self.pose.orientation.z) * dt
-        self.pose.orientation.z += self.angular_velocity * dt
-
-        # Update last positions and time
-        self.last_left_wheel_position = left_wheel_position
-        self.last_right_wheel_position = right_wheel_position
+        delta_theta = self.angular_velocity * dt
+        self.theta += delta_theta
+        delta_x = self.velocity * math.cos(self.theta) * dt
+        delta_y = self.velocity * math.sin(self.theta) * dt
+        self.pose.position.x += delta_x
+        self.pose.position.y += delta_y
+        q = quaternion_from_euler(0, 0, self.theta)
+        self.pose.orientation = Quaternion(*q)
+         
+        # Update time
         self.last_time = current_time
 
     def timer_callback(self, event):
