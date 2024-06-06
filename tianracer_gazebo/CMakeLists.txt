@@ -204,3 +204,5 @@ include_directories(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+
+file(COPY ${PROJECT_SOURCE_DIR}/plugins/${allCopyFiles} DESTINATION ${CATKIN_DEVEL_PREFIX}/lib)
