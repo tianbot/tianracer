@@ -36,7 +36,7 @@ class InitialPosePublisher():
         i = 0
         while not rospy.is_shutdown() and self.publisher.get_num_connections() == 0:
             if  i== 4:
-                rospy.loginfo("Waiting for subscribers to connect to /initialpose...")
+                rospy.loginfo(f"Waiting for subscribers to connect to {robot_name}/initialpose...")
             rospy.sleep(0.5)
             i += 1
             i = i % 5
