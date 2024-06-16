@@ -5,22 +5,22 @@
       <author>Blender User</author>
       <authoring_tool>Blender 3.3.17 commit date:2024-03-18, commit time:13:37, hash:1057a9e58afe</authoring_tool>
     </contributor>
-    <created>2024-04-09T19:38:32</created>
-    <modified>2024-04-09T19:38:32</modified>
+    <created>2024-06-13T23:52:46</created>
+    <modified>2024-06-13T23:52:46</modified>
     <unit name="meter" meter="1"/>
     <up_axis>Z_UP</up_axis>
   </asset>
   <library_effects>
-    <effect id="Material_005-effect">
+    <effect id="Material_001-effect">
       <profile_COMMON>
-        <newparam sid="ground_png_001-surface">
+        <newparam sid="ground_png-surface">
           <surface type="2D">
-            <init_from>ground_png_001</init_from>
+            <init_from>ground_png</init_from>
           </surface>
         </newparam>
-        <newparam sid="ground_png_001-sampler">
+        <newparam sid="ground_png-sampler">
           <sampler2D>
-            <source>ground_png_001-surface</source>
+            <source>ground_png-surface</source>
           </sampler2D>
         </newparam>
         <technique sid="common">
@@ -29,7 +29,7 @@
               <color sid="emission">1 1 1 1</color>
             </emission>
             <diffuse>
-              <texture texture="ground_png_001-sampler" texcoord="UVMap"/>
+              <texture texture="ground_png-sampler" texcoord="UVMap"/>
             </diffuse>
             <index_of_refraction>
               <float sid="ior">1.45</float>
@@ -40,54 +40,54 @@
     </effect>
   </library_effects>
   <library_images>
-    <image id="ground_png_001" name="ground_png_001">
+    <image id="ground_png" name="ground_png">
       <init_from>ground.png</init_from>
     </image>
   </library_images>
   <library_materials>
-    <material id="Material_005-material" name="Material.005">
-      <instance_effect url="#Material_005-effect"/>
+    <material id="Material_001-material" name="Material.001">
+      <instance_effect url="#Material_001-effect"/>
     </material>
   </library_materials>
   <library_geometries>
-    <geometry id="base_link_002-mesh" name="base_link.002">
+    <geometry id="base_link-mesh" name="base_link">
       <mesh>
-        <source id="base_link_002-mesh-positions">
-          <float_array id="base_link_002-mesh-positions-array" count="24">-4.436259 -33.87826 0 18.56374 -33.87826 0 18.56374 11.12173 0 -4.436259 11.12173 0 -4.436259 -33.87826 -0.00999999 -4.436259 11.12173 -0.00999999 18.56374 11.12173 -0.00999999 18.56374 -33.87826 -0.00999999</float_array>
+        <source id="base_link-mesh-positions">
+          <float_array id="base_link-mesh-positions-array" count="24">-3.975946 -32.90392 0.5000003 19.02406 -32.90392 0.5000003 19.02406 12.09607 0.5000003 -3.975946 12.09607 0.5000003 -3.975946 -32.90392 -1.78814e-7 -3.975946 12.09607 -1.78814e-7 19.02406 12.09607 -1.78814e-7 19.02406 -32.90392 -1.78814e-7</float_array>
           <technique_common>
-            <accessor source="#base_link_002-mesh-positions-array" count="8" stride="3">
+            <accessor source="#base_link-mesh-positions-array" count="8" stride="3">
               <param name="X" type="float"/>
               <param name="Y" type="float"/>
               <param name="Z" type="float"/>
             </accessor>
           </technique_common>
         </source>
-        <source id="base_link_002-mesh-normals">
-          <float_array id="base_link_002-mesh-normals-array" count="18">0 0 -1 -1 0 0 0 -1 0 1 0 0 0 1 0 0 0 1</float_array>
+        <source id="base_link-mesh-normals">
+          <float_array id="base_link-mesh-normals-array" count="18">0 0 -1 -1 0 0 0 -1 0 1 0 0 0 1 0 0 0 1</float_array>
           <technique_common>
-            <accessor source="#base_link_002-mesh-normals-array" count="6" stride="3">
+            <accessor source="#base_link-mesh-normals-array" count="6" stride="3">
               <param name="X" type="float"/>
               <param name="Y" type="float"/>
               <param name="Z" type="float"/>
             </accessor>
           </technique_common>
         </source>
-        <source id="base_link_002-mesh-map">
-          <float_array id="base_link_002-mesh-map-array" count="72">0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5111103 0 0 1 0 0 0.5111103 0 0.5111103 1 0 1</float_array>
+        <source id="base_link-mesh-map">
+          <float_array id="base_link-mesh-map-array" count="72">0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5111122 0 0 1 0 0 0.5111122 0 0.5111103 1 0 1</float_array>
           <technique_common>
-            <accessor source="#base_link_002-mesh-map-array" count="36" stride="2">
+            <accessor source="#base_link-mesh-map-array" count="36" stride="2">
               <param name="S" type="float"/>
               <param name="T" type="float"/>
             </accessor>
           </technique_common>
         </source>
-        <vertices id="base_link_002-mesh-vertices">
-          <input semantic="POSITION" source="#base_link_002-mesh-positions"/>
+        <vertices id="base_link-mesh-vertices">
+          <input semantic="POSITION" source="#base_link-mesh-positions"/>
         </vertices>
-        <triangles material="Material_005-material" count="12">
-          <input semantic="VERTEX" source="#base_link_002-mesh-vertices" offset="0"/>
-          <input semantic="NORMAL" source="#base_link_002-mesh-normals" offset="1"/>
-          <input semantic="TEXCOORD" source="#base_link_002-mesh-map" offset="2" set="0"/>
+        <triangles material="Material_001-material" count="12">
+          <input semantic="VERTEX" source="#base_link-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#base_link-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#base_link-mesh-map" offset="2" set="0"/>
           <p>4 0 0 5 0 1 6 0 2 4 0 3 6 0 4 7 0 5 0 1 6 3 1 7 5 1 8 0 1 9 5 1 10 4 1 11 1 2 12 0 2 13 4 2 14 1 2 15 4 2 16 7 2 17 2 3 18 1 3 19 7 3 20 2 3 21 7 3 22 6 3 23 3 4 24 2 4 25 6 4 26 3 4 27 6 4 28 5 4 29 3 5 30 1 5 31 2 5 32 3 5 33 0 5 34 1 5 35</p>
         </triangles>
       </mesh>
@@ -95,12 +95,12 @@
   </library_geometries>
   <library_visual_scenes>
     <visual_scene id="Scene" name="Scene">
-      <node id="base_link" name="base_link" type="NODE">
+      <node id="base_link_001" name="base_link.001" type="NODE">
         <matrix sid="transform">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
-        <instance_geometry url="#base_link_002-mesh" name="base_link">
+        <instance_geometry url="#base_link-mesh" name="base_link.001">
           <bind_material>
             <technique_common>
-              <instance_material symbol="Material_005-material" target="#Material_005-material">
+              <instance_material symbol="Material_001-material" target="#Material_001-material">
                 <bind_vertex_input semantic="UVMap" input_semantic="TEXCOORD" input_set="0"/>
               </instance_material>
             </technique_common>

@@ -1,26 +1,26 @@
 <?xml version='1.0'?>
-<sdf version='1.7'>
+<sdf version='1.6'>
   <model name='racetrack_1'>
     <link name='link_0'>
       <inertial>
-        <mass>1667</mass>
+        <mass>517.5</mass>
         <inertia>
-          <ixx>1746.17</ixx>
+          <ixx>87338.9</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>456.167</iyy>
+          <iyy>22823.9</iyy>
           <iyz>0</iyz>
-          <izz>2202.17</izz>
+          <izz>110141</izz>
         </inertia>
-        <pose>0 0 0 0 -0 0</pose>
+        <pose frame=''>0 0 0 0 -0 0</pose>
       </inertial>
-      <pose>0 0 0 0 -0 0</pose>
+      <pose frame=''>0 0 0 0 -0 0</pose>
       <gravity>1</gravity>
       <self_collide>0</self_collide>
       <kinematic>0</kinematic>
       <enable_wind>0</enable_wind>
       <visual name='visual'>
-        <pose>0 0 0 0 -0 0</pose>
+        <pose frame=''>0 0 0 0 -0 0</pose>
         <geometry>
           <mesh>
             <uri>racetrack_1/meshes/base_link.dae</uri>
@@ -33,7 +33,7 @@
       <collision name='collision'>
         <laser_retro>0</laser_retro>
         <max_contacts>10</max_contacts>
-        <pose>0 0 0 0 -0 0</pose>
+        <pose frame=''>0 0 0 0 -0 0</pose>
         <geometry>
           <mesh>
             <uri>racetrack_1/meshes/base_link.dae</uri>
@@ -89,27 +89,27 @@
     </link>
     <link name='link_1'>
       <inertial>
-        <mass>1667</mass>
+        <mass>93.3576</mass>
         <inertia>
-          <ixx>199.167</ixx>
-          <ixy>-22</ixy>
-          <ixz>0</ixz>
-          <iyy>45.1667</iyy>
+          <ixx>13110</ixx>
+          <ixy>394.898</ixy>
+          <ixz>0.00527</ixz>
+          <iyy>3259.47</iyy>
           <iyz>0</iyz>
-          <izz>245.167</izz>
+          <izz>16354</izz>
         </inertia>
-        <pose>0 0 0 0 -0 0</pose>
+        <pose frame=''>0 0 0 0 -0 0</pose>
       </inertial>
-      <pose>0 0 0 0 -0 0</pose>
+      <pose frame=''>0 0 0 0 -0 0</pose>
       <gravity>1</gravity>
       <self_collide>0</self_collide>
       <kinematic>0</kinematic>
       <enable_wind>0</enable_wind>
       <visual name='visual'>
-        <pose>0 0 0 0 -0 0</pose>
+        <pose frame=''>0 0 0 0 -0 0</pose>
         <geometry>
           <mesh>
-            <uri>racetrack_1/meshes/wall.stl</uri>
+            <uri>racetrack_1/meshes/wall_link.stl</uri>
             <scale>1 1 1</scale>
           </mesh>
         </geometry>
@@ -119,10 +119,10 @@
       <collision name='collision'>
         <laser_retro>0</laser_retro>
         <max_contacts>10</max_contacts>
-        <pose>0 0 0 0 -0 0</pose>
+        <pose frame=''>0 0 0 0 -0 0</pose>
         <geometry>
           <mesh>
-            <uri>racetrack_1/meshes/wall.stl</uri>
+            <uri>racetrack_1/meshes/wall_link.stl</uri>
             <scale>1 1 1</scale>
           </mesh>
         </geometry>

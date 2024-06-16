@@ -1,8 +1,8 @@
-<sdf version='1.7'>
+<sdf version='1.6'>
   <world name='default'>
     <light name='sun' type='directional'>
       <cast_shadows>1</cast_shadows>
-      <pose>0 0 10 0 -0 0</pose>
+      <pose frame=''>0 0 10 0 -0 0</pose>
       <diffuse>0.8 0.8 0.8 1</diffuse>
       <specular>0.2 0.2 0.2 1</specular>
       <attenuation>
@@ -12,11 +12,6 @@
         <quadratic>0.001</quadratic>
       </attenuation>
       <direction>-0.5 0.1 -0.9</direction>
-      <spot>
-        <inner_angle>0</inner_angle>
-        <outer_angle>0</outer_angle>
-        <falloff>0</falloff>
-      </spot>
     </light>
     <model name='ground_plane'>
       <static>1</static>
@@ -68,7 +63,7 @@
     <gravity>0 0 -9.8</gravity>
     <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
     <atmosphere type='adiabatic'/>
-    <physics type='ode'>
+    <physics name='default_physics' default='0' type='ode'>
       <max_step_size>0.001</max_step_size>
       <real_time_factor>1</real_time_factor>
       <real_time_update_rate>1000</real_time_update_rate>
@@ -89,24 +84,24 @@
     <model name='racetrack_1'>
       <link name='link_0'>
         <inertial>
-          <mass>1667</mass>
+          <mass>517.5</mass>
           <inertia>
-            <ixx>1746.17</ixx>
+            <ixx>87338.9</ixx>
             <ixy>0</ixy>
             <ixz>0</ixz>
-            <iyy>456.167</iyy>
+            <iyy>22823.9</iyy>
             <iyz>0</iyz>
-            <izz>2202.17</izz>
+            <izz>110141</izz>
           </inertia>
-          <pose>0 0 0 0 -0 0</pose>
+          <pose frame=''>0 0 0 0 -0 0</pose>
         </inertial>
-        <pose>0 0 0 0 -0 0</pose>
+        <pose frame=''>0 0 0 0 -0 0</pose>
         <gravity>1</gravity>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
         <enable_wind>0</enable_wind>
         <visual name='visual'>
-          <pose>0 0 0 0 -0 0</pose>
+          <pose frame=''>0 0 0 0 -0 0</pose>
           <geometry>
             <mesh>
               <uri>racetrack_1/meshes/base_link.dae</uri>
@@ -119,7 +114,7 @@
         <collision name='collision'>
           <laser_retro>0</laser_retro>
           <max_contacts>10</max_contacts>
-          <pose>0 0 0 0 -0 0</pose>
+          <pose frame=''>0 0 0 0 -0 0</pose>
           <geometry>
             <mesh>
               <uri>racetrack_1/meshes/base_link.dae</uri>
@@ -175,27 +170,27 @@
       </link>
       <link name='link_1'>
         <inertial>
-          <mass>1667</mass>
+          <mass>93.3576</mass>
           <inertia>
-            <ixx>199.167</ixx>
-            <ixy>-22</ixy>
-            <ixz>-0.12</ixz>
-            <iyy>45.1667</iyy>
-            <iyz>-0.24</iyz>
-            <izz>245.167</izz>
+            <ixx>13110</ixx>
+            <ixy>394.898</ixy>
+            <ixz>0.00527</ixz>
+            <iyy>3259.47</iyy>
+            <iyz>0</iyz>
+            <izz>16354</izz>
           </inertia>
-          <pose>0 0 0 0 -0 0</pose>
+          <pose frame=''>0 0 0 0 -0 0</pose>
         </inertial>
-        <pose>0 0 0 0 -0 0</pose>
+        <pose frame=''>0 0 0 0 -0 0</pose>
         <gravity>1</gravity>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
         <enable_wind>0</enable_wind>
         <visual name='visual'>
-          <pose>0 0 0 0 -0 0</pose>
+          <pose frame=''>0 0 0 0 -0 0</pose>
           <geometry>
             <mesh>
-              <uri>racetrack_1/meshes/wall.stl</uri>
+              <uri>racetrack_1/meshes/wall_link.stl</uri>
               <scale>1 1 1</scale>
             </mesh>
           </geometry>
@@ -205,10 +200,10 @@
         <collision name='collision'>
           <laser_retro>0</laser_retro>
           <max_contacts>10</max_contacts>
-          <pose>0 0 0 0 -0 0</pose>
+          <pose frame=''>0 0 0 0 -0 0</pose>
           <geometry>
             <mesh>
-              <uri>racetrack_1/meshes/wall.stl</uri>
+              <uri>racetrack_1/meshes/wall_link.stl</uri>
               <scale>1 1 1</scale>
             </mesh>
           </geometry>
@@ -278,46 +273,46 @@
       </joint>
       <static>0</static>
       <allow_auto_disable>1</allow_auto_disable>
-      <pose>0 0 0 0 -0 0</pose>
+      <pose frame=''>0 0 0 0 -0 0</pose>
     </model>
     <state world_name='default'>
-      <sim_time>63 719000000</sim_time>
-      <real_time>63 805675558</real_time>
-      <wall_time>1712655781 989232027</wall_time>
-      <iterations>63719</iterations>
+      <sim_time>6 6000000</sim_time>
+      <real_time>6 35763303</real_time>
+      <wall_time>1718294697 483007530</wall_time>
+      <iterations>6006</iterations>
       <model name='ground_plane'>
-        <pose>0 0 0 0 -0 0</pose>
+        <pose frame=''>0 0 0 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>0 0 0 0 -0 0</pose>
+          <pose frame=''>0 0 0 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='racetrack_1'>
-        <pose>0 0 0 0 -0 0</pose>
+        <pose frame=''>0 0 0 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link_0'>
-          <pose>0 0 0 0 -0 0</pose>
+          <pose frame=''>0 0 0 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name='link_1'>
-          <pose>0 0 0 0 -0 0</pose>
+          <pose frame=''>0 0 0 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <light name='sun'>
-        <pose>0 0 10 0 -0 0</pose>
+        <pose frame=''>0 0 10 0 -0 0</pose>
       </light>
     </state>
     <gui fullscreen='0'>
       <camera name='user_camera'>
-        <pose>-0.38097 -41.8622 6.40894 0 0.147643 1.59619</pose>
+        <pose frame=''>8.09522 -50.3856 19.5748 0 0.629797 1.41219</pose>
         <view_controller>orbit</view_controller>
         <projection_type>perspective</projection_type>
       </camera>
