@@ -84,22 +84,22 @@
     <model name='test_indoor'>
       <link name='link_0'>
         <inertial>
-          <mass>1665.21</mass>
+          <mass>580</mass>
           <inertia>
-            <ixx>7770.35</ixx>
-            <ixy>-6.70196</ixy>
-            <ixz>-666.722</ixz>
-            <iyy>29580.2</iyy>
-            <iyz>56.5793</iyz>
-            <izz>32653</izz>
+            <ixx>101700.416687</ixx>
+            <ixy>0.0000070</ixy>
+            <ixz>0.0000020</ixz>
+            <iyy>31000.541656</iyy>
+            <iyz>0.00000</iyz>
+            <izz>132500.541504</izz>
           </inertia>
-          <pose>0 0 0 0 -0 0</pose>
+          <pose frame=''>0 0 0 0 -0 0</pose>
         </inertial>
         <pose frame=''>0 0 0 0 -0 0</pose>
         <gravity>1</gravity>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
-        <enable_wind>1</enable_wind>
+        <enable_wind>0</enable_wind>
         <visual name='visual'>
           <pose frame=''>0 0 0 0 -0 0</pose>
           <geometry>
@@ -170,14 +170,14 @@
       </link>
       <link name='link_1'>
         <inertial>
-          <mass>5320</mass>
+          <mass>1</mass>
           <inertia>
-            <ixx>10641.166667</ixx>
-            <ixy>288</ixy>
-            <ixz>0.235</ixz>
-            <iyy>2870.166667</iyy>
-            <iyz>2.205</iyz>
-            <izz>13480.166667</izz>
+            <ixx>0.166667</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.166667</iyy>
+            <iyz>0</iyz>
+            <izz>0.166667</izz>
           </inertia>
           <pose frame=''>0 0 0 0 -0 0</pose>
         </inertial>
@@ -254,10 +254,10 @@
           </surface>
         </collision>
       </link>
-      <joint name='link_0_JOINT_0' type='fixed'>
+      <joint name='base_link_2_wall_link' type='fixed'>
         <parent>link_0</parent>
         <child>link_1</child>
-        <pose frame=''>0 0 0 0 -0 0</pose>
+        <pose>0 0 0 0 -0 0</pose>
         <physics>
           <ode>
             <limit>
@@ -276,10 +276,10 @@
       <pose frame=''>0 0 0 0 -0 0</pose>
     </model>
     <state world_name='default'>
-      <sim_time>7 679000000</sim_time>
-      <real_time>7 713126957</real_time>
-      <wall_time>1716970254 871220601</wall_time>
-      <iterations>7679</iterations>
+      <sim_time>5 823000000</sim_time>
+      <real_time>5 849860935</real_time>
+      <wall_time>1718265040 393587852</wall_time>
+      <iterations>5823</iterations>
       <model name='ground_plane'>
         <pose frame=''>0 0 0 0 -0 0</pose>
         <scale>1 1 1</scale>
@@ -312,7 +312,7 @@
     </state>
     <gui fullscreen='0'>
       <camera name='user_camera'>
-        <pose frame=''>-8.11722 -10.648 11.6314 0 0.869798 1.58421</pose>
+        <pose frame=''>0.268615 -21.2887 11.0589 0 0.467644 1.68419</pose>
         <view_controller>orbit</view_controller>
         <projection_type>perspective</projection_type>
       </camera>

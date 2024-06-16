@@ -3,17 +3,17 @@
   <model name='test_indoor'>
     <link name='link_0'>
       <inertial>
-        <mass>1</mass>
+        <mass>580</mass>
         <inertia>
-          <ixx>0.166667</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>0.166667</iyy>
-          <iyz>0</iyz>
-          <izz>0.166667</izz>
+          <ixx>101700.416687</ixx>
+          <ixy>0.0000070</ixy>
+          <ixz>0.0000020</ixz>
+          <iyy>31000.541656</iyy>
+          <iyz>0.00000</iyz>
+          <izz>132500.541504</izz>
         </inertia>
         <pose frame=''>0 0 0 0 -0 0</pose>
-      </inertial>
+      </inertial>      
       <pose frame=''>0 0 0 0 -0 0</pose>
       <gravity>1</gravity>
       <self_collide>0</self_collide>
