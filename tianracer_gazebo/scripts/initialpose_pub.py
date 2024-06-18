@@ -119,7 +119,7 @@ class InitialPosePublisher():
 
 def test():
     try:
-        rospy.init_node('initial_pose_publisher')
+        rospy.init_node('initial_pose_publisher', anonymous=True)
         # InitialPosePublisher(10).run()
         InitialPosePublisher(1).run_timer(0.1)
         rospy.spin()
