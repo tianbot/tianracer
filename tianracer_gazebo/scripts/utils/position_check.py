@@ -3,7 +3,7 @@
 # @Time: 2023/10/20 17:02:46
 # @Author: Jeff Wang(Lr_2002)
 # LastEditors: sujit-168 su2054552689@gmail.com
-# LastEditTime: 2024-04-08 11:34:11
+# LastEditTime: 2024-06-16 11:58:04
 
 import rospy, rospkg, os, sys
 from geometry_msgs.msg import PoseStamped
@@ -117,7 +117,8 @@ def test():
         pkg_path = rospkg.RosPack().get_path(package_name)
 
         # Construct the path to scripts directory
-        filename= os.path.join(pkg_path, f"scripts/waypoint_race/{world}_check_points.yaml")
+        filename= os.path.join(pkg_path, f"scripts/waypoint_race/{world}_check_points.yaml")    
+        print(f"\033[1;33mThe {world}.world is loading...................................\033[0m")
         # print(f"check_point.yaml: {filename}")
     except rospkg.ResourceNotFound:
         rospy.logerr("Package '%s' not found" % package_name)
