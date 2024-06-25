@@ -87,7 +87,7 @@ def cal_distance(points):
     return ((x2 - x1) ** 2 + (y2 - y1) ** 2) ** 0.5
 
 def analysis(data):
-    global ana_history_position,ana_cnt, ana_check_list
+    global ana_history_position, ana_cnt, ana_check_list
     robot_data = data.name
     pose_data = data.pose
     robot_index = robot_data.index(robot_name)
@@ -98,16 +98,18 @@ def analysis(data):
     y = now_position.y
     now_line = (ana_history_position, (x,y))
     distance = cal_distance(now_line)
-    # if distance <=0.01:
-    #     distance = 0
     ana_history_position = (x, y)
-    # print(history_position)
     tmp = ana_cnt % 3
     if is_intersect(now_line, ana_check_list[tmp]):
         print('已经通过' + str(tmp) +'点')
         ana_cnt +=1 
         return ('已经通过' + str(tmp) +'点', ana_cnt-1), distance
     return None, distance
+
+def reset_variables():
+    global ana_history_position, ana_cnt, ana_check_list
+    ana_cnt = 0
+    ana_history_position= (0,0)
 
 def test():
     package_name = "tianracer_gazebo"
