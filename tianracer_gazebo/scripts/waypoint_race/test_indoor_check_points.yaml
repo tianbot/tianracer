@@ -8,7 +8,7 @@ waypoints:
       y: 0.0
       z: -0.9999727910507572
     position:
-      x: -5.56
+      x: -5.36
       y: 7.90
       z: 0.0
 - frame_id: map
@@ -20,7 +20,7 @@ waypoints:
       y: 0.0
       z: -0.9969341285400682
     position:
-      x: -6.45
+      x: -6.95
       y: 7.90
       z: 0.0
 - frame_id: map
@@ -32,7 +32,7 @@ waypoints:
       y: 0.0
       z: 0.7123041065929286
     position:
-      x: -6.39
+      x: -6.99
       y: 2.73
       z: 0.0
 - frame_id: map
@@ -44,7 +44,7 @@ waypoints:
       y: 0.0
       z: 0.7280605703157049
     position:
-      x: -5.37
+      x: -5.30
       y: 2.73
       z: 0.0
 - frame_id: map
@@ -56,7 +56,7 @@ waypoints:
       y: 0.0
       z: -0.7018714690149569
     position:
-      x: 0.50
+      x: 0.80
       y: -0.14
       z: 0.0
 - frame_id: map
@@ -68,6 +68,6 @@ waypoints:
       y: 0.0
       z: -0.6885675619205333
     position:
-      x: -0.40
+      x: -0.80
       y: -0.14
       z: 0.0
