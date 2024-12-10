@@ -1,6 +1,6 @@
 <launch>
   <arg name="rgbd_camera" />
-
+  
   <arg name="camera"              default="camera"/>
   <arg name="tf_prefix"           default="$(arg camera)"/>
 
@@ -67,7 +67,7 @@
       <arg name="enable_fisheye"           value="$(arg enable_fisheye)"/>
       <arg name="enable_infra1"            value="$(arg enable_infra1)"/>
       <arg name="enable_infra2"            value="$(arg enable_infra2)"/>
-      <arg name="enable_imu"               value="$(arg enable_imu)"/>
+      <arg name="align_depth"               value="$(arg align_depth)"/>
 
     </include>
   </group>
