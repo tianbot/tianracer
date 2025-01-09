@@ -1,6 +1,6 @@
 <launch>
   <arg name="rgbd_camera" />
-  
+
   <arg name="camera"              default="camera"/>
   <arg name="tf_prefix"           default="$(arg camera)"/>
 
@@ -34,14 +34,13 @@
   <arg name="color_fps"           default="30"/>
   <arg name="gyro_fps"            default="1000"/>
   <arg name="accel_fps"           default="1000"/>
-  <arg name="enable_imu"          default="false"/>
 
   <arg name="enable_pointcloud"   default="true"/>
   <arg name="pointcloud_texture_stream" default="RS2_STREAM_COLOR"/>
   <arg name="pointcloud_texture_index"  default="0"/>
 
-  <arg name="enable_sync"         default="true"/>
-  <arg name="align_depth"         default="true"/>
+  <arg name="enable_sync"         default="false"/>
+  <arg name="align_depth"         default="false"/>
 
   <arg name="filters"             default=""/>
 
