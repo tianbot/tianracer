@@ -2,9 +2,12 @@
 
 <launch>
   <arg name="gps" default="$(optenv TIANRACER_GPS none)" />
+  <arg name="robot_name" default="$(optenv TIANRACER_NAME /)" doc="robot name [tianracer_No1, tianracer_No2, tianracer_No3, ...]"/>
 
-  <node pkg="tianbot_gps" type="nmea_serial_driver" name="tianbot_gps" if="$(eval gps=='nmea0183')" >
-    <param name="port" value="/dev/tianbot_gps" />
-    <param name="baud" value="38400" />
-  </node>
+  <group ns="$(arg robot_name)">
+    <node pkg="tianbot_gps" type="nmea_serial_driver" name="tianbot_gps" if="$(eval gps=='nmea0183')" >
+      <param name="port" value="/dev/tianbot_gps" />
+      <param name="baud" value="38400" />
+    </node>
+  </group>
 </launch>
