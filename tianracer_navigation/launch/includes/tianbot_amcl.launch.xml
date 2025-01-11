@@ -42,7 +42,7 @@
         <param name="tf_broadcast" value="true"/>
 
         <param name="odom_frame_id" value="$(arg robot_name)/odom"/>
-        <param name="global_frame_id" value="map"/>
+        <param name="global_frame_id" value="$(arg robot_name)/map"/>
         <param name="base_frame_id" value="$(arg robot_name)/base_footprint"/>
         <param name="odom_model_type" value="diff"/>
 

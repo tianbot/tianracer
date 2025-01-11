@@ -8,8 +8,8 @@
   - rviz view
  -->
 <launch>
-    <arg name="robot_name" default="tianracer"/>
-    <arg name="use_rviz" default="true" />
+    <arg name="robot_name" default="$(optenv TIANRACER_NAME tianracer)" doc="robot name [tianracer_No1, tianracer_No2, tianracer_No3, ...]"/>
+    <arg name="use_rviz" default="false" />
     
     <!-- for amcl -->
     <arg name="init_x" default="0.0" />

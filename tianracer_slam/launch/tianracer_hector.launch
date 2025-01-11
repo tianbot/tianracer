@@ -13,7 +13,7 @@
     <group ns="$(arg robot_name)">
       <node pkg="hector_mapping" type="hector_mapping" name="hector_mapping" output="screen">
           <!-- Frame names -->
-          <param name="map_frame" value="map" />
+          <param name="map_frame" value="$(arg robot_name)/map" />
           <param name="base_frame" value="$(arg robot_name)/$(arg base_frame)" />
           <param name="odom_frame" value="$(arg robot_name)/$(arg odom_frame)" />
 
