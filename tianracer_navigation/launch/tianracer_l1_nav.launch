@@ -17,14 +17,14 @@
 
     <!-- Localization -->
     <!-- AMCL -->
-    <include file="$(find tianracer_navigation)/launch/includes/tianbot_amcl.launch.xml">
+    <include file="$(find tianracer_navigation)/launch/includes/tianracer_amcl.launch.xml">
         <arg name="init_x" value="$(arg init_x)"/>
         <arg name="init_y" value="$(arg init_y)"/>
         <arg name="init_a" value="$(arg init_a)"/>
     </include>
 
     <!-- Navigation -->
-    <include file="$(find tianracer_navigation)/launch/includes/tianbot_move_base.launch.xml" />
+    <include file="$(find tianracer_navigation)/launch/includes/tianracer_move_base.launch.xml" />
 
 
     <node pkg="rviz" type="rviz" name="rviz" args="-d $(find tianracer_rviz)/rviz_cfg/tianbot_amcl.rviz" if="$(arg use_rviz)" />
