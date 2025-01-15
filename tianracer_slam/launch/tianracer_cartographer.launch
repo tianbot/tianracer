@@ -24,8 +24,7 @@
             -configuration_directory $(find tianracer_slam)/param
             -configuration_basename 2d_scan.lua"
         output="screen">
-      <remap from="/odom" to="/odometry/filtered"/>
-      <remap from="/imu" to="/tianracer/imu"/>
+      <remap from="odom" to="odometry/filtered"/>
     </node>
 
     <node name="cartographer_occupancy_grid_node" pkg="cartographer_ros"
