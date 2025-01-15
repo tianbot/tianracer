@@ -31,7 +31,9 @@
 
     <group ns="$(arg robot_name)">
         <!-- Map server -->
-        <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_path)/$(arg map_file).yaml" />
+        <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_path)/$(arg map_file).yaml" >
+            <param name="frame_id" value="$(arg robot_name)/map" />
+        </node>
 
         <!-- Localization -->
         <!-- AMCL -->
@@ -61,20 +63,20 @@
             <param if="$(eval base=='fullsize')" name="footprint" value="[[0.8,0.27],[0.8,-0.27],[-0.2,-0.27],[-0.2,0.27]]" />
             <param name="clearing_rotation_allowed" value="false" /> <!-- Our carlike robot is not able to rotate in place -->
 
-            <param unless="$(eval robot_name=='/')" name="local_costmap/robot_base_frame" value="$(arg robot_name)/$(arg base_frame_id)"/>
-            <param unless="$(eval robot_name=='/')" name="local_costmap/global_frame" value="$(arg robot_name)/$(arg odom_frame_id)"/>
-            <param unless="$(eval robot_name=='/')" name="local_costmap/scan/sensor_frame" value="$(arg robot_name)/$(arg laser_frame_id)"/>
-            <param unless="$(eval robot_name=='/')" name="local_costmap/scan/topic" value="/$(arg robot_name)/$(arg laser_topic)"/>
-            <param unless="$(eval robot_name=='/')" name="local_costmap/depth_points/topic" value="/$(arg robot_name)/$(arg depth_points_topic)"/>
-            <param unless="$(eval robot_name=='/')" name="local_costmap/lidar_points/topic" value="/$(arg robot_name)/$(arg lidar_points_topic)"/>
+            <param name="local_costmap/robot_base_frame" value="$(arg robot_name)/$(arg base_frame_id)"/>
+            <param name="local_costmap/global_frame" value="$(arg robot_name)/$(arg odom_frame_id)"/>
+            <param name="local_costmap/scan/sensor_frame" value="$(arg robot_name)/$(arg laser_frame_id)"/>
+            <param name="local_costmap/scan/topic" value="/$(arg robot_name)/$(arg laser_topic)"/>
+            <param name="local_costmap/depth_points/topic" value="/$(arg robot_name)/$(arg depth_points_topic)"/>
+            <param name="local_costmap/lidar_points/topic" value="/$(arg robot_name)/$(arg lidar_points_topic)"/>
             
-            <param unless="$(eval robot_name=='/')" name="global_costmap/robot_base_frame" value="$(arg robot_name)/$(arg base_frame_id)"/>
-            <param unless="$(eval robot_name=='/')" name="global_costmap/global_frame" value="$(arg robot_name)/$(arg global_frame_id)"/>
-            <param unless="$(eval robot_name=='/')" name="global_costmap/scan/sensor_frame" value="$(arg robot_name)/$(arg laser_frame_id)"/>
-            <param unless="$(eval robot_name=='/')" name="global_costmap/scan/topic" value="/$(arg robot_name)/$(arg laser_topic)"/>
-            <param unless="$(eval robot_name=='/')" name="global_costmap/depth_points/topic" value="/$(arg robot_name)/$(arg depth_points_topic)"/>
-            <param unless="$(eval robot_name=='/')" name="global_costmap/lidar_points/topic" value="/$(arg robot_name)/$(arg lidar_points_topic)"/>
-            <param unless="$(eval robot_name=='/')" name="TebLocalPlannerROS/odom_topic" value="/$(arg robot_name)/$(arg odom_topic)"/>
+            <param name="global_costmap/robot_base_frame" value="$(arg robot_name)/$(arg base_frame_id)"/>
+            <param name="global_costmap/global_frame" value="$(arg robot_name)/$(arg global_frame_id)"/>
+            <param name="global_costmap/scan/sensor_frame" value="$(arg robot_name)/$(arg laser_frame_id)"/>
+            <param name="global_costmap/scan/topic" value="/$(arg robot_name)/$(arg laser_topic)"/>
+            <param name="global_costmap/depth_points/topic" value="/$(arg robot_name)/$(arg depth_points_topic)"/>
+            <param name="global_costmap/lidar_points/topic" value="/$(arg robot_name)/$(arg lidar_points_topic)"/>
+            <param name="TebLocalPlannerROS/odom_topic" value="/$(arg robot_name)/$(arg odom_topic)"/>
 
         </node>
         <!-- cmd_vel to ackermann_cmd -->
