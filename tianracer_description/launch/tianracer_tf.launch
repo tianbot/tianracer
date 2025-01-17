@@ -3,7 +3,7 @@
 <launch>
   <arg name="base" default="$(optenv TIANRACER_BASE compact)" />
   <arg name="lidar" default="$(optenv TIANRACER_LIDAR richbeam)" />
-  <arg name="robot_name" default="$(optenv TIANRACER_NAME /)" doc="robot name [tianracer_No1, tianracer_No2, tianracer_No3, ...]"/>
+  <arg name="robot_name" default="$(optenv TIANRACER_NAME tianracer)" doc="robot name [tianracer_No1, tianracer_No2, tianracer_No3, ...]"/>
 
   <group if="$(eval robot_name=='/')">
     <include if="$(eval base == 'compact')" file="$(find tianracer_description)/launch/tianracer_description.launch" >

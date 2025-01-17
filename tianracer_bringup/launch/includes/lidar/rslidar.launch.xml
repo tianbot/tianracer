@@ -9,7 +9,7 @@
   <arg name="cut_angle" default="0" doc="If set at [0, 360), cut at specific angle feature activated, oth
 erwise use the fixed packets number mode."/>
   <arg name="lidar_param_path" default="$(find rslidar_pointcloud)/data/rs_lidar_16/"/>
-  <arg name="robot_name" default="$(optenv TIANRACER_NAME /)" doc="robot name [tianracer_No1, tianracer_No2, tianracer_No3, ...]"/>
+  <arg name="robot_name" default="$(optenv TIANRACER_NAME tianracer)" doc="robot name [tianracer_No1, tianracer_No2, tianracer_No3, ...]"/>
 
   <group ns="$(robot_name)">
     <node  name="rslidar_node" pkg="rslidar_driver" type="rslidar_node" output="screen" >
@@ -65,5 +65,3 @@ erwise use the fixed packets number mode."/>
   </group>
    
 </launch>
-
-

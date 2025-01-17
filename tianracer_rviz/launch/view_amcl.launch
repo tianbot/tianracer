@@ -2,7 +2,12 @@
 
 <launch>
     <arg name="use_rviz" default="true" />
+    <arg name="robot_name" default="$(optenv TIANRACER_NAME tianracer)" doc="robot name [tianracer_No1, tianracer_No2, tianracer_No3, ...]"/>
+    <arg name="fixed_frame" value="$(arg robot_name)/map"/>
 
     <!-- Rviz -->
-    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find tianracer_rviz)/rviz_cfg/tianbot_amcl.rviz" if="$(arg use_rviz)" />
+    <node ns="$(arg robot_name)" pkg="rviz" type="rviz" name="rviz" args="-d $(find tianracer_rviz)/rviz_cfg/tianbot_amcl.rviz -f $(arg fixed_frame)" if="$(arg use_rviz)">
+      <remap from="/move_base_simple/goal" to="move_base_simple/goal" />
+      <remap from="/initialpose" to="initialpose" />
+    </node>
 </launch>

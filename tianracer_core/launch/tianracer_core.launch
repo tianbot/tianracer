@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <launch>
-  <arg name="robot_name" default="$(optenv TIANRACER_NAME /)" doc="robot name [tianracer_No1, tianracer_No2, tianracer_No3, ...]"/>
+  <arg name="robot_name" default="$(optenv TIANRACER_NAME tianracer)" doc="robot name [tianracer_No1, tianracer_No2, tianracer_No3, ...]"/>
   <arg name="serial_port" default="$(optenv TIANRACER_BASE_PORT /dev/ttyUSB1)" />
   <arg name="serial_baudrate" default="$(optenv TIANRACER_BASE_BAUDRATE 115200)" />
 

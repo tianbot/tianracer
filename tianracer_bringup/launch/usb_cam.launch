@@ -2,7 +2,7 @@
 
 <launch>
   <arg name="video_device" default="$(optenv TIANRACER_VIDEO_DEVICE /dev/video0)" />
-  <arg name="robot_name" default="$(optenv TIANRACER_NAME /)" doc="robot name [tianracer_No1, tianracer_No2, tianracer_No3, ...]"/>
+  <arg name="robot_name" default="$(optenv TIANRACER_NAME tianracer)" doc="robot name [tianracer_No1, tianracer_No2, tianracer_No3, ...]"/>
 
   <group ns="$(arg robot_name)">
     <node name="usb_cam" pkg="usb_cam" type="usb_cam_node" output="screen" if="$(eval '/dev/' in video_device)">
@@ -15,4 +15,3 @@
     </node>
   </group>
 </launch>
-

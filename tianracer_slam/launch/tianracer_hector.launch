@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <launch>
-    <arg name="robot_name" default="$(optenv TIANRACER_NAME /)" doc="robot name [tianracer_No1, tianracer_No2, tianracer_No3, ...]"/>
+    <arg name="robot_name" default="$(optenv TIANRACER_NAME tianracer)" doc="robot name [tianracer_No1, tianracer_No2, tianracer_No3, ...]"/>
     <arg name="tf_map_scanmatch_transform_frame_name" default="scanmatcher_frame"/>
     <arg name="base_frame" default="base_footprint"/>
     <arg name="odom_frame" default="odom"/>
