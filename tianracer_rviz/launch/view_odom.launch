@@ -2,8 +2,10 @@
 
 <launch>
     <arg name="use_rviz" default="true" />
+    <arg name="robot_name" default="$(optenv TIANRACER_NAME tianracer)" doc="robot name [tianracer_No1, tianracer_No2, tianracer_No3, ...]"/>
+    <arg name="fixed_frame" value="$(arg robot_name)/odom"/>
 
     <!-- Rviz -->
-    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find tianracer_rviz)/rviz_cfg/tianbot_odom.rviz" if="$(arg use_rviz)"/>
+    <node ns="$(arg robot_name)" pkg="rviz" type="rviz" name="rviz" args="-d $(find tianracer_rviz)/rviz_cfg/tianracer_odom.rviz -f $(arg fixed_frame)" if="$(arg use_rviz)"/>
 
 </launch>
