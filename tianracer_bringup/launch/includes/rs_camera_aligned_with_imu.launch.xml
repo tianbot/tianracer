@@ -1,5 +1,6 @@
 <launch>
   <arg name="rgbd_camera" />
+  <!-- it 's suitable for realsense aligned depth and rgb image -->
 
   <arg name="camera"              default="camera"/>
   <arg name="tf_prefix"           default="$(arg camera)"/>
@@ -35,12 +36,18 @@
   <arg name="gyro_fps"            default="1000"/>
   <arg name="accel_fps"           default="1000"/>
 
-  <arg name="enable_pointcloud"   default="true"/>
+  <arg name="enable_pointcloud"   default="false"/>
   <arg name="pointcloud_texture_stream" default="RS2_STREAM_COLOR"/>
   <arg name="pointcloud_texture_index"  default="0"/>
 
-  <arg name="enable_sync"         default="false"/>
-  <arg name="align_depth"         default="false"/>
+  <!-- aligned rgb and depth image of sync -->
+  <arg name="enable_sync"         default="true"/>
+  <arg name="align_depth"         default="true"/>
+
+  <!-- publish imu -->
+  <arg name="unite_imu_method"    default="linear_interpolation"/>
+  <arg name="enable_gyro"         default="true"/>
+  <arg name="enable_accel"        default="true"/>
 
   <arg name="filters"             default=""/>
 
@@ -67,6 +74,11 @@
       <arg name="enable_infra1"            value="$(arg enable_infra1)"/>
       <arg name="enable_infra2"            value="$(arg enable_infra2)"/>
       <arg name="align_depth"               value="$(arg align_depth)"/>
+
+      <!-- imu -->
+      <arg name="enable_gyro"              value="$(arg enable_gyro)"/>
+      <arg name="enable_accel"             value="$(arg enable_accel)"/>
+      <arg name="unite_imu_method"         value="$(arg unite_imu_method)"/>
 
     </include>
   </group>
