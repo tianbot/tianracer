@@ -4,7 +4,7 @@
     <arg name="lidar"/>
     <arg name="model" default="$(optenv TIANRACER_LIDAR_MODEL)" doc="for compatibility" />
     <arg name="serial_port"           default="$(optenv TIANRACER_LIDAR_PORT /dev/ttyUSB0)" />
-    <arg name="robot_name" default="$(optenv TIANRACER_NAME /)" doc="robot name [tianracer_No1, tianracer_No2, tianracer_No3, ...]"/>
+    <arg name="robot_name" default="$(optenv TIANRACER_NAME tianracer)" doc="robot name [tianracer_No1, tianracer_No2, tianracer_No3, ...]"/>
 
     <group ns="$(robot_name)">
         <node name="rplidarNode"          pkg="rplidar_ros"  type="rplidarNode" output="screen">

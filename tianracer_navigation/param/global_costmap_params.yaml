@@ -18,7 +18,7 @@ global_costmap:
         - {name: inflation, type: "costmap_2d::InflationLayer"}
 
     static:        
-        map_topic: /map 
+        map_topic: map 
         subscribe_to_updates: true
 
     sensor:

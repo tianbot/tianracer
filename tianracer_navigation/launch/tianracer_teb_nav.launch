@@ -8,8 +8,8 @@
   - rviz view
  -->
 <launch>
-    <arg name="robot_name" default="tianracer"/>
-    <arg name="use_rviz" default="true" />
+    <arg name="robot_name" default="$(optenv TIANRACER_NAME tianracer)" doc="robot name [tianracer_No1, tianracer_No2, tianracer_No3, ...]"/>
+    <arg name="use_rviz" default="false" />
     
     <!-- for amcl -->
     <arg name="init_x" default="0.0" />
@@ -28,21 +28,25 @@
     <arg name="laser_topic" default="scan" />
     <arg name="depth_points_topic" default="camera/depth_registered/points" />
     <arg name="lidar_points_topic" default="lidar_points" /> 
-    <arg name="map_frame" default="odom" />
-    <!-- Map server -->
-    <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_path)/$(arg map_file).yaml" ns="$(arg robot_name)"/>
 
-    <!-- Localization -->
-    <!-- AMCL -->
-    <include file="$(find tianracer_navigation)/launch/includes/tianbot_amcl.launch.xml">
-        <arg name="init_x" value="$(arg init_x)"/>
-        <arg name="init_y" value="$(arg init_y)"/>
-        <arg name="init_a" value="$(arg init_a)"/>
-        <arg name="robot_name" value="$(arg robot_name)"/>
-    </include>
-    
-    <!--  Navigation -->
     <group ns="$(arg robot_name)">
+        <!-- Map server -->
+        <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_path)/$(arg map_file).yaml" >
+            <param name="frame_id" value="$(arg robot_name)/map" />
+        </node>
+
+        <!-- Localization -->
+        <!-- AMCL -->
+        <include file="$(find tianracer_navigation)/launch/includes/tianracer_amcl.launch.xml">
+            <arg name="init_x" value="$(arg init_x)"/>
+            <arg name="init_y" value="$(arg init_y)"/>
+            <arg name="init_a" value="$(arg init_a)"/>
+            <arg name="odom_frame_id" value="$(arg robot_name)/$(arg odom_frame_id)"/>
+            <arg name="base_frame_id" value="$(arg robot_name)/$(arg base_frame_id)"/>
+            <arg name="global_frame_id" value="$(arg robot_name)/$(arg global_frame_id)"/>
+        </include>
+        
+        <!--  Navigation -->
         <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
             <rosparam file="$(find tianracer_navigation)/param/move_base_params.yaml" command="load"/>
             <rosparam file="$(find tianracer_navigation)/param/teb_carlike/costmap_common_params.yaml" command="load" ns="global_costmap" />
@@ -59,25 +63,23 @@
             <param if="$(eval base=='fullsize')" name="footprint" value="[[0.8,0.27],[0.8,-0.27],[-0.2,-0.27],[-0.2,0.27]]" />
             <param name="clearing_rotation_allowed" value="false" /> <!-- Our carlike robot is not able to rotate in place -->
 
-            <param unless="$(eval robot_name=='/')" name="local_costmap/robot_base_frame" value="$(arg robot_name)/$(arg base_frame_id)"/>
-            <param unless="$(eval robot_name=='/')" name="local_costmap/global_frame" value="$(arg robot_name)/$(arg odom_frame_id)"/>
-            <param unless="$(eval robot_name=='/')" name="local_costmap/scan/sensor_frame" value="$(arg robot_name)/$(arg laser_frame_id)"/>
-            <param unless="$(eval robot_name=='/')" name="local_costmap/scan/topic" value="/$(arg robot_name)/$(arg laser_topic)"/>
-            <param unless="$(eval robot_name=='/')" name="local_costmap/depth_points/topic" value="/$(arg robot_name)/$(arg depth_points_topic)"/>
-            <param unless="$(eval robot_name=='/')" name="local_costmap/lidar_points/topic" value="/$(arg robot_name)/$(arg lidar_points_topic)"/>
+            <param name="local_costmap/robot_base_frame" value="$(arg robot_name)/$(arg base_frame_id)"/>
+            <param name="local_costmap/global_frame" value="$(arg robot_name)/$(arg odom_frame_id)"/>
+            <param name="local_costmap/scan/sensor_frame" value="$(arg robot_name)/$(arg laser_frame_id)"/>
+            <param name="local_costmap/scan/topic" value="/$(arg robot_name)/$(arg laser_topic)"/>
+            <param name="local_costmap/depth_points/topic" value="/$(arg robot_name)/$(arg depth_points_topic)"/>
+            <param name="local_costmap/lidar_points/topic" value="/$(arg robot_name)/$(arg lidar_points_topic)"/>
             
-            <param unless="$(eval robot_name=='/')" name="global_costmap/robot_base_frame" value="$(arg robot_name)/$(arg base_frame_id)"/>
-            <param unless="$(eval robot_name=='/')" name="global_costmap/global_frame" value="$(arg global_frame_id)"/>
-            <param unless="$(eval robot_name=='/')" name="global_costmap/scan/sensor_frame" value="$(arg robot_name)/$(arg laser_frame_id)"/>
-            <param unless="$(eval robot_name=='/')" name="global_costmap/scan/topic" value="/$(arg robot_name)/$(arg laser_topic)"/>
-            <param unless="$(eval robot_name=='/')" name="global_costmap/depth_points/topic" value="/$(arg robot_name)/$(arg depth_points_topic)"/>
-            <param unless="$(eval robot_name=='/')" name="global_costmap/lidar_points/topic" value="/$(arg robot_name)/$(arg lidar_points_topic)"/>
-            <param unless="$(eval robot_name=='/')" name="TebLocalPlannerROS/odom_topic" value="/$(arg robot_name)/$(arg odom_topic)"/>
+            <param name="global_costmap/robot_base_frame" value="$(arg robot_name)/$(arg base_frame_id)"/>
+            <param name="global_costmap/global_frame" value="$(arg robot_name)/$(arg global_frame_id)"/>
+            <param name="global_costmap/scan/sensor_frame" value="$(arg robot_name)/$(arg laser_frame_id)"/>
+            <param name="global_costmap/scan/topic" value="/$(arg robot_name)/$(arg laser_topic)"/>
+            <param name="global_costmap/depth_points/topic" value="/$(arg robot_name)/$(arg depth_points_topic)"/>
+            <param name="global_costmap/lidar_points/topic" value="/$(arg robot_name)/$(arg lidar_points_topic)"/>
+            <param name="TebLocalPlannerROS/odom_topic" value="/$(arg robot_name)/$(arg odom_topic)"/>
 
         </node>
-    </group>
-    <!-- cmd_vel to ackermann_cmd -->
-    <group ns="$(arg robot_name)">
+        <!-- cmd_vel to ackermann_cmd -->
         <node pkg="tianracer_navigation" type="cmd_vel_to_ackermann_drive.py" name="vel_to_ackermann" >
             <param name="twist_cmd_topic" value="/$(arg robot_name)/cmd_vel" />
             <param name="ackermann_cmd_topic" value="/$(arg robot_name)/ackermann_cmd" />

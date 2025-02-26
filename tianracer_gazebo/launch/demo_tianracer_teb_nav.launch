@@ -1,7 +1,7 @@
 <launch>
     <!-- Config map file -->
     <arg name="world" default="tianracer_racetrack" />
-    <arg name="robot_name" default="$(optenv TIANRACER_NAME /)" doc="robot name [tianracer_No1, tianracer_No2, tianracer_No3, ...]"/>
+    <arg name="robot_name" default="$(optenv TIANRACER_NAME tianracer)" doc="robot name [tianracer_No1, tianracer_No2, tianracer_No3, ...]"/>
     <arg name="namespace" default="tianracer"/>
 
     <!-- rviz -->

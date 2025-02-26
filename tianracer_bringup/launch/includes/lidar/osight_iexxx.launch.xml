@@ -3,7 +3,7 @@
 <launch>
     <arg name="lidar_ip" default="192.168.1.10" />
     <arg name="lidar_name" default="osight_lidar" />
-    <arg name="robot_name" default="$(optenv TIANRACER_NAME /)" doc="robot name [tianracer_No1, tianracer_No2, tianracer_No3, ...]"/>
+    <arg name="robot_name" default="$(optenv TIANRACER_NAME tianracer)" doc="robot name [tianracer_No1, tianracer_No2, tianracer_No3, ...]"/>
     <arg name="lidar_model" default="iexxx" />
     <arg name="frame_id" default="laser" />
 
@@ -27,4 +27,3 @@
     </group>
 
 </launch>
-

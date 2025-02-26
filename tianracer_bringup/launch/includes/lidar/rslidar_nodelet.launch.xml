@@ -6,7 +6,7 @@
   <arg name="model" default="RS16" />
   <arg name="msop_port" default="6699" />
   <arg name="difop_port" default="7788" />
-  <arg name="robot_name" default="$(optenv TIANRACER_NAME /)" doc="robot name [tianracer_No1, tianracer_No2, tianracer_No3, ...]"/>
+  <arg name="robot_name" default="$(optenv TIANRACER_NAME tianracer)" doc="robot name [tianracer_No1, tianracer_No2, tianracer_No3, ...]"/>
 
   <group ns="$(robot_name)">
     <!-- start nodelet manager -->
