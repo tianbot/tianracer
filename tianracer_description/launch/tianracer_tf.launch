@@ -15,6 +15,7 @@
       <include if="$(eval 'rplidar' in lidar)" file="$(find tianracer_description)/launch/includes/standard_rplidar_tf.launch.xml" />
       <include if="$(eval 'velodyne' in lidar)" file="$(find tianracer_description)/launch/includes/standard_3d_points_tf.launch.xml" />
       <include if="$(eval 'rslidar' in lidar)" file="$(find tianracer_description)/launch/includes/standard_3d_points_tf.launch.xml" />
+      <include if="$(eval 'richbeam' in lidar)" file="$(find tianracer_description)/launch/includes/standard_richbeam_tf.launch.xml" />
     </group>
 
     <include if="$(eval base == 'fullsize')" file="$(find tianracer_description)/launch/includes/fullsize_tf.launch.xml" />
@@ -30,6 +31,7 @@
       <include if="$(eval 'rplidar' in lidar)" file="$(find tianracer_description)/launch/includes/standard_rplidar_tf.launch.xml" />
       <include if="$(eval 'velodyne' in lidar)" file="$(find tianracer_description)/launch/includes/standard_3d_points_tf.launch.xml" />
       <include if="$(eval 'rslidar' in lidar)" file="$(find tianracer_description)/launch/includes/standard_3d_points_tf.launch.xml" />
+      <include if="$(eval 'richbeam' in lidar)" file="$(find tianracer_description)/launch/includes/standard_richbeam_tf.launch.xml" />
     </group>
 
     <include if="$(eval base == 'fullsize')" file="$(find tianracer_description)/launch/includes/fullsize_tf.launch.xml" />

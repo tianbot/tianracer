@@ -35,7 +35,7 @@
   <arg name="gyro_fps"            default="1000"/>
   <arg name="accel_fps"           default="1000"/>
 
-  <arg name="enable_pointcloud"   default="true"/>
+  <arg name="enable_pointcloud"   default="false"/>
   <arg name="pointcloud_texture_stream" default="RS2_STREAM_COLOR"/>
   <arg name="pointcloud_texture_index"  default="0"/>
 
@@ -52,6 +52,7 @@
 
       <arg name="enable_pointcloud"        value="$(arg enable_pointcloud)"/>
       <arg name="enable_sync"              value="$(arg enable_sync)"/>
+      <arg name="align_depth"              value="$(arg align_depth)"/>
 
       <arg name="depth_width"              value="$(arg depth_width)"/>
       <arg name="depth_height"             value="$(arg depth_height)"/>

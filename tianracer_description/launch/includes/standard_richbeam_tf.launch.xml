@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<launch>
+    <arg name="robot_name" default="$(optenv TIANRACER_NAME tianracer)" doc="robot name [tianracer_No1, tianracer_No2, tianracer_No3, ...]"/>
+    <group if="$(eval robot_name=='/')">
+        <node pkg="tf2_ros" type="static_transform_publisher" name="base_footprint2base_link" args="0 0 0.065 0 0 0 base_footprint base_link"/>
+        <node pkg="tf2_ros" type="static_transform_publisher" name="base_link2laser" args="0.34 0 0.12 0 0 0 base_link laser"/>
+        <node pkg="tf2_ros" type="static_transform_publisher" name="base_link2imu" args="0.34 0 0.12 0 0 0 base_link imu_link"/>
+        <node pkg="tf2_ros" type="static_transform_publisher" name="base_link2camera" args="0.41 0 0.075 0 0 0 base_link camera_link"/>
+    </group>
+
+    <group unless="$(eval robot_name=='/')" ns="$(arg robot_name)">
+        <node pkg="tf2_ros" type="static_transform_publisher" name="base_footprint2base_link" args="0 0 0.065 0 0 0 $(arg robot_name)/base_footprint $(arg robot_name)/base_link"/>
+        <node pkg="tf2_ros" type="static_transform_publisher" name="base_link2laser" args="0.34 0 0.12 0 0 0 $(arg robot_name)/base_link $(arg robot_name)/laser"/>
+        <node pkg="tf2_ros" type="static_transform_publisher" name="base_link2imu" args="0.34 0 0.12 0 0 0 $(arg robot_name)/base_link $(arg robot_name)/imu_link"/>
+        <node pkg="tf2_ros" type="static_transform_publisher" name="base_link2camera" args="0.41 0 0.075 0 0 0 $(arg robot_name)/base_link camera_link"/>
+    </group>
+</launch>
