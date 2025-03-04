@@ -39,10 +39,10 @@ class SubAndPub:
     # 初始化公有变量
     def __init__(self):
         rospy.init_node("pure_pursuit_py", anonymous=True)
-        self.pub_env = rospy.Publisher('/env_viz',Marker,queue_size=10)
-        self.sub_odom = rospy.Subscriber('/odom',Odometry,self.odom_callback)
-        self.pub_dynamic = rospy.Publisher('/dynamic_viz',Marker,queue_size=10)
-        self.pub_drive = rospy.Publisher('drive',AckermannDriveStamped,queue_size=10)
+        self.pub_env = rospy.Publisher('env_viz',Marker,queue_size=10)
+        self.sub_odom = rospy.Subscriber('odom',Odometry,self.odom_callback)
+        self.pub_dynamic = rospy.Publisher('dynamic_viz',Marker,queue_size=10)
+        self.pub_drive = rospy.Publisher('ackermann_cmd_stamped',AckermannDriveStamped,queue_size=10)
 
         self.flag = True
         self.marker=Marker()
