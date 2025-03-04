@@ -46,7 +46,7 @@ class RaceStateMachine(object):
         rospy.loginfo("the status of move_base: %s", self._ac_move_base.get_state())
 
         # clear_costmap
-        self._clear_costmap_command  = (f"rosservice call /tianracer/move_base/clear_costmaps")
+        self._clear_costmap_command  = (f"rosservice call move_base/clear_costmaps")
         
         # the following is to display the target point
         self._pub_viz_marker = rospy.Publisher('viz_waypoints', viz_msgs.MarkerArray, queue_size=1, latch=True)
@@ -121,7 +121,7 @@ class RaceStateMachine(object):
                 rospy.sleep(1.0)   # controls the length of time the vehicle can continue to drive after sending the target point
 
 if __name__ == '__main__':
-    rospy.init_node('race')
+    rospy.init_node('multi_goals')
     package_name = "tianracer_gazebo"
 
     # Get the package path

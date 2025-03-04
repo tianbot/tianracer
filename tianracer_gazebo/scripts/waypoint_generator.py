@@ -35,10 +35,11 @@ class WaypointGenerator(object):
     def _write_file(self):
         way_pts = {}
         way_pts['waypoints'] = self._waypoints
-        # 把目标点输出成 yaml 文件
+
+        # export to yaml file
         try:
             with open(self._filename, 'a') as f:
-                print("-------\n",self._filename)
+                rospy.loginfo("your waypoints files save as: \n------------------------------------------------\n %s \n------------------------------------------------", self._filename)
                 f.write(yaml.dump(way_pts, default_flow_style=False))
         except FileNotFoundError as e:
             rospy.logerr(e)
@@ -48,11 +49,11 @@ class WaypointGenerator(object):
         self._write_file()
 
 if __name__ == '__main__':
-
     rospy.init_node('waypoint_generator')
-    filename = "/home/tianbot/tianbot_ws/src/tianracer/tianracer_gazebo/scripts/waypoint_touring/points.yaml"
+    filename = "/home/tianbot/tianbot_ws/src/tianracer/tianracer_gazebo/scripts/waypoint_race/points.yaml"
     filename = rospy.get_param("~filename", filename)
     g = WaypointGenerator(filename)
-    rospy.loginfo('Initialized')
+    rospy.loginfo('Initialized, use 2D Nav Goal to generate waypoints in your map')
+    rospy.logwarn('press Ctrl+C to save!')
     g.spin()
     rospy.loginfo('File generated')
