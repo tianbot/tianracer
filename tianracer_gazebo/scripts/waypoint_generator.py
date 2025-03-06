@@ -5,7 +5,7 @@
 
 import os
 import yaml
-import rospy
+import rospy, rospkg
 import geometry_msgs.msg as geometry_msgs
 
 robot_name = os.getenv("TIANRACER_NAME", "tianracer")
@@ -50,8 +50,20 @@ class WaypointGenerator(object):
 
 if __name__ == '__main__':
     rospy.init_node('waypoint_generator')
-    filename = "/home/tianbot/tianbot_ws/src/tianracer/tianracer_gazebo/scripts/waypoint_race/points.yaml"
+    package_name = "tianracer_gazebo"
+
+    # Get the package path
+    try:
+        pkg_path = rospkg.RosPack().get_path(package_name)
+
+        # Construct the path to scripts directory
+        filename= os.path.join(pkg_path, f"scripts/waypoint_race/points.yaml")
+    except rospkg.ResourceNotFound:
+        rospy.logerr("Package '%s' not found" % package_name)
+        exit(1)
+
     filename = rospy.get_param("~filename", filename)
+    print(f"yaml: {filename}")
     g = WaypointGenerator(filename)
     rospy.loginfo('Initialized, use 2D Nav Goal to generate waypoints in your map')
     rospy.logwarn('press Ctrl+C to save!')
