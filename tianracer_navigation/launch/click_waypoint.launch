@@ -1,0 +1,6 @@
+<launch>
+    <arg name="filename" default="test_points" />
+    <node name="click_waypoint" pkg="tianracer_gazebo" type="waypoint_generator.py" output="screen" >
+        <param name="filename" value="$(find tianracer_gazebo)/scripts/waypoint_race/$(arg filename).yaml" />
+    </node>
+</launch>

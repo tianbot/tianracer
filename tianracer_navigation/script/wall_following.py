@@ -33,7 +33,7 @@ def wall_following_callback(data):
     b = get_range(data, -90)
     a = get_range(data, -90 + np.rad2deg(THETA))
     # print(f"a{a:1.1f} b{b:1.1f}")
-    alpha = np.arctan((a * np.cos(THETA) - b) / (a * np.sin(THETA)))
+    alpha = np.arctan((a * np.cos(THETA) - b) / (a * np.sin(THETA)))   # RuntimeWarning: divide by zero encountered in double_scalars
     AB = b * np.cos(alpha)
     projected_dis = AB + LOOK_AHEAD_DIS * np.sin(alpha)
     error = TARGET_DIS - projected_dis
@@ -52,8 +52,8 @@ def wall_following_callback(data):
 if __name__ == '__main__': 
   try:
     rospy.init_node("wall_following")
-    scan_sub = rospy.Subscriber('/scan', LaserScan, wall_following_callback)
-    drive_pub = rospy.Publisher('/drive', AckermannDriveStamped, queue_size=1)
+    scan_sub = rospy.Subscriber('scan', LaserScan, wall_following_callback)
+    drive_pub = rospy.Publisher('ackermann_cmd_stamped', AckermannDriveStamped, queue_size=1)
     rospy.spin()
     
   except rospy.ROSInterruptException:
