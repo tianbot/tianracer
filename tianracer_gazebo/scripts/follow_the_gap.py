@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 # Created by Chen Yuxuan
 # Modified by Tian Bo
 # @Time: 2023/10/20 17:02:12
