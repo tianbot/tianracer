@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 # @Source: https://www.guyuehome.com/35146
 # @Time: 2023/10/20 17:02:46
 # @Author: Jeff Wang(Lr_2002)
