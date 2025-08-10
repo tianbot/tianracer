@@ -6,7 +6,7 @@
     <arg name="serial_port"           default="$(optenv TIANRACER_LIDAR_PORT /dev/ttyUSB0)" />
     <arg name="robot_name" default="$(optenv TIANRACER_NAME tianracer)" doc="robot name [tianracer_No1, tianracer_No2, tianracer_No3, ...]"/>
 
-    <group ns="$(robot_name)">
+    <group ns="$(arg robot_name)">
         <node name="rplidarNode"          pkg="rplidar_ros"  type="rplidarNode" output="screen">
             <param name="serial_port"         type="string" value="$(arg serial_port)"/>
             <param unless="$(eval 'a3' in model)" name="scan_mode" type="string" value="Boost"/>

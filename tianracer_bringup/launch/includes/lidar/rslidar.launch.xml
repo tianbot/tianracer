@@ -11,7 +11,7 @@ erwise use the fixed packets number mode."/>
   <arg name="lidar_param_path" default="$(find rslidar_pointcloud)/data/rs_lidar_16/"/>
   <arg name="robot_name" default="$(optenv TIANRACER_NAME tianracer)" doc="robot name [tianracer_No1, tianracer_No2, tianracer_No3, ...]"/>
 
-  <group ns="$(robot_name)">
+  <group ns="$(arg robot_name)">
     <node  name="rslidar_node" pkg="rslidar_driver" type="rslidar_node" output="screen" >
       <param name="frame_id" value="laser" />
       <param name="model" value="$(arg model)"/>

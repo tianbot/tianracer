@@ -8,7 +8,7 @@
   <arg name="difop_port" default="7788" />
   <arg name="robot_name" default="$(optenv TIANRACER_NAME tianracer)" doc="robot name [tianracer_No1, tianracer_No2, tianracer_No3, ...]"/>
 
-  <group ns="$(robot_name)">
+  <group ns="$(arg robot_name)">
     <!-- start nodelet manager -->
     <node pkg="nodelet" type="nodelet" name="$(arg manager)" args="manager" />
 

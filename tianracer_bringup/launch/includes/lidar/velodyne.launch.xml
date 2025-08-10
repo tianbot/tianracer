@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 
 <launch>
-  <arg name="lidar" default="$(optenv TIANRACER_LIDAR" />
-  <arg name="lidar_model" default="$(optenv TIANRACER_LIDAR_MODEL" />
+  <arg name="lidar" default="$(optenv TIANRACER_LIDAR)" />
+  <arg name="lidar_model" default="$(optenv TIANRACER_LIDAR_MODEL)" />
   <arg name="robot_name" default="$(optenv TIANRACER_NAME tianracer)" doc="robot name [tianracer_No1, tianracer_No2, tianracer_No3, ...]"/>
 
-  <group ns="$(robot_name)">
+  <group ns="$(arg robot_name)">
     <include if="$(eval '16' in lidar_model)" file="$(find velodyne_pointcloud)/launch/VLP16_points.launch" />
 
     <include if="$(eval '32e' in lidar_model)" file="$(find velodyne_pointcloud)/launch/32e_points.launch" />

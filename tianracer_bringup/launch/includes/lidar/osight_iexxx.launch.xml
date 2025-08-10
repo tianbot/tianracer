@@ -7,7 +7,7 @@
     <arg name="lidar_model" default="iexxx" />
     <arg name="frame_id" default="laser" />
 
-    <group ns="$(robot_name)">
+    <group ns="$(arg robot_name)">
         <node pkg="osight_lidar" type="osight_lidar_node" name="$(arg lidar_name)" output="screen">
             <param name="lidar_model" type="string" value="$(arg lidar_model)"/>
             <param name="lidar_ip" type="string" value="$(arg lidar_ip)"/>
