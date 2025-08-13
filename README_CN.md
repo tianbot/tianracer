@@ -120,7 +120,7 @@ roslaunch tianracer_navigation tianracer_teb_nav.launch
 roslaunch tianracer_rviz view_teb_planner.launch
 ```
 
-### Teb
+### Teb Local Planner
 
 - terminal 1
 ```bash
@@ -133,10 +133,9 @@ roslaunch tianracer_bringup tianracer_bringup.launch
 roslaunch tianracer_navigation tianracer_teb_nav.launch use_rviz:=true map_file:=tianbot_office   # tianbot_office为地图文件前缀名称
 ```
 
-### L1_Controller 
+### L1_Controller Local Planner
 
 该局部规划器的主要策略是追踪全局路径
-
 
 - terminal 1
 ```bash
