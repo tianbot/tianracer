@@ -57,7 +57,7 @@ class RaceStateMachine(object):
         """
         rospy.sleep(0.1)   # wait for 0.1s, ensure tf buffer is updated
 
-        trans = self._buffer.lookup_transform(robot_name+ "/base_footprint", robot_name + "/odom", rospy.Time(0))
+        trans = self._buffer.lookup_transform(robot_name + "/base_footprint", robot_name + "/odom", rospy.Time(0))
         current_goal = self._current_goal.target_pose.pose.position
         rospy.loginfo("current goal x: %s, y: %s", current_goal.x, current_goal.y)
 

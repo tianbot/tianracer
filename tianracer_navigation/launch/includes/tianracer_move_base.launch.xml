@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <launch>
-    <arg name="robot_name" default="$(optenv TIANRACER_NAME tianracer)" doc="robot name [tianracer_No1, tianracer_No2, tianracer_No3, ...]"/>
+    <arg name="robot_name" />
     <arg name="odom_frame_id" default="odom"/>
     <arg name="base_frame_id" default="base_footprint"/>
     <arg name="global_frame_id" default="map"/>
@@ -35,17 +35,20 @@
     </node>
 
     <!-- L1 controller -->  
-    <node pkg="tianracer_navigation" type="L1_controller_v2" respawn="false" name="L1_controller_v2" output="screen">       
+    <node pkg="tianracer_navigation" type="L1_controller_v2" respawn="false" name="L1_controller_v2" output="screen">  
+        <!-- Robot Name -->
+        <!-- <param name="robot_name" value="$(arg robot_name)" /> -->
+        <param name="robot_name" value="$(arg robot_name)" />
         <!-- L1 -->
         <param name="Vcmd" value="1.0" /> <!-- speed of car m/s -->        
         <!-- ESC -->
-	<param name="base_speed" value="1.0"/> <!-- speed of car m/s  --> 
+	    <param name="base_speed" value="1.0"/> <!-- speed of car m/s  --> 
         <!-- Servo -->
         <param name="base_angle" value="0.0"/> <!-- the middle pos of servo if tuning needed  -->
         <param name="angle_gain" value="-3.5"/> <!-- for tt02: >0, for hsp: <0 -->		
 
         <!-- remap from="/odometry/filtered" to="odom" / --> 
-        <remap from="move_base_node/NavfnROS/plan" to="$(arg robot_name)/move_base/NavfnROS/plan" /> 
+        <remap from="move_base_node/NavfnROS/plan" to="move_base/NavfnROS/plan" /> 
     </node>
 
 </launch>
