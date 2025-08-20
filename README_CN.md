@@ -120,4 +120,63 @@ roslaunch tianracer_navigation tianracer_teb_nav.launch
 roslaunch tianracer_rviz view_teb_planner.launch
 ```
 
+### Teb Local Planner
+
+- terminal 1
+```bash
+roslaunch tianracer_bringup tianracer_bringup.launch
+```
+
+- terminal 2
+```bash
+roslaunch tianracer_bringup tianracer_bringup.launch 
+roslaunch tianracer_navigation tianracer_teb_nav.launch use_rviz:=true map_file:=tianbot_office   # tianbot_office为地图文件前缀名称
+```
+
+### L1_Controller Local Planner
+
+该局部规划器的主要策略是追踪全局路径
+
+- terminal 1
+```bash
+roslaunch tianracer_bringup tianracer_bringup.launch
+```
+
+- terminal 2
+```bash
+roslaunch tianracer_navigation tianracer_l1_nav.launch map_file:=tianbot_office use_rviz:=true    # tianbot_office为地图文件前缀名
+```
+
+## 无图导航
+
+顾名思义，就是不需要建图的导航方法
+
+### wall_following
+
+- terminal 1
+```bash
+export TIANRACER_NAME=tianracer
+roslaunch tianracer_bringup tianracer_bringup.launch
+```
+
+- terminal 2
+```bash
+export TIANRACER_NAME=tianracer
+roslaunch tianracer_navigation wall_following.launch use_rviz:=true
+```
+
+### follow_the_gap
+
+- terminal 1
+```bash
+export TIANRACER_NAME=tianracer
+roslaunch tianracer_bringup tianracer_bringup.launch
+```
+
+- terminal 2
+```bash
+export TIANRACER_NAME=tianracer
+roslaunch tianracer_navigation follow_the_gap.launch use_rviz:=true
+```
+
 # License: GPL v3  

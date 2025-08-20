@@ -25,13 +25,13 @@ def cmd_callback(data):
   
   msg = AckermannDrive()
   msg.steering_angle = steering
+  if 0 < v and v< 1.0:
+    v = 1.0
+  elif -1.0 < v and v < 0:
+    v = -1.0
   msg.speed = v
-  
+  rospy.loginfo("Clamped v: %.3f", v)
   pub.publish(msg)
-  
-
-
-
 
 if __name__ == '__main__': 
   try:

@@ -67,6 +67,7 @@ class L1Controller
         double gas_gain, base_angle, base_speed, angle_gain, goal_radius;
         int controller_freq;
         bool foundForwardPt, goal_received, goal_reached;
+        std::string robot_name, odom_frame_id, map_frame_id;
 
         void odomCB(const nav_msgs::Odometry::ConstPtr& odomMsg);
         void pathCB(const nav_msgs::Path::ConstPtr& pathMsg);
@@ -81,6 +82,11 @@ L1Controller::L1Controller()
 {
     //Private parameters handler
     ros::NodeHandle pn("~");
+    
+    // namespace and frame_id parameter
+    pn.getParam("robot_name", robot_name);
+    pn.param("map_frame_id", map_frame_id, robot_name + "/" + "map");
+    pn.param("odom_frame_id", odom_frame_id, robot_name + "/" + "odom");
 
     //Car parameter
     pn.param("L", L, 0.26);
@@ -101,7 +107,7 @@ L1Controller::L1Controller()
     path_sub = n_.subscribe("move_base_node/NavfnROS/plan", 1, &L1Controller::pathCB, this);
     goal_sub = n_.subscribe("move_base_simple/goal", 1, &L1Controller::goalCB, this);
     marker_pub = n_.advertise<visualization_msgs::Marker>("car_path", 10);
-    pub_ = n_.advertise<ackermann_msgs::AckermannDrive>("tianracer/ackermann_cmd", 1);
+    pub_ = n_.advertise<ackermann_msgs::AckermannDrive>("ackermann_cmd", 1);
 
     //Timer
     timer1 = n_.createTimer(ros::Duration((1.0)/controller_freq), &L1Controller::controlLoopCB, this); // Duration(0.05) -> 20Hz
@@ -116,6 +122,7 @@ L1Controller::L1Controller()
     ackermann_cmd.steering_angle = 0.0;
 
     //Show info
+    ROS_INFO_STREAM("\033[42;31m[param] robot_name: " << robot_name << "\033[0m\n");
     ROS_INFO("[param] base_speed: %f", base_speed);
     ROS_INFO("[param] base_angle: %f", base_angle);
     ROS_INFO("[param] angle_gain: %f", angle_gain);
@@ -130,8 +137,8 @@ L1Controller::L1Controller()
 
 void L1Controller::initMarker()
 {
-    points.header.frame_id = line_strip.header.frame_id = goal_circle.header.frame_id = "odom";
-    points.ns = line_strip.ns = goal_circle.ns = "Markers";
+    points.header.frame_id = line_strip.header.frame_id = goal_circle.header.frame_id = odom_frame_id;
+    points.ns = line_strip.ns = goal_circle.ns = "l1_controller_markers";
     points.action = line_strip.action = goal_circle.action = visualization_msgs::Marker::ADD;
     points.pose.orientation.w = line_strip.pose.orientation.w = goal_circle.pose.orientation.w = 1.0;
     points.id = 0;
@@ -185,7 +192,7 @@ void L1Controller::goalCB(const geometry_msgs::PoseStamped::ConstPtr& goalMsg)
     try
     {
         geometry_msgs::PoseStamped odom_goal;
-        tf_listener.transformPose("odom", ros::Time(0) , *goalMsg, "map" ,odom_goal);
+        tf_listener.transformPose(odom_frame_id, ros::Time(0) , *goalMsg, map_frame_id ,odom_goal);
         odom_goal_pos = odom_goal.pose.position;
         goal_received = true;
         goal_reached = false;
@@ -260,7 +267,7 @@ geometry_msgs::Point L1Controller::get_odom_car2WayPtVec(const geometry_msgs::Po
 
             try
             {
-                tf_listener.transformPose("odom", ros::Time(0) , map_path_pose, "map" ,odom_path_pose);
+                tf_listener.transformPose(odom_frame_id, ros::Time(0) , map_path_pose, map_frame_id ,odom_path_pose);
                 geometry_msgs::Point odom_path_wayPt = odom_path_pose.pose.position;
                 bool _isForwardWayPt = isForwardWayPt(odom_path_wayPt,carPose);
 

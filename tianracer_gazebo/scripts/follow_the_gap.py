@@ -3,6 +3,7 @@
 # Modified by Tian Bo
 # @Time: 2023/10/20 17:02:12
 # @Author: Jeff Wang(Lr_2002)
+import os
 import rospy
 import numpy as np
 from sensor_msgs.msg import LaserScan
@@ -20,6 +21,8 @@ todo
 2. avoide the U-turn to the back
 """
 
+robot_name = os.getenv("TIANRACER_NAME", "tianracer")
+
 def display_direction(scale, tail, tip, idnum):
     """
     generate arrow makers
@@ -30,7 +33,7 @@ def display_direction(scale, tail, tip, idnum):
     """
     m = Marker()
     m.action = Marker.ADD
-    m.header.frame_id="map"
+    m.header.frame_id = robot_name + "/map"
     m.header.stamp = rospy.Time.now()
     m.ns = "points_arrow"
     m.id = idnum
@@ -56,7 +59,7 @@ def display_threshold(scale, points, idnum):
     """
     m = Marker()
     m.action = Marker.ADD
-    m.header.frame_id="map"
+    m.header.frame_id = robot_name + "/map"
     m.header.stamp = rospy.Time.now()
     m.ns = "round"
     m.id = idnum
@@ -134,7 +137,7 @@ scan_interval = [i - 60 for i in range(INTERVAL)] # the interval you want to sca
 
 def follow_the_gap_callback(data):
     global gx, gy ,gz, INTERVAL
-    start_point = -60 # from which position to scan 
+    start_point = 60 # from which position to scan 
     end_point = start_point + INTERVAL # the scan end point
     STEP = 1 # step_length of the scan
     threshold = 1.1 # clip threshold
@@ -148,7 +151,7 @@ def follow_the_gap_callback(data):
     start_idx = end_idx - max(gap_list) + 1 # get the start point idx
     target_angle = (end_idx + start_idx) /2 *STEP + start_point # get the mid point 
 
-    avoidance_angle = 6  # avoidance angle of the gap(usually according to the size of the model)
+    avoidance_angle = 3  # avoidance angle of the gap(usually according to the size of the model)
     if target_angle > 0:
         target_angle -= avoidance_angle
     elif target_angle < 0:
@@ -157,7 +160,7 @@ def follow_the_gap_callback(data):
     P = -1 
     global gyaw
 
-    steering_angle = target_angle  * P 
+    steering_angle = - target_angle  * P 
     clip_threhold = 5
     steering_angle = steering_angle if steering_angle < clip_threhold else clip_threhold
     steering_angle = steering_angle if steering_angle > -clip_threhold else -clip_threhold
@@ -175,6 +178,9 @@ def follow_the_gap_callback(data):
     drive_msg = AckermannDriveStamped()
     drive_msg.drive.steering_angle=steering_angle
     drive_msg.drive.speed=speed
+    angle = steering_angle * 180 / np.pi
+    # rospy.loginfo(f"rad_steering_angle: {steering_angle:1.1f} steering_angle: {angle:1.1f}  speed: {speed:1.1f}")
+    print("rad_steering_angle: %.1f steering_angle: %.1f  speed: %.1f" % (steering_angle, angle, speed))
     drive_pub.publish(drive_msg)
 
 if __name__ == '__main__': 

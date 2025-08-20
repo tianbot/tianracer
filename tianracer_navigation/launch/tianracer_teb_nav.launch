@@ -81,7 +81,7 @@
 
         </node>
         <!-- cmd_vel to ackermann_cmd -->
-        <node pkg="tianracer_navigation" type="cmd_vel_to_ackermann_drive.py" name="vel_to_ackermann" >
+        <node pkg="tianracer_navigation" type="cmd_vel_to_ackermann_drive.py" name="vel_to_ackermann" output="screen">
             <param name="twist_cmd_topic" value="/$(arg robot_name)/cmd_vel" />
             <param name="ackermann_cmd_topic" value="/$(arg robot_name)/ackermann_cmd" />
             <param if="$(eval base=='compact')" name="wheelbase" value="0.255" />

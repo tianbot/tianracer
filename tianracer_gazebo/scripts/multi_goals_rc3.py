@@ -17,6 +17,7 @@ import visualization_msgs.msg as viz_msgs
 import subprocess
 
 world = os.getenv("TIANRACER_WORLD", "tianracer_racetrack")
+robot_name = os.getenv("TIANRACER_NAME", "tianracer")
 
 class RaceStateMachine(object):
     def __init__(self, filename, repeat=True):
@@ -46,7 +47,7 @@ class RaceStateMachine(object):
         rospy.loginfo("the status of move_base: %s", self._ac_move_base.get_state())
 
         # clear_costmap
-        self._clear_costmap_command  = (f"rosservice call move_base/clear_costmaps")
+        self._clear_costmap_command  = ("rosservice call /" + robot_name + "/move_base/clear_costmaps")
         
         # the following is to display the target point
         self._pub_viz_marker = rospy.Publisher('viz_waypoints', viz_msgs.MarkerArray, queue_size=1, latch=True)
