@@ -16,6 +16,8 @@
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 
 #define DEFAULT_SERIAL_DEVICE "/dev/ttyUSB0"
+#define DEFAULT_SERIAL_BAUDRATE 115200
+#define DEFAULT_NAMESPACE ""
 
 class Tianboard: public rclcpp::Node {
 public:
@@ -31,6 +33,10 @@ private:
     rclcpp::TimerBase::SharedPtr communication_timer_;
     rclcpp::Node::SharedPtr nh_;
     Serial serial_;
+    
+    int param_serial_baudrate;
+    std::string param_serial_port, param_namespace;
+
     void ackermannCallback(const ackermann_msgs::msg::AckermannDrive::SharedPtr msg);
     void serialDataProc(uint8_t *data, unsigned int data_len);
     void tianboardDataProc(unsigned char *buf, int len);

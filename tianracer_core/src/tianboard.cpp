@@ -4,6 +4,9 @@
 
 using namespace std;
 
+/*
+* @brief Receive and process serial data.
+*/
 void Tianboard::serialDataProc(uint8_t *data, unsigned int data_len)
 {
     static uint8_t state = 0;
@@ -123,6 +126,9 @@ void Tianboard::serialDataProc(uint8_t *data, unsigned int data_len)
     }
 }
 
+/*
+* @brief protobuf data processing, publish odom, uwb and imu; 
+*/ 
 void Tianboard::tianboardDataProc(unsigned char *buf, int len)
 {
     struct protocol_pack *p = (struct protocol_pack *)buf;
@@ -135,7 +141,7 @@ void Tianboard::tianboardDataProc(unsigned char *buf, int len)
             struct odom *pOdom = (struct odom *)(p->data);
             rclcpp::Time current_time = this->now();
             odom_msg.header.stamp = current_time;
-            odom_msg.header.frame_id = "odom";
+            odom_msg.header.frame_id = this->param_namespace + "/odom";
 
             odom_msg.pose.pose.position.x = pOdom->pose.point.x;
             odom_msg.pose.pose.position.y = pOdom->pose.point.y;
@@ -145,7 +151,7 @@ void Tianboard::tianboardDataProc(unsigned char *buf, int len)
             geometry_msgs::msg::Quaternion q = tf2::toMsg(q_odom);
             odom_msg.pose.pose.orientation = q;
             //set the velocity
-            odom_msg.child_frame_id = "base_footprint";
+            odom_msg.child_frame_id = this->param_namespace + "/base_footprint";
             odom_msg.twist.twist.linear.x = pOdom->twist.linear.x;
             odom_msg.twist.twist.linear.y = pOdom->twist.linear.y;
             odom_msg.twist.twist.linear.z = pOdom->twist.linear.z;
@@ -180,7 +186,7 @@ void Tianboard::tianboardDataProc(unsigned char *buf, int len)
 
             rclcpp::Time current_time = this->now();
             imu_msg.header.stamp = current_time;
-            imu_msg.header.frame_id = "imu_link";
+            imu_msg.header.frame_id = this->param_namespace+ "/imu_link";
             imu_msg.orientation.x = pImu->quat.x;
             imu_msg.orientation.y = pImu->quat.y;
             imu_msg.orientation.z = pImu->quat.z;
@@ -201,6 +207,9 @@ void Tianboard::tianboardDataProc(unsigned char *buf, int len)
     communication_timer_.reset();
 }
 
+/*
+* @brief Send ackermann message to serial_ for controlling car
+*/ 
 void Tianboard::ackermannCallback(const ackermann_msgs::msg::AckermannDrive::SharedPtr msg)
 {
     uint16_t len;
@@ -240,19 +249,21 @@ void Tianboard::ackermannCallback(const ackermann_msgs::msg::AckermannDrive::Sha
     // heart_timer_.reset();
 }
 
-
+/*z
+* @brief init publisher
+*/ 
 void Tianboard::initPub()
 {
     auto qos = rclcpp::QoS(rclcpp::KeepLast(10));
-    odom_pub_ = this->create_publisher<nav_msgs::msg::Odometry>("/tianracer/odom", qos);
-    imu_pub_ = this->create_publisher<sensor_msgs::msg::Imu>("/tianracer/imu", qos);
-    uwb_pub_ = this->create_publisher<geometry_msgs::msg::Pose2D>("/tianracer/uwb", qos);
+    odom_pub_ = this->create_publisher<nav_msgs::msg::Odometry>("odom", qos);
+    imu_pub_ = this->create_publisher<sensor_msgs::msg::Imu>("imu", qos);
+    uwb_pub_ = this->create_publisher<geometry_msgs::msg::Pose2D>("uwb", qos);
 }
 
 void Tianboard::initSub()
 {
     ackermann_sub_ = this->create_subscription<ackermann_msgs::msg::AckermannDrive>(
-        "/tianracer/ackermann_cmd", \
+        "ackermann_cmd", \
          rclcpp::SensorDataQoS(), \
          std::bind( \
              &Tianboard::ackermannCallback, \
@@ -260,6 +271,9 @@ void Tianboard::initSub()
              std::placeholders::_1));
 }
 
+/*
+* @brief Send heart beat message every timeout if no reset
+*/ 
 void Tianboard::heartBeatTimer(const std::chrono::milliseconds timeout) 
 {
     heart_timer_ = this->create_wall_timer(timeout,
@@ -298,6 +312,9 @@ void Tianboard::heartBeatTimer(const std::chrono::milliseconds timeout)
     );
 }
 
+/*
+* @brief raise error if communication_timer_ reaches time without time reset
+*/ 
 void Tianboard::communicationTimer(const std::chrono::milliseconds timeout)
 {
     communication_timer_ = this->create_wall_timer(timeout,
@@ -316,9 +333,11 @@ void Tianboard::run()
     communicationTimer(std::chrono::milliseconds(200));
 }
 
-Tianboard::Tianboard(): Node("tianracer")
+Tianboard::Tianboard(): Node("tianracer_core")
 {
     this->declare_parameter<std::string>("serial_port", DEFAULT_SERIAL_DEVICE);
+    this->declare_parameter<int>("serial_baudrate", DEFAULT_SERIAL_BAUDRATE);
+    this->declare_parameter<std::string>("namespace", DEFAULT_NAMESPACE);
 
     initSub();
     
@@ -326,9 +345,11 @@ Tianboard::Tianboard(): Node("tianracer")
 
     run();
 
-    std::string param_serial_port;
     this->get_parameter("serial_port", param_serial_port);
-    if (serial_.open(param_serial_port.c_str(), 115200, 0, 8, 1, 'N',
+    this->get_parameter("serial_baudrate", param_serial_baudrate);
+    this->get_parameter("namespace", param_namespace);
+
+    if (serial_.open(param_serial_port.c_str(), param_serial_baudrate, 0, 8, 1, 'N',
                      boost::bind(&Tianboard::serialDataProc, this, _1, _2)) != true)
     {
         exit(-1);
