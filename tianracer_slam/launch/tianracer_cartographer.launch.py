@@ -1,43 +1,56 @@
 import os
-from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
-from launch_ros.actions import Node
 from launch.substitutions import LaunchConfiguration
+from launch_ros.actions import Node
+from launch_ros.substitutions import FindPackageShare
 
-
+# my_robot_2d.launch.py
 def generate_launch_description():
 
-    lua_path = os.path.join(get_package_share_directory('tianracer_slam'), 'param')
-    lua_name = "2d_scan.lua"
-    config_dir = LaunchConfiguration("config_dir", default=lua_path)
-    config_basename = LaunchConfiguration("config_name", default=lua_name)
+    ## ***** Launch arguments *****
+    use_sim_time_arg = DeclareLaunchArgument('use_sim_time', default_value = 'False')
+
+    '''
+    去掉了urdf以及robot_state_publisher_node
+    '''
+    # 修改为my_robot_2d.lua 文件 以及 激光雷达话题remapping(一个激光雷达的话，映射为scan即可；多个激光雷达需要映射为scan1、scan2...)
+    cartographer_node = Node(
+        package = 'cartographer_ros',
+        executable = 'cartographer_node',
+        parameters = [{'use_sim_time': LaunchConfiguration('use_sim_time')}],
+        arguments = [
+            '-configuration_directory', FindPackageShare('tianracer_slam').find('tianracer_slam') + '/param',
+            '-configuration_basename', '2d_scan.lua'],
+        remappings = [
+            ('scan', '/scan'),
+            ('imu', '/imu'),
+            ('odom', '/odom')
+            ],
+        output = 'screen'
+        )
+
+    cartographer_occupancy_grid_node = Node(
+        package = 'cartographer_ros',
+        executable = 'cartographer_occupancy_grid_node',
+        parameters = [
+            {'use_sim_time': True},
+            {'resolution': 0.05}],
+        )
+    
+    rviz_node=Node(
+        package = 'rviz2',
+        namespace = 'rviz2',
+        executable = 'rviz2',
+        name = 'rviz2',
+        output = 'screen' ,
+        arguments = ['-d', FindPackageShare('cartographer_ros').find('cartographer_ros') + '/configuration_files/demo_2d.rviz']
+        )
 
     return LaunchDescription([
-        DeclareLaunchArgument(
-            "config_dir",
-            default_value=config_dir,
-            description="Full path to config file to load"),
-
-        DeclareLaunchArgument(
-            "config_basename",
-            default_value=config_basename,
-            description="File name of config file for cartographer"),
-
-        Node(
-            package='cartographer_ros',
-            executable='cartographer_node',
-            arguments=['-configuration_directory', config_dir,
-                    '-configuration_basename', config_basename],
-            remappings = [('odom', '/odometry/filtered'),
-                          ('imu', '/tianracer/imu')],
-            output='screen',
-        ),
-
-        Node(
-            package='cartographer_ros',
-            executable='occupancy_grid_node',
-            arguments=['-resolution', '0.05'],
-            output='screen',
-        )
+        use_sim_time_arg,
+        # robot_state_publisher_node, 注释了这个node
+        rviz_node,
+        cartographer_node,
+        cartographer_occupancy_grid_node,
     ])
