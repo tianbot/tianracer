@@ -9,7 +9,6 @@ from launch.substitutions import LaunchConfiguration
 from launch.substitutions import PathJoinSubstitution
 from launch_ros.actions import Node
 
-
 def generate_launch_description():
     serial_port = LaunchConfiguration('serial_port', default=\
         os.environ.get("TIANRACER_LIDAR_PORT", "/dev/ttyUSB1"))

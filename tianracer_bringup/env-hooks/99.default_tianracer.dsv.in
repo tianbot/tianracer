@@ -1,5 +1,5 @@
 set;TIANRACER_BASE;compact
-set;TIANRACER_BASE_PORT;/dev/ttyUSB0
+set;TIANRACER_BASE_PORT;/dev/tianbot_base
 set;TIANRACER_STEERING_DIRECTION;normal
 set;TIANRACER_THROTTLE_DIRECTION;normal
 set;TIANRACER_BRIDGE;disabled
@@ -8,4 +8,6 @@ set;TIANRACER_VIDEO_DEVICE;none
 set;TIANRACER_LIDAR;rplidar_a1
 set;TIANRACER_LIDAR_MODEL;a1
 set;TIANRACER_LIDAR_PORT;/dev/ttyUSB1
+set;TIANRACER_LIDAR_IP;192.168.198.2}    # osight 192.168.10.1 richbeam 192.168.198.2 rslidar 192.168.1.200
 set;TIANRACER_GPS;none
+set;TIANRACER_JOY_MODE;dji_dt7} # dji, logitech joy mode X, D
