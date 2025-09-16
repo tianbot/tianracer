@@ -8,7 +8,12 @@ from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 from launch.substitutions import TextSubstitution
 
+default_namespace = os.environ.get("TIANRACER_NAME", "")
+default_namespace = f"" if default_namespace == ' ' or default_namespace =='/' else default_namespace
+default_frame_id = f"laser" if default_namespace ==  '' else f"{default_namespace}/laser"
+
 def generate_launch_description():
+    namespace = LaunchConfiguration('namespace')
     frame_id = LaunchConfiguration('frame_id')            # <!--frame_id设置-->
     output_topic0 = LaunchConfiguration('output_topic0')  # <!--topic设置-->
     output_topic1 = LaunchConfiguration('output_topic1')
@@ -24,9 +29,14 @@ def generate_launch_description():
     scan_range_stop = LaunchConfiguration('scan_range_stop')    # <!--雷达扫描结束角度，范围：45~315，结束角度必须大于起始角度-->
     sensorip = LaunchConfiguration('sensorip')
 
+    declare_namespace_cmd =  DeclareLaunchArgument(
+        "namespace",
+        default_value=default_namespace,
+        description="robot name [tianracer_No1, tianracer_No2, tianracer_No3, ...]."
+    )
     declare_frame_id_cmd = DeclareLaunchArgument(
     'frame_id',
-    default_value='laser',
+    default_value=default_frame_id,
     )
     declare_output_topic0_cmd = DeclareLaunchArgument(
     'output_topic0',
@@ -85,6 +95,7 @@ def generate_launch_description():
         package='lakibeam1',
         name='richbeam_lidar_node0',
         executable='lakibeam1_scan_node',
+        namespace=namespace,
         parameters=[{
             'frame_id':frame_id,
             'output_topic':output_topic0,
@@ -99,11 +110,12 @@ def generate_launch_description():
             'scan_range_start':scan_range_start,
             'scan_range_stop':scan_range_stop
         }],
-        output='screen'
+        # output='screen'
     )
 
     ld = LaunchDescription()
 
+    ld.add_action(declare_namespace_cmd)
     ld.add_action(declare_frame_id_cmd)
     ld.add_action(declare_output_topic0_cmd)
     ld.add_action(declare_output_topic1_cmd)

@@ -4,6 +4,8 @@ from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 
+default_namespace = os.environ.get("TIANRACER_NAME", "")
+
 def generate_launch_description():
 
     return LaunchDescription([
@@ -11,17 +13,26 @@ def generate_launch_description():
             PythonLaunchDescriptionSource(os.path.join(
                 get_package_share_directory("tianracer_core"),
                 'launch', 'tianracer_core.launch.py')),
-            ),
+            launch_arguments=[
+                ('namespace', default_namespace)
+            ]
+        ),
 
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(os.path.join(
                 get_package_share_directory("tianracer_description"),
                 'launch', 'tianracer_tf.launch.py')),
-            ),
+            launch_arguments=[
+                ('namespace', default_namespace)
+            ]
+        ),
 
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(os.path.join(
                 get_package_share_directory("tianracer_bringup"),
                 'launch', 'lidar.launch.py')),
-            ),
+            launch_arguments=[
+                ('namespace', default_namespace)
+            ]
+        ),
     ])

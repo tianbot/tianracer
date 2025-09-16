@@ -17,7 +17,7 @@ def generate_launch_description():
                 'launch','includes','lidar', 'rplidar.launch.py')),
                 launch_arguments={'model': model}.items(),
             ))
-    elif "richbeam_lidar" in lidar:
+    elif "richbeam" in lidar:
         ld.add_action(IncludeLaunchDescription(
             PythonLaunchDescriptionSource(os.path.join(
                 get_package_share_directory("tianracer_bringup"),

@@ -9,7 +9,8 @@ from launch.substitutions import LaunchConfiguration
 from launch.actions import DeclareLaunchArgument
 from launch.actions import OpaqueFunction
 
-default_namespace = os.environ.get("TIANRACER_NAME", "")
+default_namespace = os.environ.get("TIANRACER_NAME", "/")
+default_namespace = f"/" if default_namespace == ' ' or default_namespace =='/' else default_namespace
 default_base = os.environ.get("TIANRACER_BASE", "standard")
 default_lidar = os.environ.get("TIANRACER_LIDAR", "richbeam")
 
@@ -32,7 +33,8 @@ def launch_setup(context, *args, **kwargs):
                         'launch', 'tianracer_description.launch.py')
                 ),
                 launch_arguments=[
-                    ('namespace', namespace)
+                    ('namespace', default_namespace),
+                    ('prefix', default_namespace)
                 ]
             )
         )
@@ -49,7 +51,7 @@ def launch_setup(context, *args, **kwargs):
                         'launch', 'includes', 'standard_richbeam_tf.launch.py')
                 ),
                 launch_arguments=[
-                    ('namespace', namespace)
+                    ('namespace', default_namespace)
                 ]
             ))
         elif 'velodyne' in lidar:
