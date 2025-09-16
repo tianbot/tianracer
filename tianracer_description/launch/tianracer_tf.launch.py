@@ -31,6 +31,9 @@ def launch_setup(context, *args, **kwargs):
                     os.path.join(get_package_share_directory("tianracer_description"),\
                         'launch', 'tianracer_description.launch.py')
                 ),
+                launch_arguments=[
+                    ('namespace', namespace)
+                ]
             )
         )
     elif base == "standard":
