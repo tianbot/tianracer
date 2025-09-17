@@ -16,12 +16,10 @@ from launch.conditions import (
     LaunchConfigurationNotEquals,
 )
 
-from launch.substitutions import LaunchConfiguration
 from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration,TextSubstitution
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, GroupAction
-from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node, PushRosNamespace, SetRemap
 from launch_ros.descriptions import ParameterFile
 from nav2_common.launch import RewrittenYaml

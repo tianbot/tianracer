@@ -9,6 +9,7 @@ default_namespace = os.environ.get("TIANRACER_NAME", "")
 def generate_launch_description():
 
     return LaunchDescription([
+        # chassis driver
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(os.path.join(
                 get_package_share_directory("tianracer_core"),
@@ -18,6 +19,7 @@ def generate_launch_description():
             ]
         ),
 
+        # TF boardcaster
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(os.path.join(
                 get_package_share_directory("tianracer_description"),
@@ -27,6 +29,7 @@ def generate_launch_description():
             ]
         ),
 
+        # lidar driver (2D/3D)
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(os.path.join(
                 get_package_share_directory("tianracer_bringup"),
@@ -35,4 +38,20 @@ def generate_launch_description():
                 ('namespace', default_namespace)
             ]
         ),
+        
+        # RGBD Camera Driver
+        
+        # USB Driver
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(os.path.join(
+                get_package_share_directory("tianracer_bringup"),
+                'launch', 'usb_cam.launch.py')),
+            launch_arguments=[
+                ('namespace', default_namespace)
+            ]
+        ),
+
+        # GPS driver
+
+        # ROS Bridge
     ])
