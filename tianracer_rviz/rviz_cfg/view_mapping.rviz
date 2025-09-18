@@ -7,7 +7,7 @@ Panels:
         - /Global Options1
         - /TF1/Frames1
         - /TF1/Tree1
-        - /MarkerArray1/Topic1
+        - /Map1
       Splitter Ratio: 0.5833333134651184
     Tree Height: 462
   - Class: rviz_common/Selection
@@ -55,18 +55,79 @@ Visualization Manager:
         Durability Policy: Volatile
         History Policy: Keep Last
         Reliability Policy: Reliable
-        Value: /robot_description
-      Enabled: false
+        Value: robot_description
+      Enabled: False
       Links:
         All Links Enabled: true
         Expand Joint Details: false
         Expand Link Details: false
         Expand Tree: false
-        Link Tree Style: ""
+        Link Tree Style: Links in Alphabetic Order
+        base_footprint:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        camera_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        imu_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        laser:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        left_front_wheel:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        left_rear_wheel:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        left_steering_hinge:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        real_sense:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_front_wheel:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_rear_wheel:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_steering_hinge:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+      Mass Properties:
+        Inertia: false
+        Mass: false
       Name: RobotModel
       TF Prefix: ""
       Update Interval: 0
-      Value: false
+      Value: true
       Visual Enabled: true
     - Class: rviz_default_plugins/TF
       Enabled: true
@@ -146,9 +207,9 @@ Visualization Manager:
       Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
-      Max Intensity: 47
+      Max Intensity: 171
       Min Color: 0; 0; 0
-      Min Intensity: 47
+      Min Intensity: 6
       Name: LaserScan
       Position Transformer: XYZ
       Selectable: true
@@ -161,7 +222,7 @@ Visualization Manager:
         Filter size: 10
         History Policy: Keep Last
         Reliability Policy: Best Effort
-        Value: /scan
+        Value: scan
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
@@ -177,26 +238,14 @@ Visualization Manager:
         Filter size: 10
         History Policy: Keep Last
         Reliability Policy: Reliable
-        Value: /map
+        Value: <robot_namespace>/map
       Update Topic:
         Depth: 5
         Durability Policy: Volatile
         History Policy: Keep Last
         Reliability Policy: Reliable
-        Value: /map_updates
+        Value: <robot_namespace>/map_updates
       Use Timestamp: false
-      Value: true
-    - Class: rviz_default_plugins/MarkerArray
-      Enabled: true
-      Name: MarkerArray
-      Namespaces:
-        slam_toolbox: true
-      Topic:
-        Depth: 5
-        Durability Policy: Volatile
-        History Policy: Keep Last
-        Reliability Policy: Reliable
-        Value: /slam_toolbox/graph_visualization
       Value: true
   Enabled: true
   Global Options:
@@ -219,7 +268,7 @@ Visualization Manager:
         Durability Policy: Volatile
         History Policy: Keep Last
         Reliability Policy: Reliable
-        Value: /initialpose
+        Value: initialpose
     - Class: rviz_default_plugins/PublishPoint
       Single click: true
       Topic:
@@ -227,7 +276,7 @@ Visualization Manager:
         Durability Policy: Volatile
         History Policy: Keep Last
         Reliability Policy: Reliable
-        Value: /clicked_point
+        Value: clicked_point
     - Class: nav2_rviz_plugins/GoalTool
   Transformation:
     Current:
@@ -235,7 +284,7 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Angle: 1.3449989557266235
+      Angle: -1.550000786781311
       Class: rviz_default_plugins/TopDownOrtho
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
@@ -245,11 +294,11 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Scale: 61.6694221496582
+      Scale: 76.52447509765625
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz_default_plugins)
-      X: 3.9262537956237793
-      Y: -4.960290908813477
+      X: 2.1706087589263916
+      Y: -0.428350031375885
     Saved: ~
 Window Geometry:
   Displays:
@@ -267,5 +316,5 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 1545
-  X: 375
-  Y: 111
+  X: 332
+  Y: 80

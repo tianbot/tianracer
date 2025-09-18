@@ -11,7 +11,7 @@ default_frame_id = f"map" if default_namespace ==  '/' else f"{default_namespace
 def generate_launch_description():
 
     rviz_config_file = os.path.join(
-        get_package_share_directory('tianracer_rviz'), 'rviz_cfg', 'demo_2d.rviz')
+        get_package_share_directory('tianracer_rviz'), 'rviz_cfg', 'view_amcl.rviz')
 
     namespaced_rviz_config_file = ReplaceString(
             source_file=rviz_config_file,

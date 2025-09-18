@@ -2,19 +2,29 @@ import os
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch_ros.actions import Node
+from nav2_common.launch import ReplaceString
 
+default_namespace = os.environ.get("TIANRACER_NAME", "")
+default_namespace = f"/" if default_namespace == ' ' or default_namespace =='/' else default_namespace
+default_frame_id = f"laser" if default_namespace ==  '/' else f"{default_namespace}/laser"
 
 def generate_launch_description():
 
-    cfg_file = os.path.join(
-        get_package_share_directory('tianracer_rviz'), 'rviz_cfg', 'tianbot_lidar_ros2.rviz')
+    rviz_config_file = os.path.join(
+        get_package_share_directory('tianracer_rviz'), 'rviz_cfg', 'view_lidar.rviz')
 
+    namespaced_rviz_config_file = ReplaceString(
+            source_file=rviz_config_file,
+            replacements={'<robot_namespace>': ('/', default_namespace)})
+    
     return LaunchDescription([
         Node(
             package='rviz2',
             executable='rviz2',
             name='rviz2',
-            arguments=['-d', cfg_file],
+            arguments=['-d', namespaced_rviz_config_file,
+                       '-f', default_frame_id
+                       ],
             output='screen',
         )
     ])

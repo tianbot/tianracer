@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-
-<launch>
-    <arg name="use_rviz" default="true" />
-
-    <!-- Rviz -->
-    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find tianracer_rviz)/rviz_cfg/teb_navigation.rviz" if="$(arg use_rviz)" />
-</launch>
