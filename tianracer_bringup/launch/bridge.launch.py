@@ -30,37 +30,23 @@
 # ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-import argparse
+"""Invoke XML launch file from Python Launch file."""
+
 import os
-from pathlib import Path  # noqa: E402
-import sys
-from ament_index_python.packages import get_package_share_directory
+from ament_index_python import get_package_share_directory
+from launch_ros.actions import Node  # noqa: E402
+from launch import LaunchDescription
 from launch.substitutions import LaunchConfiguration
 from launch.actions import DeclareLaunchArgument
-from launch import LaunchDescription  # noqa: E402
-from launch.actions import GroupAction  # noqa: E402
-from launch_ros.actions import Node  # noqa: E402
-
+from launch.actions import IncludeLaunchDescription
+from launch_xml.launch_description_sources import XMLLaunchDescriptionSource
 
 default_namespace = os.environ.get("TIANRACER_NAME", "")
 default_namespace = f"" if default_namespace == ' ' or default_namespace =='/' else default_namespace
 default_frame_id = f"camera_link" if default_namespace ==  '' else f"{default_namespace}/camera_link"
-camera_name= "camera"
-
-remappings = [
-                ('image_raw', f'{camera_name}/image_raw'),
-                ('image_raw/compressed', f'{camera_name}/image_compressed'),
-                ('image_raw/compressedDepth', f'{camera_name}/compressedDepth'),
-                ('image_raw/theora', f'{camera_name}/image_raw/theora'),
-                ('camera_info', f'{camera_name}/camera_info'),
-            ]
 
 def generate_launch_description():
-    pkg_share = get_package_share_directory("tianracer_bringup")
-    param_path = os.path.join(pkg_share, 'param', 'camera_params_1.yaml')
-
     namespace = LaunchConfiguration('namespace')
-    frame_id = LaunchConfiguration('frame_id')
     ld = LaunchDescription()
 
     declare_namespace_cmd = DeclareLaunchArgument(
@@ -69,27 +55,27 @@ def generate_launch_description():
         description='Whether to apply a namespace to the navigation stack'
     )
 
-    declare_frame_id_cmd = DeclareLaunchArgument(
-        'frame_id',
-        default_value=default_frame_id,
-        description='Whether to apply a namespace to the sensor topic frame_id'
-    )
-    
-    camera_nodes = [
-        Node(
-            package='usb_cam', executable='usb_cam_node_exe', output='screen',
-            name=camera_name,
-            namespace=namespace,
-            parameters=[
-                param_path, {
-                'frame_id': frame_id,
-            }],
-            remappings=remappings
+    # Rosbridge Server 
+    launch_rosbrideg_server = IncludeLaunchDescription(
+        XMLLaunchDescriptionSource(
+            os.path.join(
+                get_package_share_directory("rosbridge_server"),
+                "launch/rosbridge_websocket_launch.xml",
+            )
         )
-    ]
+    )
 
-    camera_group = GroupAction(camera_nodes)
+    # tf2_web_republisher
+    tf2_web_republisher = Node(
+            package='tf2_web_republisher_py',
+            executable='tf2_web_republisher',
+            name='tf2_web_republisher',
+            namespace=namespace,
+            output='screen',
+            parameters=[]
+        )
+
     ld.add_action(declare_namespace_cmd)
-    ld.add_action(declare_frame_id_cmd)
-    ld.add_action(camera_group)
+    ld.add_action(launch_rosbrideg_server)
+    ld.add_action(tf2_web_republisher)
     return ld
