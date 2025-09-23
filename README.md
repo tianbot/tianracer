@@ -21,8 +21,7 @@ https://github.com/Hypha-ROS/hypharos_racecar
 
 Developer:   
 * HaoChih, LIN  
-* KaiChun, Wu  
-
+* KaiChun, Wu
 
 ## Specifications 
 
@@ -30,7 +29,7 @@ Speed: 3m/s
 Control：closed-loop speed control
 Computer: Nvidia Jetson Nano Developer Kit
 Chassis: Motor + TianBoard Mini + Servo
-Lidar: Slamtec Rplidar A1
+Lidar: Richbeam 1L
 Camera: 1080P Fisheye Undistorted USB3.0
 Remote Controller: DJI DT7
 Battery: LiPo
@@ -39,87 +38,116 @@ Battery: LiPo
 ## Installation
 
 ```
-cd ~/catkin_ws/src/
-git clone https://github.com/tianbot/tianracer.git
-cd ~/catkin_ws && catkin_make
+cd ~/tianracer_ros2_ws/src/
+git clone https://github.com/tianbot/tianracer.git -b humble-devel
+cd ~/tianracer_ros2_ws && colcon build --symlink-install
 ```
 ## Simulation
 Tianracer can be simulated in [F1tenth Simulator](https://github.com/f1tenth/f1tenth_simulator).  Install the simulator first.
 
 ```
-cd ~/catkin_ws/src/
+cd ~/tianracer_ros2_ws/src/
 git clone https://github.com/f1tenth/f1tenth_simulator.git
-cd ~/catkin_ws && catkin_make
-```
-
-Simulate Tianracer
-```
-roslaunch tianracer_navigation simulator_wall_following.launch
+cd ~/tianracer_ros2_ws && colcon build --symlink-install
 ```
 
 ## Interfacing
 Tianracer can be brought up all at once, or separately.
-```
-roslaunch tianracer_bringup tianracer_bringup.launch
+
+```bash
+ros2 launch tianracer_bringup tianracer_bringup.launch.py 
 ```
 ### Tianracer Base
-```
-roslaunch tianracer_core tianracer_core.launch
+
+```bash
+ros2 launch tianracer_core tianracer_core.launch.py
 ```
 
 ### Lidar
-```
-roslaunch tianracer_bringup lidar.launch
+
+```bash
+ros2 launch tianracer_bringup lidar.launch.py 
 ```
 
 ### RGBD Camera (if applicable)
-```
-roslaunch tianracer_bringup rgbd_camera.launch
+
+```bash
+ros2 launch tianracer_bringup rgbd_camera.launch.py
 ```
 
 ### USB Camera
-```
-roslaunch tianracer_bringup usb_cam.launch
+
+```bash
+ros2 launch tianracer_bringup usb_cam.launch.py
 ```
 
 ### GPS (if applicable)
-```
-roslaunch tianracer_bringup gps.launch
+
+```bash
+ros2 launch tianracer_bringup gps.launch.py
 ```
 
 ## Mapping
 After bringing up the Tianracer, we provide three methods to perform slam for 2D laser.
 
 ### GMapping
+
+```bash
+ros2 launch tianracer_slam tianracer_gmapping.launch.py
 ```
-roslaunch tianracer_slam tianracer_gmapping.launch
-```
-### HectorSLAM
-```
-roslaunch tianracer_slam tianracer_hector.launch
+### SLAM TOOLBOX
+
+```bash
+ros2 launch tianracer_slam tianracer_slam_toolbox.launch.py
 ```
 ### Cartographer
+
+```bash
+ros2 launch tianracer_slam tianracer_cartographer.launch.py
 ```
-roslaunch tianracer_slam tianracer_cartographer.launch
-```
+
 ### Save the Map
 Map will be saved as tianbot_office in tianracer_slam/maps/
-```
-roslaunch tianracer_slam map_save.launch
+```bash
+ros2 launch tianracer_slam map_save.launch.py
 ```
 
 ## Navigation
 After saving the map, the map can be used to perform navigation.
-```
-roslaunch tianracer_navigation tianracer_teb_nav.launch
-```
-Configure running ROS across multiple machines, then launch rviz in a PC with display
-```
-roslaunch tianracer_rviz view_teb_planner.launch
+
+### NavFn (planner) + DWB (controller)
+```bash
+ros2 launch tianracer_navigation2 nav2.launch.py use_map:=tianbotoffice_603 use_planner:=navfn_dwb
 ```
 
-# License: GPL v3  
+### NavFn (planner) + TEB (controller)
 
+```bash
+ros2 launch tianracer_navigation2 nav2.launch.py use_map:=tianbotoffice_603 use_planner:=navfn_teb
+```
 
+### SMAC (planner) + Graceful (controller)
 
+```bash
+ros2 launch tianracer_navigation2 nav2.launch.py use_map:=tianbotoffice_603 use_planner:=smac_graceful
+```
 
+### Theta Star (planner) + MPPI (controller)
+
+```bash
+ros2 launch tianracer_navigation2 nav2.launch.py use_map:=tianbotoffice_603 use_planner:=theta_star_mppi
+```
+
+### Theta Starn (planner) + Regulated Pure Pursuit (controller)
+
+```bash
+ros2 launch tianracer_navigation2 nav2.launch.py use_map:=tianbotoffice_603 use_planner:=theta_star_rpp
+```
+
+### Theta Star (planner) + Vector Pursuit (controller)
+
+```bash
+ros2 launch tianracer_navigation2 nav2.launch.py use_map:=tianbotoffice_603 use_planner:=theta_star_vector_pur
+```
+
+# License: GPL v3
