@@ -1,7 +1,15 @@
 import os
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch_ros.actions import Node
+from launch.substitutions import LaunchConfiguration,TextSubstitution
+from launch_ros.descriptions import ParameterFile
+from nav2_common.launch import RewrittenYaml, ReplaceString
+
+from launch_ros.actions import (
+    Node,
+    PushRosNamespace, 
+    SetRemap
+)
 
 from launch.actions import (
     DeclareLaunchArgument,
@@ -16,16 +24,14 @@ from launch.conditions import (
     LaunchConfigurationNotEquals,
 )
 
-from launch.actions import DeclareLaunchArgument
-from launch.substitutions import LaunchConfiguration,TextSubstitution
-from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, GroupAction
-from launch_ros.actions import Node, PushRosNamespace, SetRemap
-from launch_ros.descriptions import ParameterFile
-from nav2_common.launch import RewrittenYaml
+default_namespace = os.environ.get("TIANRACER_NAME", "")
+default_namespace = f"" if default_namespace == ' ' or default_namespace =='/' else default_namespace
 
-from nav2_common.launch import RewrittenYaml, ReplaceString
-
+default_map_frame_id = f"map" if default_namespace ==  '' else f"{default_namespace}/map"
+default_odom_frame_id = f"odom" if default_namespace ==  '' else f"{default_namespace}/odom"
+default_base_link_frame_id = f"base_footprint" if default_namespace ==  '' else f"{default_namespace}/base_footprint"
+default_base_frame_id = f"base_link" if default_namespace ==  '' else f"{default_namespace}/base_link"
+default_imu_frame_id = f"imu_link" if default_namespace ==  '' else f"{default_namespace}/imu_link"
 
 def generate_launch_description():
     # os env variable
@@ -45,6 +51,12 @@ def generate_launch_description():
     params_file = LaunchConfiguration("params_file")
     use_respawn = LaunchConfiguration("use_respawn")
     log_level = LaunchConfiguration("log_level")
+
+    map_frame_id = LaunchConfiguration('map_frame_id')
+    base_link_frame_id = LaunchConfiguration('base_link_frame_id')
+    base_frame_id = LaunchConfiguration('base_frame_id')
+    odom_frame_id = LaunchConfiguration('odom_frame_id')
+    imu_frame_id = LaunchConfiguration('imu_frame_id')
 
    # Map fully qualified names to relative ones so the node's namespace can be prepended.
     # In case of the transforms (tf), currently, there doesn't seem to be a better alternative
@@ -143,6 +155,36 @@ def generate_launch_description():
         "log_level", default_value="info", description="log level"
     )
 
+    declare_map_frame_id_cmd = DeclareLaunchArgument(
+        'map_frame_id',
+        default_value=default_map_frame_id,
+        description='map frame_id of the Tianracer base'
+    )
+
+    declare_base_link_frame_id_cmd = DeclareLaunchArgument(
+        'base_link_frame_id',
+        default_value=default_base_link_frame_id,
+        description='base_link frame_id of the Tianracer base'
+    )
+
+    declare_base_frame_id_cmd = DeclareLaunchArgument(
+        'base_frame_id',
+        default_value=default_base_frame_id,
+        description='base frame_id of the Tianracer base'
+    )
+
+    declare_odom_frame_id_cmd = DeclareLaunchArgument(
+        'odom_frame_id',
+        default_value=default_odom_frame_id,
+        description='odom frame_id of the Tianracer base'
+    )
+
+    declare_imu_frame_id_cmd = DeclareLaunchArgument(
+        'imu_frame_id',
+        default_value=default_imu_frame_id,
+        description='imu frame_id of the Tianracer base'
+    )
+
     tianracer_core_cmd_group = GroupAction(
         [
             PushRosNamespace(
@@ -150,9 +192,10 @@ def generate_launch_description():
                 namespace=namespace),
             # SetRemap("/tf", "tf"),
             # SetRemap("/tf_static", "tf_static"),
+
             Node(
-                package='tianracer_core',
-                executable='tianracer_core_node',
+                package='tianbot_core',
+                executable='tianbot_core',
                 name='tianracer_core',
                 respawn=use_respawn,
                 respawn_delay=2.0,
@@ -161,6 +204,12 @@ def generate_launch_description():
                              'serial_baudrate': LaunchConfiguration('serial_baudrate'),
                              'namespace': LaunchConfiguration('namespace'),
                              'autostart': autostart,
+                             'type': 'ackermann',
+                             'type_verify': False,
+                             'publish_tf': False,
+                             'base_frame': base_frame_id,
+                             'odom_frame': odom_frame_id,
+                             'imu_frame': imu_frame_id,
                 }],
                 arguments=["--ros-args", "--log-level", log_level],
             ),
@@ -174,10 +223,10 @@ def generate_launch_description():
                 output='screen',
                 parameters=[params_file, {
                             'autostart': autostart,
-                            'map_frame': f'{default_namespace}/map',
-                            'odom_frame': f'{default_namespace}/odom',
-                            'base_link_frame': f'{default_namespace}/base_footprint',
-                            'world_frame': f'{default_namespace}/odom'
+                            'map_frame': map_frame_id,
+                            'odom_frame': odom_frame_id,
+                            'base_link_frame': base_link_frame_id,
+                            'world_frame': odom_frame_id
                 }],
                 arguments=["--ros-args", "--log-level", log_level],
             )
@@ -200,6 +249,11 @@ def generate_launch_description():
 
         declare_serial_port_cmd,
         declare_serial_baudrate_cmd,
+        declare_map_frame_id_cmd,
+        declare_odom_frame_id_cmd,
+        declare_base_link_frame_id_cmd,
+        declare_base_frame_id_cmd,
+        declare_imu_frame_id_cmd,
 
         # Add the actions to launch all of the navigation nodes
         tianracer_core_cmd_group
