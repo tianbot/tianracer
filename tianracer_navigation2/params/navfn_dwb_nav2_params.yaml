@@ -205,7 +205,7 @@ local_costmap:
         mark_threshold: 0
         observation_sources: scan
         scan:
-          topic: scan
+          topic: /<robot_namespace>/scan
           max_obstacle_height: 2.0
           clearing: True
           marking: True
@@ -241,7 +241,7 @@ global_costmap:
         enabled: True
         observation_sources: scan
         scan:
-          topic: scan
+          topic: /<robot_namespace>/scan
           max_obstacle_height: 2.0
           clearing: True
           marking: True
@@ -269,7 +269,7 @@ map_server:
   ros__parameters:
     use_sim_time: False
     yaml_filename: "turtlebot3_world.yaml"
-    map_topic: <robot_namespace>/map
+    map_topic: /<robot_namespace>/map
     frame_id: <robot_namespace>/map
 
 map_saver:

@@ -69,7 +69,7 @@ def generate_launch_description():
     # User defined config file should contain '<robot_namespace>' keyword for the replacements.
     params_file = ReplaceString(
         source_file=params_file,
-        replacements={'<robot_namespace>/': (default_replacements, namespace, default_replacements)},     # for namesapce of frame_id 
+        replacements={'<robot_namespace>/': (namespace, default_replacements)},     # for namesapce of frame_id 
         condition=IfCondition(use_namespace))
 
     configured_params = ParameterFile(
