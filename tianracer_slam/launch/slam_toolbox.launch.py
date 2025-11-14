@@ -7,7 +7,10 @@ from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
 
 default_namespace = os.environ.get("TIANRACER_NAME", "")
-default_namespace = f"/" if default_namespace == ' ' or default_namespace =='/' else default_namespace
+default_namespace = f"" if default_namespace == '' or default_namespace =='/' else default_namespace
+default_base_frame = f"base_footprint" if default_namespace == '' else f"{default_namespace}/base_footprint"
+default_map_frame = f"map" if default_namespace == '' else f"{default_namespace}/map"
+default_odom_frame = f"odom" if default_namespace == '' else f"{default_namespace}/odom"
 
 def generate_launch_description():
     use_sim_time = LaunchConfiguration('use_sim_time')
@@ -33,9 +36,9 @@ def generate_launch_description():
         parameters=[
           slam_params_file,
           {'use_sim_time': use_sim_time,
-           'odom_frame': f"{default_namespace}/odom",
-           'map_frame': f"{default_namespace}/map",
-           'base_frame': f"{default_namespace}/base_footprint",
+           'odom_frame': default_odom_frame,
+           'map_frame': default_map_frame,
+           'base_frame': default_base_frame,
            'map_name': f"map",
            'scan_topic': f"scan",
           },

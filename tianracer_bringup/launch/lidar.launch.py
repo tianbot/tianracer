@@ -7,8 +7,11 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 
 def generate_launch_description():
-    lidar = os.environ.get("TIANRACER_LIDAR", "rplidar_a1")
-    model = os.environ.get("TIANRACER_LIDAR_MODEL", "a1")
+    lidar = os.environ.get("TIANRACER_LIDAR", "oradar_lidar")
+    model = os.environ.get("TIANRACER_LIDAR_MODEL", "ms200")
+    serial_port = os.environ.get("TIANRACER_LIDAR_PORT", "/dev/tianbot_lidar")
+    lidar_ip = os.environ.get("TIANRACER_LIDAR_IP", "192.168.198.1")
+
     namespace = LaunchConfiguration(
         'namespace',
         default = '',
@@ -32,6 +35,15 @@ def generate_launch_description():
                 'launch','includes','lidar', 'richbeam_lidar.launch.py')),
                 launch_arguments={'namespace': namespace,
                                   'frame_id': [namespace, "/laser"]
+                                  }.items(),
+            ))
+    elif "oradar_lidar" in lidar:
+        ld.add_action(IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(os.path.join(
+                get_package_share_directory("tianracer_bringup"),
+                'launch','includes','lidar', 'oradar.launch.py')),
+                launch_arguments={'namespace': namespace,
+                                  'serial_port': serial_port
                                   }.items(),
             ))
     elif "osight" in lidar:

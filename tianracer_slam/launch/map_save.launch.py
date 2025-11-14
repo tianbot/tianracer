@@ -6,8 +6,8 @@ from launch import LaunchDescription
 from launch_ros.actions import Node
 
 default_namespace = os.environ.get("TIANRACER_NAME", "")
-default_namespace = f"/" if default_namespace == ' ' or default_namespace =='/' else default_namespace
-default_map_topic = f"map" if default_namespace ==  '/' else f"{default_namespace}/map"
+default_namespace = f"" if default_namespace == '' or default_namespace =='/' else default_namespace
+default_map_topic = f"map" if default_namespace == '' else f"{default_namespace}/map"
 
 def generate_launch_description():
 
@@ -37,6 +37,8 @@ def generate_launch_description():
                 arguments=['-t', default_map_topic,
                            '-f', map_save_config
                         ],
+                parameters=[{'save_map_timeout': 10000.0
+                        }],
                 output='screen'
             )
         ]

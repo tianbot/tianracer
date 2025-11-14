@@ -26,8 +26,9 @@ from launch_ros.actions import Node
 from nav2_common.launch import ReplaceString
 
 default_namespace = os.environ.get("TIANRACER_NAME", "")
-default_namespace = f"" if default_namespace == ' ' or default_namespace =='/' else default_namespace
-namespaced_fixed_frame = f"map" if default_namespace ==  '/' else f"{default_namespace}/map"
+default_namespace = f"" if default_namespace == '' or default_namespace =='/' else default_namespace
+namespaced_fixed_frame = f"map" if default_namespace == '' else f"{default_namespace}/map"
+default_replacements = '' if default_namespace == '' else '/'
 
 def generate_launch_description():
     # Get the launch directory
@@ -65,7 +66,7 @@ def generate_launch_description():
 
     namespaced_rviz_config_file = ReplaceString(
             source_file=rviz_config_file,
-            replacements={'<robot_namespace>': ('/', namespace)})
+            replacements={'<robot_namespace>/': (default_replacements, namespace, default_replacements)})
 
     start_namespaced_rviz_cmd = Node(
         condition=IfCondition(use_namespace),
@@ -81,7 +82,10 @@ def generate_launch_description():
                     # ('/tf_static', 'tf_static'),
                     ('/goal_pose', 'goal_pose'),
                     ('/clicked_point', 'clicked_point'),
-                    ('/initialpose', 'initialpose')])
+                    ('/initialpose', 'initialpose')],
+        additional_env={'QT_QPA_PLATFORM': 'xcb'} 
+        )
+        
 
     exit_event_handler = RegisterEventHandler(
         condition=UnlessCondition(use_namespace),

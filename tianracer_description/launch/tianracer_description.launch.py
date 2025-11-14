@@ -10,8 +10,8 @@ from launch.substitutions import Command, LaunchConfiguration, PathJoinSubstitut
 from launch_ros.substitutions import FindPackageShare
 
 default_namespace = os.environ.get("TIANRACER_NAME", "")
-default_namespace = f"/" if default_namespace == ' ' or default_namespace =='/' else default_namespace
-default_frame_id = f"base_link" if default_namespace ==  '/' else f"{default_namespace}/base_link"
+default_namespace = f"" if default_namespace == '' or default_namespace =='/' else default_namespace
+default_frame_id = f"base_link" if default_namespace == '' else f"{default_namespace}/base_link"
 
 # Define the arguments for the XACRO file
 ARGUMENTS = [

@@ -27,6 +27,9 @@ from launch_ros.actions import PushRosNamespace
 from launch_ros.descriptions import ParameterFile
 from nav2_common.launch import ReplaceString, RewrittenYaml
 
+default_namespace = os.environ.get("TIANRACER_NAME", "")
+default_namespace = f"" if default_namespace == '' or default_namespace =='/' else default_namespace
+default_replacements = '' if default_namespace == '' else '/'
 
 def generate_launch_description():
     # Get the launch directory
@@ -66,8 +69,7 @@ def generate_launch_description():
     # User defined config file should contain '<robot_namespace>' keyword for the replacements.
     params_file = ReplaceString(
         source_file=params_file,
-        # replacements={'<robot_namespace>': ('/', namespace)},
-        replacements={'<robot_namespace>': ('', namespace)},     # for namesapce of frame_id 
+        replacements={'<robot_namespace>/': (default_replacements, namespace, default_replacements)},     # for namesapce of frame_id 
         condition=IfCondition(use_namespace))
 
     configured_params = ParameterFile(

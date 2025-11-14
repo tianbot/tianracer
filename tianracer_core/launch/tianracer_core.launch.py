@@ -25,13 +25,13 @@ from launch.conditions import (
 )
 
 default_namespace = os.environ.get("TIANRACER_NAME", "")
-default_namespace = f"" if default_namespace == ' ' or default_namespace =='/' else default_namespace
+default_namespace = f"" if default_namespace == '' or default_namespace =='/' else default_namespace
 
-default_map_frame_id = f"map" if default_namespace ==  '' else f"{default_namespace}/map"
-default_odom_frame_id = f"odom" if default_namespace ==  '' else f"{default_namespace}/odom"
-default_base_link_frame_id = f"base_footprint" if default_namespace ==  '' else f"{default_namespace}/base_footprint"
-default_base_frame_id = f"base_link" if default_namespace ==  '' else f"{default_namespace}/base_link"
-default_imu_frame_id = f"imu_link" if default_namespace ==  '' else f"{default_namespace}/imu_link"
+default_map_frame_id = f"map" if default_namespace == '' else f"{default_namespace}/map"
+default_odom_frame_id = f"odom" if default_namespace == '' else f"{default_namespace}/odom"
+default_base_link_frame_id = f"base_footprint" if default_namespace == '' else f"{default_namespace}/base_footprint"
+default_base_frame_id = f"base_link" if default_namespace == '' else f"{default_namespace}/base_link"
+default_imu_frame_id = f"imu_link" if default_namespace == '' else f"{default_namespace}/imu_link"
 
 def generate_launch_description():
     # os env variable
@@ -48,7 +48,6 @@ def generate_launch_description():
     params_file = LaunchConfiguration('params_file')
 
     autostart = LaunchConfiguration("autostart")
-    params_file = LaunchConfiguration("params_file")
     use_respawn = LaunchConfiguration("use_respawn")
     log_level = LaunchConfiguration("log_level")
 

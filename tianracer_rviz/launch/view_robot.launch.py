@@ -5,17 +5,18 @@ from launch_ros.actions import Node
 from nav2_common.launch import ReplaceString
 
 default_namespace = os.environ.get("TIANRACER_NAME", "")
-default_namespace = f"/" if default_namespace == ' ' or default_namespace =='/' else default_namespace
-default_frame_id = f"map" if default_namespace ==  '/' else f"{default_namespace}/map"
+default_namespace = f"" if default_namespace == '' or default_namespace =='/' else default_namespace
+default_frame_id = f"base_link" if default_namespace == '' else f"{default_namespace}/base_link"
+default_replacements = '' if default_namespace == '' else '/'
 
 def generate_launch_description():
 
     rviz_config_file = os.path.join(
-        get_package_share_directory('tianracer_rviz'), 'rviz_cfg', 'view_amcl.rviz')
+        get_package_share_directory('tianracer_rviz'), 'rviz_cfg', 'robot_model.rviz')
 
     namespaced_rviz_config_file = ReplaceString(
             source_file=rviz_config_file,
-            replacements={'<robot_namespace>': ('/', default_namespace)})
+            replacements={'<robot_namespace>/': (default_replacements, default_namespace, default_replacements)})
     
     return LaunchDescription([
         Node(

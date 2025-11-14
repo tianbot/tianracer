@@ -15,13 +15,17 @@
 include "map_builder.lua"
 include "trajectory_builder.lua"
 
+local _tian_name = os.getenv("TIANRACER_NAME")
+local robot_name = _tian_name and (_tian_name .. '/') or ""
+print("Retrieved robot name: ", robot_name)
+
 options = {
   map_builder = MAP_BUILDER,
   trajectory_builder = TRAJECTORY_BUILDER,
-  map_frame = "map",
-  tracking_frame = "base_footprint",
-  published_frame = "odom",
-  odom_frame = "odom",
+  map_frame = robot_name .. "/map",
+  tracking_frame = robot_name .. "/base_footprint",
+  published_frame = robot_name .. "/odom",
+  odom_frame = robot_name .. "/odom",
   provide_odom_frame = false,
   publish_frame_projected_to_2d = true,
   use_pose_extrapolator = true,
