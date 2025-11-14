@@ -2,7 +2,7 @@ repositories:
   cartograher_ros:
     type: git
     url: https://github.com/ros2/cartographer_ros
-    version: dashing
+    version: ros2
   costmap_converter:
     type: git
     url: https://github.com/rst-tu-dortmund/costmap_converter
@@ -22,4 +22,4 @@ repositories:
   tianracer:
     type: git
     url: https://github.com/tianbot/tianracer
-    version: galactic-devel
+    version: humble-devel
