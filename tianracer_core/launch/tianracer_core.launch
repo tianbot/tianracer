@@ -34,10 +34,21 @@
       <remap from="tianracer/ackermann_cmd" to="ackermann_cmd"/>
       <remap from="tianracer/debug_cmd" to="debug_cmd" />
       <remap from="tianracer/debug_result" to="debug_result" />
-      <remap from="tianracer/imu" to="imu" />
+      <remap from="tianracer/imu" to="imu_raw" />
       <remap from="tianracer/odom" to="odom" />
       <remap from="tianracer/uwb" to="uwb" />
       <remap from="tianracer/voltage" to="voltage" />
+    </node>
+
+    <!-- imu complementary_filter -->
+    <node pkg="imu_complementary_filter" type="complementary_filter_node" name="complementary_filter_gain_node" output="screen">
+      <param name="do_bias_estimation" value="true"/>
+      <param name="do_adaptive_gain" value="true"/>
+      <param name="use_mag" value="false"/>
+      <param name="gain_acc" value="0.01"/>
+      <param name="gain_mag" value="0.01"/>
+      <remap from="imu/data_raw" to="imu_raw"/>
+      <remap from="imu/data" to="imu"/>
     </node>
 
     <!-- Robot_Localization for odometry ekf fusion-->
