@@ -6,9 +6,15 @@
   <arg name="robot_name" default="$(optenv TIANRACER_NAME tianracer)" doc="robot name [tianracer_No1, tianracer_No2, tianracer_No3, ...]"/>
 
   <group if="$(eval robot_name=='/')">
-    <include if="$(eval base == 'compact')" file="$(find tianracer_description)/launch/tianracer_description.launch" >
-      <arg name="robot_name" value="$(arg robot_name)" />
-    </include>
+    <group if="$(eval base == 'compact')">
+      <include if="$(eval 'oradar_lidar' in lidar)" file="$(find tianracer_description)/launch/includes/compact_oradar_tf.launch.xml" >
+        <arg name="robot_name" value="$(arg robot_name)" />
+      </include>
+      
+      <include unless="$(eval 'oradar_lidar' in lidar)" file="$(find tianracer_description)/launch/tianracer_description.launch" >
+        <arg name="robot_name" value="$(arg robot_name)" />
+      </include>
+    </group>
     
     <group if="$(eval base == 'standard')">
       <include if="$(eval 'osight' in lidar)" file="$(find tianracer_description)/launch/includes/standard_osight_tf.launch.xml" />
@@ -21,10 +27,16 @@
     <include if="$(eval base == 'fullsize')" file="$(find tianracer_description)/launch/includes/fullsize_tf.launch.xml" />
   </group>
 
-  <group unless="$(eval robot_name=='/')" ns="$(arg robot_name)">
-    <include if="$(eval base == 'compact')" file="$(find tianracer_description)/launch/tianracer_description.launch" >
-      <arg name="robot_name" value="$(arg robot_name)" />
-    </include>
+  <group unless="$(eval robot_name=='/')">
+    <group if="$(eval base == 'compact')">
+      <include if="$(eval 'oradar_lidar' in lidar)" file="$(find tianracer_description)/launch/includes/compact_oradar_tf.launch.xml" >
+        <arg name="robot_name" value="$(arg robot_name)" />
+      </include>
+      
+      <include unless="$(eval 'oradar_lidar' in lidar)" file="$(find tianracer_description)/launch/tianracer_description.launch" >
+        <arg name="robot_name" value="$(arg robot_name)" />
+      </include>
+    </group>
 
     <group if="$(eval base == 'standard')">
       <include if="$(eval 'osight' in lidar)" file="$(find tianracer_description)/launch/includes/standard_osight_tf.launch.xml" />
