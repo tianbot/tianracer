@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+
+<launch>
+    <arg name="robot_name" default="$(optenv TIANRACER_NAME tianracer)" doc="robot name [tianracer_No1, tianracer_No2, tianracer_No3, ...]"/>
+
+    <node ns="$(arg robot_name)" pkg="tianracer_navigation" type="cmd_vel_to_ackermann_drive.py" name="cmd_vel_to_ackermann_drive" output="screen" />
+    <node ns="$(arg robot_name)" pkg="tianracer_teleop" type="teleop_twist_keyboard.py" name="teleop_twist_keyboard" output="screen" />
+</launch>
