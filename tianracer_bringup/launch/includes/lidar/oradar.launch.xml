@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+
+<launch>
+    <arg name="serial_port" default="$(optenv TIANRACER_LIDAR_PORT /dev/ttyUSB0)" />
+    <arg name="robot_name" default="$(optenv TIANRACER_NAME tianracer)" doc="robot name [tianracer_No1, tianracer_No2, tianracer_No3, ...]"/>
+
+    <group ns="$(arg robot_name)">
+
+        <node pkg="oradar_lidar" type="oradar_scan" name="oradar_scan" output="screen">
+            <param name="device_model" type="string"   value="MS200"/>				<!--设备型号: MS200-->
+            <param name="frame_id"     type="string"   value="laser"/>  <!--配置frame_id-->
+            <param unless="$(eval robot_name=='/')" name="frame_id" type="string" value="$(arg robot_name)/laser"/>
+            <param name="scan_topic"   type="string"   value="scan_raw" />  <!--设置激光雷达的topic名称--> 
+            <param name="port_name"    type="string"   value="$(arg serial_port)"/> <!--配置串口设备port: dev/ttyUSB0-->
+            <param name="baudrate"     type="int"      value="230400"/>		    <!--配置串口波特率:230400-->
+            <param name="angle_min"    type="double"   value="0.00" /> 	  <!--设置最小角度，单位度.取值范围[0,360].default=0.0-->
+            <param name="angle_max"    type="double"   value="360.00"/>   	  <!--设置最大角度，单位度.取值范围[0,360].default=360.0-->
+            <param name="range_min"    type="double"   value="0.05" />    	  <!--设置最小距离，单位米，default=0.05-->
+            <param name="range_max"    type="double"   value="20.0" />    	  <!--设置最大距离，单位米，default=20.0-->
+            <param name="clockwise"    type="bool"     value="false"/>    	  <!--配置点云方向，true为顺时针， false为逆时针-->
+            <param name="motor_speed"  type="int"      value="15" />      	  <!--配置motor转速.default=10Hz, 取值范围5~15Hz-->
+        </node>
+
+        <!-- laser filter, currently not applied -->
+        <node pkg="laser_filters" type="scan_to_scan_filter_chain" name="laser_filter" >
+            <rosparam command="load" file="$(find tianracer_bringup)/param/tianbot_laser_config.yaml" />
+            <remap from="scan" to="scan_raw"/>
+            <remap from="scan_filtered" to="scan"/>
+        </node>
+    </group>
+
+</launch>
