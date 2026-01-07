@@ -15,6 +15,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   visualization_msgs
+  ackermann_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -38,7 +39,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-  CATKIN_DEPENDS visualization_msgs
+  CATKIN_DEPENDS visualization_msgs ackermann_msgs
 #  INCLUDE_DIRS include
 #  LIBRARIES tianracer
 #  CATKIN_DEPENDS geometry_msgs move_base roscp rospy std_msgs visualization_msgs

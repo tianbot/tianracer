@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+
+<launch>
+    <arg name="robot_name" default="$(optenv TIANRACER_NAME tianracer)" doc="robot name [tianracer_No1, tianracer_No2, tianracer_No3, ...]"/>
+    <arg name="fixed_frame" value="$(arg robot_name)/map"/>
+    <arg name="use_rviz" default="false" />
+
+    <!-- for amcl -->    
+    <arg name="init_x" default="0.0" />
+    <arg name="init_y" default="0.0" />
+    <arg name="init_a" default="0.0" />
+    <arg name="odom_frame_id" default="odom"/>
+    <arg name="base_frame_id" default="base_footprint"/>
+    <arg name="global_frame_id" default="map"/>
+
+    <!-- for Map server -->
+    <arg name="map_file" default="$(optenv TIANRACER_MAP_FILE tianbot_office)" />
+    <arg name="map_path" default="$(find tianracer_slam)/maps" />
+
+    <group ns="$(arg robot_name)">
+        <!-- Map server -->
+        <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_path)/$(arg map_file).yaml" >
+            <param name="frame_id" value="$(arg robot_name)/map" />
+        </node>
+        <!-- Localization -->
+        <!-- AMCL -->
+        <include file="$(find tianracer_navigation)/launch/includes/tianracer_amcl.launch.xml">
+            <arg name="init_x" value="$(arg init_x)"/>
+            <arg name="init_y" value="$(arg init_y)"/>
+            <arg name="init_a" value="$(arg init_a)"/>
+            <arg name="odom_frame_id" value="$(arg robot_name)/$(arg odom_frame_id)"/>
+            <arg name="base_frame_id" value="$(arg robot_name)/$(arg base_frame_id)"/>
+            <arg name="global_frame_id" value="$(arg robot_name)/$(arg global_frame_id)"/>
+        </include>
+    </group>
+
+    <node ns="$(arg robot_name)" pkg="tianracer_navigation" type="use_to_battle_fast2.py" name="wall_following" output="screen" />
+    <node ns="$(arg robot_name)" pkg="tianracer_navigation" type="ackermann_convert_drive.py" name="ackermann_convert_drive" output="screen" />
+
+    <node ns="$(arg robot_name)" pkg="rviz" type="rviz" name="rviz" args="-d $(find tianracer_rviz)/rviz_cfg/wall_following_debug_with_amcl.rviz -f $(arg fixed_frame)" if="$(arg use_rviz)" />
+</launch>
