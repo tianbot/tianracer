@@ -27,7 +27,7 @@ from launch_ros.actions import PushRosNamespace
 from launch_ros.descriptions import ParameterFile
 from nav2_common.launch import ReplaceString, RewrittenYaml
 
-default_namespace = os.environ.get("TIANRACER_NAME", "")
+default_namespace = os.environ.get("TIANBOT_NAME", "")
 default_namespace = f"" if default_namespace == '' or default_namespace =='/' else default_namespace
 default_replacements = '' if default_namespace == '' else '/'
 

@@ -8,7 +8,7 @@ from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 from launch.substitutions import TextSubstitution
 
-default_namespace = os.environ.get("TIANRACER_NAME", "")
+default_namespace = os.environ.get("TIANBOT_NAME", "")
 default_namespace = f"" if default_namespace == ' ' or default_namespace =='/' else default_namespace
 default_frame_id = f"laser" if default_namespace ==  '' else f"{default_namespace}/laser"
 

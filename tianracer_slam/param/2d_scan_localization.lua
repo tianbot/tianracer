@@ -15,7 +15,7 @@
 include "map_builder.lua"
 include "trajectory_builder.lua"
 
-local _tian_name = os.getenv("TIANRACER_NAME")
+local _tian_name = os.getenv("TIANBOT_NAME")
 local robot_name = _tian_name and (_tian_name .. '/') or ""
 
 print("Retrieved robot name: ", robot_name)

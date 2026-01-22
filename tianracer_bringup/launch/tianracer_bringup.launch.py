@@ -6,7 +6,7 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 
-default_namespace = os.environ.get("TIANRACER_NAME", "")
+default_namespace = os.environ.get("TIANBOT_NAME", "")
 
 def generate_launch_description():
 
@@ -47,34 +47,44 @@ def generate_launch_description():
         ),
         
         # RGBD Camera Driver
-        IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(os.path.join(
-                get_package_share_directory("tianracer_bringup"),
-                'launch', 'rgbd_camera.launch.py')),
-            launch_arguments=[
-                ('namespace', namespace)
-            ]
-        ),
+        # IncludeLaunchDescription(
+        #     PythonLaunchDescriptionSource(os.path.join(
+        #         get_package_share_directory("tianracer_bringup"),
+        #         'launch', 'rgbd_camera.launch.py')),
+        #     launch_arguments=[
+        #         ('namespace', namespace)
+        #     ]
+        # ),
         
-        # USB Driver
+        # # USB Driver
+        # IncludeLaunchDescription(
+        #     PythonLaunchDescriptionSource(os.path.join(
+        #         get_package_share_directory("tianracer_bringup"),
+        #         'launch', 'usb_cam.launch.py')),
+        #     launch_arguments=[
+        #         ('namespace', namespace)
+        #     ]
+        # ),
+        
+        # webrtc Driver
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(os.path.join(
-                get_package_share_directory("tianracer_bringup"),
-                'launch', 'usb_cam.launch.py')),
+                get_package_share_directory("webrtc_ros_bridge"),
+                'launch', 'webrtc.launch.py')),
             launch_arguments=[
                 ('namespace', namespace)
             ]
         ),
 
         # GPS driver
-        IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(os.path.join(
-                get_package_share_directory("tianracer_bringup"),
-                'launch', 'gps.launch.py')),
-            launch_arguments=[
-                ('namespace', namespace)
-            ]
-        ),
+        # IncludeLaunchDescription(
+        #     PythonLaunchDescriptionSource(os.path.join(
+        #         get_package_share_directory("tianracer_bringup"),
+        #         'launch', 'gps.launch.py')),
+        #     launch_arguments=[
+        #         ('namespace', namespace)
+        #     ]
+        # ),
 
         # ROS Bridge
         IncludeLaunchDescription(

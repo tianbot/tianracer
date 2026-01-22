@@ -30,18 +30,22 @@ def main():
     
     rclpy.init()
     node = rclpy.create_node('cmd_vel_to_ackermann_drive')
-        
-    twist_cmd_topic = node.get_parameter_or('~twist_cmd_topic', '/cmd_vel') 
-    ackermann_cmd_topic = node.get_parameter_or('~ackermann_cmd_topic', '/tianracer/ackermann_cmd')
-    wheelbase = node.get_parameter_or('~wheelbase', 0.255)
-    
-    pub = node.create_publisher(AckermannDrive, ackermann_cmd_topic, 1)
-    node.create_subscription(Twist, twist_cmd_topic, lambda x: cmd_callback(x, wheelbase, ackermann_cmd_topic, pub )  , 1)
-    
-    node.get_logger().info("Node 'cmd_vel_to_ackermann_drive' started.\nListening to %s, \
-        publishing to %s. wheelbase: %f" % ("/cmd_vel", ackermann_cmd_topic, wheelbase))
-    
-    rclpy.spin(node)
+
+    # declare and read parameters (use default values when not provided)
+    twist_cmd_topic = node.declare_parameter('twist_cmd_topic', '/cmd_vel').value
+    ackermann_cmd_topic = node.declare_parameter('ackermann_cmd_topic', '/tianracer/ackermann_cmd').value
+    wheelbase = node.declare_parameter('wheelbase', 0.255).value
+
+    pub = node.create_publisher(AckermannDrive, ackermann_cmd_topic, 10)
+    node.create_subscription(Twist, twist_cmd_topic, lambda x: cmd_callback(x, wheelbase, ackermann_cmd_topic, pub), 10)
+
+    node.get_logger().info("Node 'cmd_vel_to_ackermann_drive' started. Listening to %s, publishing to %s. wheelbase: %f" % (twist_cmd_topic, ackermann_cmd_topic, wheelbase))
+
+    try:
+        rclpy.spin(node)
+    finally:
+        node.destroy_node()
+        rclpy.shutdown()
     
 
 if __name__ == '__main__': 

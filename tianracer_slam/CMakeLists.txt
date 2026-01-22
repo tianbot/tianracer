@@ -13,7 +13,7 @@ endif()
 find_package(ament_cmake REQUIRED)
 # find_package(rclcpp REQUIRED)
 
-install(DIRECTORY launch param maps
+install(DIRECTORY launch param
   DESTINATION share/${PROJECT_NAME}
 )
 

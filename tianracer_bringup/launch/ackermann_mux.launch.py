@@ -23,7 +23,7 @@ from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 
-default_namespace = os.environ.get("TIANRACER_NAME", "")
+default_namespace = os.environ.get("TIANBOT_NAME", "")
 
 def generate_launch_description():
     namespace = LaunchConfiguration(

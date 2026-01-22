@@ -5,7 +5,7 @@ from launch_ros.actions import Node
 from launch import LaunchDescription
 from launch.actions import OpaqueFunction
 
-default_namespace = os.environ.get("TIANRACER_NAME", "")
+default_namespace = os.environ.get("TIANBOT_NAME", "")
 
 def launch_setup(context, *args, **kwargs):
     namespace = LaunchConfiguration("namespace", \

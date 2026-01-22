@@ -24,7 +24,7 @@ from launch.conditions import (
     LaunchConfigurationNotEquals,
 )
 
-default_namespace = os.environ.get("TIANRACER_NAME", "")
+default_namespace = os.environ.get("TIANBOT_NAME", "")
 default_namespace = f"" if default_namespace == '' or default_namespace =='/' else default_namespace
 
 default_map_frame_id = f"map" if default_namespace == '' else f"{default_namespace}/map"
@@ -35,7 +35,7 @@ default_imu_frame_id = f"imu_link" if default_namespace == '' else f"{default_na
 
 def generate_launch_description():
     # os env variable
-    default_namespace = os.environ.get("TIANRACER_NAME", "")
+    default_namespace = os.environ.get("TIANBOT_NAME", "")
     serial_port = os.environ.get("TIANRACER_BASE_PORT", "/dev/tianbot_base")
     serial_baudrate = os.environ.get("TIANRACER_BASE_BAUDRATE", "115200")
     

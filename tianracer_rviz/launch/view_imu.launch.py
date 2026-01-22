@@ -4,7 +4,7 @@ from launch import LaunchDescription
 from launch_ros.actions import Node
 from nav2_common.launch import ReplaceString
 
-default_namespace = os.environ.get("TIANRACER_NAME", "")
+default_namespace = os.environ.get("TIANBOT_NAME", "")
 default_namespace = f"" if default_namespace == '' or default_namespace =='/' else default_namespace
 default_frame_id = f"imu_link" if default_namespace == '' else f"{default_namespace}/imu_link"
 default_replacements = '' if default_namespace == '' else '/'

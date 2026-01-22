@@ -35,14 +35,14 @@ class MultiGoals(Node):
         self.goalMsg.pose.position.y = self.goalListY[self.goalId]
 
         while not self.nav_to_pose_client.wait_for_server(timeout_sec=1.0):
-            self._logger.info("'NavigateToPose' action server not available, waiting...")
+            self.get_logger().info("'NavigateToPose' action server not available, waiting...")
 
         goalMsg_nav = NavigateToPose.Goal()
         goalMsg_nav.pose = self.goalMsg
 
         self._send_goal_future = self.nav_to_pose_client.send_goal_async(goalMsg_nav)
         self._send_goal_future.add_done_callback(self.goal_response_callback)
-        self._logger.info("Initial goal published! Goal ID is: %d" % self.goalId)
+        self.get_logger().info("Initial goal published! Goal ID is: %d" % self.goalId)
 
     def goal_response_callback(self, future):
         goal_handle = future.result()
@@ -56,11 +56,11 @@ class MultiGoals(Node):
     def get_result_callback(self, future):
         status = future.result().status
         if status == GoalStatus.STATUS_SUCCEEDED:
-            self._logger.info("goal finish! Goal ID is: %d" % self.goalId)
+            self.get_logger().info("goal finish! Goal ID is: %d" % self.goalId)
             self.goalId = self.goalId + 1
             if self.goalId < len(self.goalListY):
                 self.send_goal()
-        self._logger.info("status: %s" % status)
+        self.get_logger().info("status: %s" % status)
 
 
     def get_goal_paramter(self):
@@ -91,7 +91,12 @@ class MultiGoals(Node):
 
 def main():
     rclpy.init()
-    rclpy.spin(MultiGoals())
+    node = MultiGoals()
+    try:
+        rclpy.spin(node)
+    finally:
+        node.destroy_node()
+        rclpy.shutdown()
 
 
 

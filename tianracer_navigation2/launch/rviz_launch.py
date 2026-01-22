@@ -25,7 +25,7 @@ from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 from nav2_common.launch import ReplaceString
 
-default_namespace = os.environ.get("TIANRACER_NAME", "")
+default_namespace = os.environ.get("TIANBOT_NAME", "")
 default_namespace = f"" if default_namespace == '' or default_namespace =='/' else default_namespace
 namespaced_fixed_frame = f"map" if default_namespace == '' else f"{default_namespace}/map"
 default_replacements = '' if default_namespace == '' else '/'

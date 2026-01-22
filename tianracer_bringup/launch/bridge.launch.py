@@ -41,7 +41,7 @@ from launch.actions import DeclareLaunchArgument
 from launch.actions import IncludeLaunchDescription
 from launch_xml.launch_description_sources import XMLLaunchDescriptionSource
 
-default_namespace = os.environ.get("TIANRACER_NAME", "")
+default_namespace = os.environ.get("TIANBOT_NAME", "")
 default_namespace = f"" if default_namespace == ' ' or default_namespace =='/' else default_namespace
 default_frame_id = f"camera_link" if default_namespace ==  '' else f"{default_namespace}/camera_link"
 

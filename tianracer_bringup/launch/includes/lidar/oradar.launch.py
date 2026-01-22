@@ -6,7 +6,7 @@ from launch_ros.actions import Node
 from launch.actions import DeclareLaunchArgument
 from ament_index_python.packages import get_package_share_directory
 
-default_namespace = os.environ.get("TIANRACER_NAME", "")
+default_namespace = os.environ.get("TIANBOT_NAME", "")
 default_serial_port = os.environ.get("TIANRACER_LIDAR_PORT", "/dev/ttyUSB0")
 default_namespace = f"" if default_namespace == '' or default_namespace =='/' else default_namespace
 default_laser_frame_id = f"laser" if default_namespace == '' else f"{default_namespace}/laser"

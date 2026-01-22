@@ -3,16 +3,36 @@
 # Modified by Tian Bo, Kong Liangqian
 import rclpy
 import numpy as np
+import math
 from sensor_msgs.msg import LaserScan
-from ackermann_msgs.msg import AckermannDrive, AckermannDriveStamped
+from ackermann_msgs.msg import AckermannDriveStamped
+from rclpy.qos import QoSProfile
 
 FILTER_VALUE = 10.0
 def get_range(data, angle, deg=True):
+    """Return a valid range value for the requested angle.
+
+    Safely converts angle to an index into LaserScan.ranges, clamps the
+    index to valid bounds, and handles NaN/inf values by returning
+    FILTER_VALUE.
+    """
     if deg:
         angle = np.deg2rad(angle)
-    dis = data.ranges[int((angle - data.angle_min) / data.angle_increment)]
+
+    # compute index and round to nearest integer
+    try:
+        idx = int(round((angle - data.angle_min) / data.angle_increment))
+    except Exception:
+        return FILTER_VALUE
+
+    if idx < 0 or idx >= len(data.ranges):
+        return FILTER_VALUE
+
+    dis = data.ranges[idx]
+    if dis is None or not math.isfinite(dis):
+        return FILTER_VALUE
     if dis < data.range_min or dis > data.range_max:
-        dis = FILTER_VALUE
+        return FILTER_VALUE
     return dis
 
 
@@ -53,9 +73,17 @@ def main():
     rclpy.init()
     node = rclpy.create_node("wall_following")
 
-    drive_pub = node.create_publisher('/drive', AckermannDriveStamped, queue_size=1)
-    node.create_subscription('/scan', LaserScan, lambda x: wall_following_callback(x, drive_pub))
-    rclpy.spin(node)
+    # QoS for laser and drive topics
+    qos = QoSProfile(depth=10)
+
+    drive_pub = node.create_publisher(AckermannDriveStamped, '/drive', qos)
+    node.create_subscription(LaserScan, '/scan', lambda x: wall_following_callback(x, drive_pub), qos)
+
+    try:
+        rclpy.spin(node)
+    finally:
+        node.destroy_node()
+        rclpy.shutdown()
 
 if __name__ == '__main__':
     main()

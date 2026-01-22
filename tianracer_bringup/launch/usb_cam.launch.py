@@ -42,7 +42,7 @@ from launch.actions import GroupAction  # noqa: E402
 from launch_ros.actions import Node  # noqa: E402
 
 
-default_namespace = os.environ.get("TIANRACER_NAME", "")
+default_namespace = os.environ.get("TIANBOT_NAME", "")
 default_namespace = f"" if default_namespace == ' ' or default_namespace =='/' else default_namespace
 default_frame_id = f"camera_link" if default_namespace ==  '' else f"{default_namespace}/camera_link"
 camera_name= "camera"
