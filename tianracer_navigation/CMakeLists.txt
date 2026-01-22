@@ -42,7 +42,7 @@ set(DEPENDENCIES
   "ackermann_msgs" 
 )
 
-install(DIRECTORY launch param
+install(DIRECTORY launch
   DESTINATION share/${PROJECT_NAME}
 )
 install(PROGRAMS 
