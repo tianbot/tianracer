@@ -49,6 +49,9 @@ install(PROGRAMS
   script/cmd_vel_to_ackermann_drive.py
   script/multi_goals.py
   script/wall_following.py
+  script/ackermann_convert_drive.py
+  script/use_to_battle_fast1.py
+  script/use_to_battle_fast2.py
   DESTINATION lib/${PROJECT_NAME})
 add_executable(L1_controller_v2 src/L1_controller_v2.cpp)
 #target_link_libraries(L1_controller_v2 ${DEPENDENCIES})

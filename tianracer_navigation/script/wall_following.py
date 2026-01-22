@@ -1,4 +1,4 @@
-#! /usr/bin/env python3
+#!/usr/bin/env python3
 # Created by Chen Yuxuan
 # Modified by Tian Bo, Kong Liangqian
 import rclpy
@@ -61,7 +61,7 @@ def wall_following_callback(data, drive_pub):
 
     front_dis = get_range(data, 0)
     #speed can be set to 0.5 to 3.5 m/s, 3 by default
-    speed = 3
+    speed = 3.0
     angle_filter = steering_angle
 
     drive_msg = AckermannDriveStamped()
@@ -76,14 +76,15 @@ def main():
     # QoS for laser and drive topics
     qos = QoSProfile(depth=10)
 
-    drive_pub = node.create_publisher(AckermannDriveStamped, '/drive', qos)
-    node.create_subscription(LaserScan, '/scan', lambda x: wall_following_callback(x, drive_pub), qos)
+    drive_pub = node.create_publisher(AckermannDriveStamped, 'ackermann_cmd_stamped', qos)
+    node.create_subscription(LaserScan, 'scan', lambda x: wall_following_callback(x, drive_pub), qos)
 
     try:
         rclpy.spin(node)
     finally:
         node.destroy_node()
-        rclpy.shutdown()
+        if rclpy.ok():
+            rclpy.shutdown()
 
 if __name__ == '__main__':
     main()
