@@ -42,14 +42,6 @@ cd ~/tianracer_ros2_ws/src/
 git clone https://github.com/tianbot/tianracer.git -b humble-devel
 cd ~/tianracer_ros2_ws && colcon build --symlink-install
 ```
-## Simulation
-Tianracer can be simulated in [F1tenth Simulator](https://github.com/f1tenth/f1tenth_simulator).  Install the simulator first.
-
-```
-cd ~/tianracer_ros2_ws/src/
-git clone https://github.com/f1tenth/f1tenth_simulator.git
-cd ~/tianracer_ros2_ws && colcon build --symlink-install
-```
 
 ## Interfacing
 Tianracer can be brought up all at once, or separately.
@@ -57,6 +49,9 @@ Tianracer can be brought up all at once, or separately.
 ```bash
 ros2 launch tianracer_bringup tianracer_bringup.launch.py 
 ```
+
+## Separately launch Single
+
 ### Tianracer Base
 
 ```bash
@@ -75,8 +70,8 @@ ros2 launch tianracer_bringup lidar.launch.py
 ros2 launch tianracer_bringup rgbd_camera.launch.py
 ```
 
-### USB Camera
-
+### USB Camera  (if applicable)
+ 
 ```bash
 ros2 launch tianracer_bringup usb_cam.launch.py
 ```
@@ -86,6 +81,32 @@ ros2 launch tianracer_bringup usb_cam.launch.py
 ```bash
 ros2 launch tianracer_bringup gps.launch.py
 ```
+## Debug with RVIZ
+
+### View Lidar
+```bash
+ros2 launch tianracer_rviz view_lidar.launch.py
+```
+
+### View IMU
+```bash
+ros2 launch tianracer_rviz view_imu.launch.py
+```
+
+### View Odom
+```bash
+ros2 launch tianracer_rviz view_odom.launch.py
+```
+
+### View Image
+```bash
+ros2 launch tianracer_rviz view_image.launch.py
+```
+
+### View Robot URDF or TF
+```bash
+ros2 launch tianracer_rviz view_robot.launch.py
+```
 
 ## Mapping
 After bringing up the Tianracer, we provide three methods to perform slam for 2D laser.
@@ -93,23 +114,48 @@ After bringing up the Tianracer, we provide three methods to perform slam for 2D
 ### GMapping
 
 ```bash
-ros2 launch tianracer_slam tianracer_gmapping.launch.py
+ros2 launch tianracer_slam gmapping.launch.py
 ```
 ### SLAM TOOLBOX
 
 ```bash
-ros2 launch tianracer_slam tianracer_slam_toolbox.launch.py
+ros2 launch tianracer_slam slam_toolbox.launch.py
 ```
 ### Cartographer
 
 ```bash
-ros2 launch tianracer_slam tianracer_cartographer.launch.py
+ros2 launch tianracer_slam cartographer.launch.py
 ```
+
+### View the mapping
+
+```bash
+ros2 launch tianracer_rviz view_mapping.launch.py
+```
+
 
 ### Save the Map
 Map will be saved as tianbot_office in tianracer_slam/maps/
 ```bash
 ros2 launch tianracer_slam map_save.launch.py
+```
+
+## Reactive Method
+
+### wall following
+```bash
+ros2 launch tianracer_navigation wall_following.launch.py
+```
+
+### npu battle fast1
+```bash
+ros2 launch tianracer_navigation npu_battle_fast1.launch.py
+```
+
+### npu battle fast2
+
+```bash
+ros2 launch tianracer_navigation npu_battle_fast2.launch.py
 ```
 
 ## Navigation
@@ -149,5 +195,6 @@ ros2 launch tianracer_navigation2 nav2.launch.py use_map:=tianbotoffice_603 use_
 ```bash
 ros2 launch tianracer_navigation2 nav2.launch.py use_map:=tianbotoffice_603 use_planner:=theta_star_vector_pur
 ```
+
 
 # License: GPL v3
