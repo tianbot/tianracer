@@ -27,97 +27,176 @@ https://github.com/Hypha-ROS/hypharos_racecar
 
 ## 参数
 
-最大速度: 基础版3m/s，专业版10m/s
+最大速度: 3m/s
 控制：线性闭环控制 
-处理器: Nvidia Jetson Nano
-底盘: 悬架、电机、电调、舵机
-控制器：TianBoard Mini
-激光雷达: Slamtec Rplidar A1
-摄像头: 1080P Fisheye Undistorted USB3.0
-遥控器: 大疆DJI DT7
+处理器: Nvidia Jetson Nano 开发套件
+底盘: 电机 + TianBoard Mini + 舵机
+激光雷达: Richbeam 1L
+摄像头: 1080P 鱼眼无畸变 USB3.0
+遥控器: 大疆 DJI DT7
 电池: 锂聚合物
 
 # 使用
 ## 安装
 
+```bash
+cd ~/tianracer_ros2_ws/src/
+git clone https://github.com/tianbot/tianracer.git -b humble-devel
+cd ~/tianracer_ros2_ws && colcon build --symlink-install
 ```
-cd ~/catkin_ws/src/
-git clone https://github.com/tianbot/tianracer.git
-cd ~/catkin_ws && catkin_make
-```
-## 仿真
-Tianracer可以在[F1tenth Simulator](https://github.com/f1tenth/f1tenth_simulator)中进行仿真. 首先安装仿真环境.
+## 启动与接口
+你可以一次性启动 Tianracer 的所有功能，也可以单独启动各个组件。
 
-```
-cd ~/catkin_ws/src/
-git clone https://github.com/f1tenth/f1tenth_simulator.git
-cd ~/catkin_ws && catkin_make
+```bash
+ros2 launch tianracer_bringup tianracer_bringup.launch.py 
 ```
 
-进行仿真
-```
-roslaunch tianracer_navigation simulator_wall_following.launch
-```
+## 单独启动各组件
 
-## 通信
-Tianracer可以一次全部启动,或者单独启动各个部件.
-```
-roslaunch tianracer_bringup tianracer_bringup.launch
-```
-### Tianracer底盘
-```
-roslaunch tianracer_core tianracer_core.launch
+### Tianracer 底盘
+
+```bash
+ros2 launch tianracer_core tianracer_core.launch.py
 ```
 
 ### 激光雷达
-```
-roslaunch tianracer_bringup lidar.launch
+
+```bash
+ros2 launch tianracer_bringup lidar.launch.py 
 ```
 
-### 深度相机 (若装备)
-```
-roslaunch tianracer_bringup rgbd_camera.launch
+### RGBD 摄像头 (若装备)
+
+```bash
+ros2 launch tianracer_bringup rgbd_camera.launch.py
 ```
 
-### USB摄像头
-```
-roslaunch tianracer_bringup usb_cam.launch
+### USB 摄像头 (若装备)
+ 
+```bash
+ros2 launch tianracer_bringup usb_cam.launch.py
 ```
 
 ### GPS (若装备)
+
+```bash
+ros2 launch tianracer_bringup gps.launch.py
 ```
-roslaunch tianracer_bringup gps.launch
+
+## 使用 RVIZ 调试
+
+### 查看激光雷达
+```bash
+ros2 launch tianracer_rviz view_lidar.launch.py
+```
+
+### 查看 IMU
+```bash
+ros2 launch tianracer_rviz view_imu.launch.py
+```
+
+### 查看里程计 (Odom)
+```bash
+ros2 launch tianracer_rviz view_odom.launch.py
+```
+
+### 查看图像
+```bash
+ros2 launch tianracer_rviz view_image.launch.py
+```
+
+### 查看机器人 URDF 或 TF
+```bash
+ros2 launch tianracer_rviz view_robot.launch.py
 ```
 
 ## 建图
-启动Tianracer后, 我们提供三种方式进行建图.
+启动 Tianracer 后，我们提供三种 2D 激光雷达建图方法。
 
 ### GMapping
+
+```bash
+ros2 launch tianracer_slam gmapping.launch.py
 ```
-roslaunch tianracer_slam tianracer_gmapping.launch
+
+### SLAM TOOLBOX
+
+```bash
+ros2 launch tianracer_slam slam_toolbox.launch.py
 ```
-### HectorSLAM
-```
-roslaunch tianracer_slam tianracer_hector.launch
-```
+
 ### Cartographer
+
+```bash
+ros2 launch tianracer_slam cartographer.launch.py
 ```
-roslaunch tianracer_slam tianracer_cartographer.launch
+
+### 查看建图过程
+
+```bash
+ros2 launch tianracer_rviz view_mapping.launch.py
 ```
+
 ### 保存地图
-地图默认保存在tianracer_slam/maps/目录下，名称为tianbot_office
+地图将默认以 `tianbot_office` 为名保存在 `tianracer_slam/maps/` 目录下。
+```bash
+ros2 launch tianracer_slam map_save.launch.py
 ```
-roslaunch tianracer_slam map_save.launch
+
+## 响应式控制
+
+### 自动跟墙 (Wall Following)
+```bash
+ros2 launch tianracer_navigation wall_following.launch.py
+```
+
+### NPU 竞速模式 1
+```bash
+ros2 launch tianracer_navigation npu_battle_fast1.launch.py
+```
+
+### NPU 竞速模式 2
+
+```bash
+ros2 launch tianracer_navigation npu_battle_fast2.launch.py
 ```
 
 ## 导航
-保存地图后，下列程序会使用默认地图进行导航.
+保存地图后，即可使用该地图进行导航。
+
+### NavFn (全局规划) + DWB (局部规划)
+```bash
+ros2 launch tianracer_navigation2 nav2.launch.py use_map:=tianbotoffice_603 use_planner:=navfn_dwb
 ```
-roslaunch tianracer_navigation tianracer_teb_nav.launch
+
+### NavFn (全局规划) + TEB (局部规划)
+
+```bash
+ros2 launch tianracer_navigation2 nav2.launch.py use_map:=tianbotoffice_603 use_planner:=navfn_teb
 ```
-如果正确配置了ROS的多机互联, 可以在控制台电脑上打开RViz进行查看
+
+### SMAC (全局规划) + Graceful (局部规划)
+
+```bash
+ros2 launch tianracer_navigation2 nav2.launch.py use_map:=tianbotoffice_603 use_planner:=smac_graceful
 ```
-roslaunch tianracer_rviz view_teb_planner.launch
+
+### Theta Star (全局规划) + MPPI (局部规划)
+
+```bash
+ros2 launch tianracer_navigation2 nav2.launch.py use_map:=tianbotoffice_603 use_planner:=theta_star_mppi
+```
+
+### Theta Star (全局规划) + Regulated Pure Pursuit (局部规划)
+
+```bash
+ros2 launch tianracer_navigation2 nav2.launch.py use_map:=tianbotoffice_603 use_planner:=theta_star_rpp
+```
+
+### Theta Star (全局规划) + Vector Pursuit (局部规划)
+
+```bash
+ros2 launch tianracer_navigation2 nav2.launch.py use_map:=tianbotoffice_603 use_planner:=theta_star_vector_pur
 ```
 
 # License: GPL v3  
