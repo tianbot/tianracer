@@ -58,6 +58,8 @@
         <param unless="$(eval robot_name=='/')" name="odom_frame" value="$(arg robot_name)/$(arg odom_frame)"/>
         <param unless="$(eval robot_name=='/')" name="base_link_frame" value="$(arg robot_name)/$(arg base_link_frame)"/>
         <param unless="$(eval robot_name=='/')" name="world_frame" value="$(arg robot_name)/$(arg world_frame)"/>
+        <param unless="$(eval robot_name=='/')" name="odom0" value="$(arg odom0)"/>
+        <param unless="$(eval robot_name=='/')" name="imu0" value="$(arg imu0)"/>
     </node>
   </group>
 
