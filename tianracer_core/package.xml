@@ -73,6 +73,9 @@
   <exec_depend>tf</exec_depend>
   <exec_depend>sensor_msgs</exec_depend>
   <exec_depend>ackermann_msgs</exec_depend>
+  <exec_depend>imu_complementary_filter</exec_depend>
+  <exec_depend>robot_localization</exec_depend>
+  <exec_depend>tianbot_core</exec_depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->
