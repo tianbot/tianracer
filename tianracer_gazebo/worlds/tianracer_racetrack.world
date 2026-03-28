@@ -172,6 +172,23 @@
         <enable_wind>0</enable_wind>
         <kinematic>0</kinematic>
       </link>
+      <joint name='base_link_2_wall_link_JOINT' type='fixed'>
+        <parent>base_link</parent>
+        <child>wall_link</child>
+        <pose>0 0 0 0 -0 0</pose>
+        <physics>
+          <ode>
+            <limit>
+              <cfm>0</cfm>
+              <erp>0.2</erp>
+            </limit>
+            <suspension>
+              <cfm>0</cfm>
+              <erp>0.2</erp>
+            </suspension>
+          </ode>
+        </physics>
+      </joint>
       <static>0</static>
       <allow_auto_disable>1</allow_auto_disable>
       <pose>0.071364 0.211162 0 0 -0 0</pose>
