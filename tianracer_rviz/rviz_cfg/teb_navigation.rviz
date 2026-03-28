@@ -224,61 +224,62 @@ Visualization Manager:
           Frame Timeout: 15
           Frames:
             All Enabled: true
-            base_footprint:
+            tianracer_01/base_footprint:
               Value: true
-            base_link:
+            tianracer_01/base_link:
               Value: true
-            camera_link:
+            tianracer_01/camera_link:
               Value: true
-            imu_link:
+            tianracer_01/imu_link:
               Value: true
-            laser:
+            tianracer_01/laser:
               Value: true
-            left_front_wheel:
+            tianracer_01/left_front_wheel:
               Value: true
-            left_rear_wheel:
+            tianracer_01/left_rear_wheel:
               Value: true
-            left_steering_hinge:
+            tianracer_01/left_steering_hinge:
               Value: true
-            map:
+            tianracer_01/map:
               Value: true
-            odom:
+            tianracer_01/odom:
               Value: true
-            real_sense:
+            tianracer_01/real_sense:
               Value: true
-            right_front_wheel:
+            tianracer_01/right_front_wheel:
               Value: true
-            right_rear_wheel:
+            tianracer_01/right_rear_wheel:
               Value: true
-            right_steering_hinge:
+            tianracer_01/right_steering_hinge:
               Value: true
+          Marker Alpha: 1
           Marker Scale: 1
           Name: TF
           Show Arrows: true
           Show Axes: true
           Show Names: true
           Tree:
-            map:
-              odom:
-                base_footprint:
-                  base_link:
-                    camera_link:
+            tianracer_01/map:
+              tianracer_01/odom:
+                tianracer_01/base_footprint:
+                  tianracer_01/base_link:
+                    tianracer_01/camera_link:
                       {}
-                    imu_link:
+                    tianracer_01/imu_link:
                       {}
-                    laser:
+                    tianracer_01/laser:
                       {}
-                    left_rear_wheel:
+                    tianracer_01/left_rear_wheel:
                       {}
-                    left_steering_hinge:
-                      left_front_wheel:
+                    tianracer_01/left_steering_hinge:
+                      tianracer_01/left_front_wheel:
                         {}
-                    real_sense:
+                    tianracer_01/real_sense:
                       {}
-                    right_rear_wheel:
+                    tianracer_01/right_rear_wheel:
                       {}
-                    right_steering_hinge:
-                      right_front_wheel:
+                    tianracer_01/right_steering_hinge:
+                      tianracer_01/right_front_wheel:
                         {}
           Update Interval: 0
           Value: true
@@ -323,7 +324,7 @@ Visualization Manager:
   Global Options:
     Background Color: 255; 255; 255
     Default Light: true
-    Fixed Frame: map
+    Fixed Frame: tianracer_01/map
     Frame Rate: 30
   Name: root
   Tools:
@@ -335,14 +336,14 @@ Visualization Manager:
     - Class: rviz/Measure
     - Class: rviz/SetInitialPose
       Theta std deviation: 0.2617993950843811
-      Topic: initialpose
+      Topic: /tianracer/initialpose
       X std deviation: 0.5
       Y std deviation: 0.5
     - Class: rviz/SetGoal
-      Topic: move_base_simple/goal
+      Topic: /tianracer/move_base_simple/goal
     - Class: rviz/PublishPoint
       Single click: true
-      Topic: clicked_point
+      Topic: /tianracer/clicked_point
   Value: true
   Views:
     Current:

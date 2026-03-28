@@ -36,8 +36,6 @@
 
     <!-- L1 controller -->  
     <node pkg="tianracer_navigation" type="L1_controller_v2" respawn="false" name="L1_controller_v2" output="screen">  
-        <!-- Robot Name -->
-        <!-- <param name="robot_name" value="$(arg robot_name)" /> -->
         <param name="robot_name" value="$(arg robot_name)" />
         <!-- L1 -->
         <param name="Vcmd" value="1.0" /> <!-- speed of car m/s -->        
@@ -48,7 +46,7 @@
         <param name="angle_gain" value="-3.5"/> <!-- for tt02: >0, for hsp: <0 -->		
 
         <!-- remap from="/odometry/filtered" to="odom" / --> 
-        <remap from="move_base_node/NavfnROS/plan" to="move_base/NavfnROS/plan" /> 
+        <remap from="move_base_node/NavfnROS/plan" to="$(arg robot_name)/move_base/NavfnROS/plan" />
     </node>
 
 </launch>
