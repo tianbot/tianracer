@@ -61,7 +61,6 @@ if __name__ == '__main__':
     except rospkg.ResourceNotFound:
         rospy.logerr("Package '%s' not found" % package_name)
         exit(1)
-
     filename = rospy.get_param("~filename", filename)
     print(f"yaml: {filename}")
     g = WaypointGenerator(filename)
