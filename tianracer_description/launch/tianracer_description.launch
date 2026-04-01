@@ -2,7 +2,7 @@
 
 <launch>
 
-    <arg name="robot_name" />
+    <arg name="robot_name" default="$(optenv TIANRACER_NAME tianracer)" />
     <arg name="base" default="$(optenv TIANRACER_BASE compact)" />
     <arg name="gui" default="False" />
 
@@ -11,5 +11,5 @@
         <param name="use_gui" value="$(arg gui)" />
     </node>
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
-    
+
 </launch>

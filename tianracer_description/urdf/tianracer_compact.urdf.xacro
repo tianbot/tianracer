@@ -3,6 +3,7 @@
      Commit Version: 1.5.1-0-g916b5db  Build Version: 1.5.7152.31018
      For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
 <robot name="tianracer_description" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:arg name="prefix" default="" />
   <xacro:property name="prefix" value="$(arg prefix)" />
 
   <xacro:if value="${prefix == '/' or prefix == '' or prefix == ' '}">
