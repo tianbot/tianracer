@@ -51,7 +51,7 @@
     <material>Gazebo/Gray</material>
   </gazebo>
 
-  <gazebo reference="${tf_prefix}camera">
+  <gazebo reference="${tf_prefix}camera_link">
     <material>Gazebo/Black</material>
   </gazebo>
 
@@ -167,7 +167,7 @@
         <pointCloudTopicName>depth/points</pointCloudTopicName>
         <cameraInfoTopicName>rgb/camera_info</cameraInfoTopicName>
         <depthImageCameraInfoTopicName>depth/camera_info</depthImageCameraInfoTopicName>
-        <frameName>realsense_depth</frameName>
+        <frameName>/${tf_prefix}realsense_depth</frameName>
         <baseline>0.1</baseline>
         <distortion_k1>0.0</distortion_k1>
         <distortion_k2>0.0</distortion_k2>
