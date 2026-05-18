@@ -262,7 +262,9 @@ This launch mainly starts:
 - `ackermann_convert_drive.py`
 - RViz (optional)
 
-One detail is worth stating clearly: in the current repository, this launch still brings up `map_server` and `AMCL` for the existing debug view and topic organization. So it is better to treat it as a reactive driving demo rather than a fully isolated no-map stack.
+This `wall_following` entry is now organized as a reactive controller demo: it only depends on lidar input, publishes `ackermann_cmd_stamped`, and uses `ackermann_convert_drive.py` to keep the existing `ackermann_cmd` output chain compatible. It does not bring up a map or `AMCL`.
+
+Treat this launch as a lightweight reactive demo entry rather than a full navigation stack replacement.
 
 ### follow_the_gap
 Then run:
@@ -280,7 +282,3 @@ This launch mainly starts:
 This one has the same caveat: although it is grouped here as no-map navigation, the current launch file still includes `map_server` and `AMCL`. For now, it should also be understood as a reactive navigation demo built on top of the current debugging layout.
 
 # License: GPL v3  
-
-
-
-

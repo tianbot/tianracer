@@ -250,10 +250,6 @@ roslaunch tianracer_rviz view_teb_planner.launch
 roslaunch tianracer_gazebo tianracer_bringup.launch
 ```
 
-这里先把一个容易误解的点写清楚：按现在仓库里的 launch 结构，这两个入口虽然放在“无图导航”下面，但实际上仍然会带起 `map_server` 和 `AMCL`。主要是为了复用现在这套调试视图和话题组织。
-
-所以现阶段更准确的理解是：它们是偏反应式的导航示例，而不是已经完全独立出来的纯无图导航栈。
-
 ### wall_following
 然后运行：
 
@@ -266,6 +262,10 @@ roslaunch tianracer_navigation wall_following.launch use_rviz:=true
 - `wall_following.py`
 - `ackermann_convert_drive.py`
 - RViz（可选）
+
+这份 `wall_following` 现在按反应式演示入口组织，只依赖激光数据并发布 `ackermann_cmd_stamped`，再通过 `ackermann_convert_drive.py` 兼容现有 `ackermann_cmd` 输出链路，不再带起地图和 `AMCL`。
+
+更准确地说，它适合当轻量反应式演示入口使用，而不是完整导航栈的直接替代。
 
 ### follow_the_gap
 然后运行：
