@@ -17,6 +17,6 @@
         <node pkg="tf2_ros" type="static_transform_publisher" name="base_link2velodyne" args="0.22 0 0.1 0 0 0 $(arg robot_name)/base_link $(arg robot_name)/velodyne"/>
         <node pkg="tf2_ros" type="static_transform_publisher" name="base_link2gps" args="0.20 0.05 0.1 0 0 0 $(arg robot_name)/base_link $(arg robot_name)/gps"/>
         <node pkg="tf2_ros" type="static_transform_publisher" name="base_link2imu" args="0.22 0 0.1 0 0 0 $(arg robot_name)/base_link $(arg robot_name)/imu_link"/>
-        <node pkg="tf2_ros" type="static_transform_publisher" name="base_link2camera" args="0.36 0 0.055 0 0 0 $(arg robot_name)/base_link camera_link"/>
+        <node pkg="tf2_ros" type="static_transform_publisher" name="base_link2camera" args="0.36 0 0.055 0 0 0 $(arg robot_name)/base_link $(arg robot_name)/camera_link"/>
     </group>
 </launch>

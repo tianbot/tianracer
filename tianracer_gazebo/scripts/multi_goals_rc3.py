@@ -30,8 +30,8 @@ class RaceStateMachine(object):
 
         action_name = 'move_base'
         self._ac_move_base = actionlib.SimpleActionClient(action_name, move_base_msgs.MoveBaseAction) # create one SimpleActionClient
-        rospy.loginfo('Wait for %s server' % action_name)
-        self._ac_move_base.wait_for_server
+        rospy.loginfo('Wait for %s server in namespace %s', action_name, rospy.get_namespace())
+        self._ac_move_base.wait_for_server()
         self._counter = 0
         self._repeat = repeat
         self._early_pub = False
@@ -123,6 +123,7 @@ class RaceStateMachine(object):
 
 if __name__ == '__main__':
     rospy.init_node('multi_goals')
+    rospy.loginfo("multi_goals_rc3 namespace: %s", rospy.get_namespace())
     package_name = "tianracer_gazebo"
 
     # Get the package path
