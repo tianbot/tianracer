@@ -98,6 +98,7 @@ roslaunch tianracer_gazebo swarm/two_tianracer_bringup.launch
 The related packages are organized as follows:
 
 - `tianracer_gazebo`: simulation worlds, robot model, controllers, and Gazebo demo launches
+- `tianracer_sim_referee`: simulation-only race timing and judging runtime
 - `tianracer_navigation`: navigation algorithms and generic navigation launches
 - `tianracer_rviz`: generic RViz configurations
 - `tianracer_description`: meshes and TF-related model resources
@@ -113,6 +114,24 @@ The following files should not be treated as the main simulation entry points fo
 - `tianracer_gazebo/launch/navigation.launch`
 - `tianracer_gazebo/launch/tianracer_gmapping.launch`
 - `tianracer_gazebo/launch/spawn_model.launch`
+
+## Simulation referee
+
+The referee is an independent ROS package rather than a Gazebo plugin. Start the
+simulation first, then launch the referee in another terminal:
+
+```bash
+roslaunch tianracer_sim_referee referee.launch
+```
+
+It observes Gazebo's `/clock` and `/gazebo/model_states` topics and does not send
+navigation goals or vehicle-control commands. The package exposes a small public
+launcher and ships the referee business logic as `_referee_core.so` only. Official
+gate geometry is versioned and compiled into the core. The GUI automatically
+identifies the actual course and vehicle from Gazebo, independently of shell
+world/robot variables. Only verified `tianracer_racetrack` runs are submittable;
+other official courses remain local practice. Unsupported worlds are
+rejected rather than loading a customer-editable checkpoint file.
 
 ## Interfacing
 Tianracer can be brought up all at once, or separately.

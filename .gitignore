@@ -52,3 +52,10 @@ imgui.ini
 .history
 .idea
 */.ipynb_checkpoints/*
+
+# Local Codex state
+.codex
+tianracer/.codex
+
+# Released referee runtime; other compiled libraries remain ignored
+!tianracer_sim_referee/scripts/_referee_core.so
