@@ -1,0 +1,16 @@
+<launch>
+  <!-- Start demo_tianracer_teb_nav.launch first; this launch only sends goals. -->
+  <arg name="robot_name" default="$(optenv TIANRACER_NAME tianracer)"/>
+  <arg name="world" default="$(optenv TIANRACER_WORLD tianracer_racetrack)"/>
+  <arg name="filename" default="$(find tianracer_gazebo)/scripts/waypoint_race/$(arg world)_points.yaml"/>
+  <arg name="laps" default="5"/>
+  <arg name="switch_distance" default="0.5"/>
+  <arg name="goal_timeout" default="120.0"/>
+  <node pkg="tianracer_gazebo" type="waypoint_laps.py" name="waypoint_laps"
+        ns="$(arg robot_name)" output="screen">
+    <param name="filename" value="$(arg filename)"/>
+    <param name="laps" type="int" value="$(arg laps)"/>
+    <param name="switch_distance" type="double" value="$(arg switch_distance)"/>
+    <param name="goal_timeout" type="double" value="$(arg goal_timeout)"/>
+  </node>
+</launch>

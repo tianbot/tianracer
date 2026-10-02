@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>tianracer_sim_referee</name>
+  <version>0.1.0</version>
+  <description>Runtime package for the Tianracer Gazebo simulation referee.</description>
+
+  <maintainer email="tianb03@hotmail.com">Tianbot</maintainer>
+  <license>Proprietary</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <exec_depend>gazebo_msgs</exec_depend>
+  <exec_depend>python3-requests</exec_depend>
+  <exec_depend>python3-rospkg</exec_depend>
+  <exec_depend>python3-tk</exec_depend>
+  <exec_depend>rosgraph_msgs</exec_depend>
+  <exec_depend>rospy</exec_depend>
+  <exec_depend>tianracer_gazebo</exec_depend>
+
+  <export/>
+</package>

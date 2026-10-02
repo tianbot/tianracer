@@ -1,0 +1,17 @@
+<launch>
+  <!-- Legacy hints retained for launch compatibility; Gazebo determines identity. -->
+  <arg name="world" default="tianracer_racetrack"/>
+  <arg name="robot" default="tianracer"/>
+  <arg name="start_tolerance" default="1.0"/>
+
+  <!-- The referee may own the ROS master before Gazebo is launched. -->
+  <param name="/use_sim_time" value="true"/>
+
+  <node pkg="tianracer_sim_referee"
+        type="referee_node.py"
+        name="sim_referee"
+        output="screen"
+        required="true">
+    <param name="start_tolerance" value="$(arg start_tolerance)"/>
+  </node>
+</launch>
