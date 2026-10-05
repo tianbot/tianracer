@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>tianracer_sim_referee</name>
-  <version>0.1.0</version>
+  <version>1.8.0</version>
   <description>Runtime package for the Tianracer Gazebo simulation referee.</description>
 
   <maintainer email="tianb03@hotmail.com">Tianbot</maintainer>
