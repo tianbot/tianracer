@@ -10,6 +10,7 @@
   <buildtool_depend>catkin</buildtool_depend>
 
   <exec_depend>gazebo_msgs</exec_depend>
+  <exec_depend>openssl</exec_depend>
   <exec_depend>python3-requests</exec_depend>
   <exec_depend>python3-rospkg</exec_depend>
   <exec_depend>python3-tk</exec_depend>

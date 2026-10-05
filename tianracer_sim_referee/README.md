@@ -45,8 +45,10 @@ dropdown to enter another event slug or URL; manual events require verification.
 The browser asks for the event's six-character license code and confirms the team.
 The client reads the local ROS2GO SN automatically and displays the team name.
 
-Authorization is checked after binding, approximately every 30 seconds, and before
-arming. Network errors retain credentials and show an unconfirmed status; an
+Authorization is checked once on startup/rebinding and before arming, and is
+independently enforced by the server on upload. There is no periodic binding
+poll or background binding request while waiting/running. Network errors retain
+credentials and show an unconfirmed status; an
 explicit server 401 invalidates authorization. Administrators can revoke a device
 and separately allow rebinding; allowing rebinding does not restore the old token.
 Participants must complete binding again. Results started without a valid binding
@@ -71,7 +73,19 @@ The summary stays in client memory, is excluded from local history, and is store
 by the platform for administrator review only. It adds no automatic plausibility
 penalties and is not proof of simulation authenticity.
 
+Runtime heartbeats compare verified asset metadata instead of repeating complete
+file hashes; initial, prepare and upload checks still hash complete assets.
+Pose/velocity consistency tolerates asynchronous ModelStates and clock sampling:
+a one-second residual above 0.5 m is initially only a warning. It invalidates the
+run only if the excess persists for at least 1.25 simulation seconds. Diagnostics
+include the error and duration; gross jumps and source changes remain rejected.
+
 The bundled core is an x86-64 Linux binary. Source, protocol documentation and
 build instructions are maintained in the private `tianbot/judge_system_dev` repo.
+The release ABI is Ubuntu 20.04, Python 3.8 and OpenSSL `libcrypto.so.1.1`.
+Release builds strip nonessential symbols and docstrings, export only the Python
+initializer, and compute signatures through native OpenSSL without passing the
+key through Python HMAC. These measures raise reverse-engineering costs; they do
+not provide hardware-backed key protection or simulation attestation.
 
 ROS 1 Noetic is end-of-life; this package maintains the existing simulation stack.
