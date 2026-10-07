@@ -50,8 +50,6 @@ changes when updating; do not reset the checkout to force an update.
   A revoked authorization requires the organizer to allow rebinding first.
 - Keep the referee open while retrying a failed submission. If the GUI says the
   round is invalid or expired, prepare a new round and run again.
-- Restarting the referee requires a new competition round; local history is for
-  reference and cannot be used to resume submission.
 
 The official competition platform uses HTTPS. Client checks do not provide a
 complete guarantee of score authenticity; disputed results require organizer
