@@ -1,91 +1,62 @@
 # Tianracer Simulation Referee
 
-ROS 1 Noetic runtime package for judging Tianracer races in Gazebo. It observes
-`/clock` and `/gazebo/model_states`; it does not start Gazebo, publish navigation
-goals, or control the vehicle.
+ROS 1 Noetic runtime package for Tianracer races in Gazebo. The referee observes
+the simulation; it does not start Gazebo or control the vehicle.
 
-Start Gazebo first, then run:
+## Requirements and startup
+
+Use the supported ROS2GO environment with Ubuntu 20.04, ROS 1 Noetic and Python
+3.8 on x86-64 Linux. Install the dependencies declared in `package.xml` and build
+the ROS workspace before starting the referee.
+
+Start the official Gazebo simulation, then run:
 
 ```bash
+source /opt/ros/noetic/setup.bash
+source /path/to/catkin_ws/devel/setup.bash
 roslaunch tianracer_sim_referee referee.launch
 ```
 
-The public `referee_node.py` loader starts the private `_referee_core.so` business
-core. Official gate geometry and its revision are compiled into that core. An
-unknown or incompatible world is rejected instead of loading customer-provided
-checkpoint data.
+Use the course specified by the event organizer and check the course and vehicle
+shown in the GUI. Unsupported environments can be used only for local practice.
 
-The core automatically identifies the actual course and vehicle through Gazebo
-model properties and model states. Shell world/robot variables and legacy launch
-hints do not select the judged course. The GUI refreshes both names automatically
-and provides a Detect Environment button. Only verified `tianracer_racetrack` runs
-are eligible for submission; other official courses remain local practice.
-Missing or ambiguous models prevent arming, and course changes invalidate an active run.
-The platform also checks the published event track before issuing a round permit.
+## Event binding and racing
 
-## Event binding and ROS2GO authorization
+1. Click Bind Event, select your event, then open the browser binding page.
+   If needed, choose Manual input and verify the event slug or URL.
+2. Enter the license code provided by the organizer and confirm the team.
+   Binding applies to the ROS2GO computer running the simulation.
+3. Confirm that the GUI shows the correct team and an eligible environment.
+   A round started without valid binding remains local practice.
 
-The referee core and ROS runtime package version are `1.8.0`; the GUI title and
-startup log show the core version. Score requests carry the compiled-in header
-`X-Tianbot-Referee-Version: 1.8.0`. The matching platform accepts only explicitly
-approved versions (currently `1.8.0`), rejecting missing, old or unknown versions
-with `426 REFEREE_UPDATE_REQUIRED`. A version declaration is compatibility
-metadata, not proof of an authentic referee or score.
+Click Prepare when the vehicle is stationary near the start/finish line.
+Timing begins when the vehicle starts moving. Complete five laps, then click
+Submit Score after the referee confirms the finish. The ten-minute limit starts
+when preparing the round and includes waiting, driving and submission; waiting
+for confirmation does not extend it. If the round expires, prepare and run again.
 
-After this version has been published to your checkout's upstream branch, run
-`git pull` in the `tianracer` repository and restart the referee. No OTA is used.
-Restarting discards live upload eligibility; previous rounds cannot be recovered
-from history files and must be run again. Keep local changes intact when updating;
-do not reset your checkout to force an update.
+Gazebo pauses do not add to the measured driving time. Follow the official course
+in order; a missed checkpoint or reverse crossing does not advance the lap count.
+Local practice results cannot be converted into competition results afterward.
 
-Update the competition platform before installing this core. The binding dialog
-loads eligible events from `https://race.tianbot.com`, selects a sole event
-automatically, and uses discovered events directly. Choose Manual input in the
-dropdown to enter another event slug or URL; manual events require verification.
-The browser asks for the event's six-character license code and confirms the team.
-The client reads the local ROS2GO SN automatically and displays the team name.
+## Updates and troubleshooting
 
-Authorization is checked once on startup/rebinding and before arming, and is
-independently enforced by the server on upload. There is no periodic binding
-poll or background binding request while waiting/running. Network errors retain
-credentials and show an unconfirmed status; an
-explicit server 401 invalidates authorization. Administrators can revoke a device
-and separately allow rebinding; allowing rebinding does not restore the old token.
-Participants must complete binding again. Results started without a valid binding
-remain local practice and cannot be made submittable by binding afterward.
+After the organizer publishes an update to your checkout's upstream branch, run
+`git pull` in the `tianracer` repository and restart the referee. Preserve local
+changes when updating; do not reset the checkout to force an update.
 
-Clicking Prepare requests a server-issued round permit, valid for ten minutes of
-real time including waiting, driving and submission. Only a valid five-lap finish
-is automatically submitted immediately; unfinished runs remain local. Expired
-rounds must start again. The live challenge and upload eligibility stay in memory
-and are never restored from history files.
+- If an update is required, install the published release before starting again.
+- If the course or vehicle is unavailable or ambiguous, correct the Gazebo
+  environment and click Detect Environment.
+- If binding cannot be confirmed, check the network and the event selection.
+  A revoked authorization requires the organizer to allow rebinding first.
+- Keep the referee open while retrying a failed submission. If the GUI says the
+  round is invalid or expired, prepare a new round and run again.
+- Restarting the referee requires a new competition round; local history is for
+  reference and cannot be used to resume submission.
 
-Requests are authenticated using the compiled release signature as well as device
-authorization. The server binds each round to its event, stage, team, device,
-track and token, checks the deadline, and accepts it only once. Altered or unsigned
-results are rejected. Transport uses HTTPS on the official platform. This does not
-claim hardware-backed attestation of a participant-controlled computer.
-
-Completed results include a small signed process summary: per-lap times, sampled
-distance, time-weighted average speed, sampled maximum speed and sample count.
-It uses existing Gazebo data without new subscriptions or trajectory recording.
-The summary stays in client memory, is excluded from local history, and is stored
-by the platform for administrator review only. It adds no automatic plausibility
-penalties and is not proof of simulation authenticity.
-
-Runtime heartbeats compare verified asset metadata instead of repeating complete
-file hashes; initial, prepare and upload checks still hash complete assets.
-Pose/velocity consistency tolerates asynchronous ModelStates and clock sampling:
-a one-second residual above 0.5 m is initially only a warning. It invalidates the
-run only if the excess persists for at least 1.25 simulation seconds. Diagnostics
-include the error and duration; gross jumps and source changes remain rejected.
-
-The bundled core is an x86-64 Linux binary. Source, protocol documentation and
-build instructions are maintained in the private `tianbot/judge_system_dev` repo.
-The release ABI is Ubuntu 20.04, Python 3.8 and OpenSSL `libcrypto.so.1.1`.
-Release builds strip nonessential symbols and docstrings, export only the Python
-initializer, and compute signatures through native OpenSSL without passing the
-key through Python HMAC. These measures raise reverse-engineering costs; they do
-not provide hardware-backed key protection or simulation attestation.
+The official competition platform uses HTTPS. Client checks do not provide a
+complete guarantee of score authenticity; disputed results require organizer
+review under the competition rules.
 
 ROS 1 Noetic is end-of-life; this package maintains the existing simulation stack.
