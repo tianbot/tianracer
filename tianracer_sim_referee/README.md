@@ -30,8 +30,10 @@ shown in the GUI. Unsupported environments can be used only for local practice.
    A round started without valid binding remains local practice.
 
 Click Prepare when the vehicle is stationary near the start/finish line.
-Timing begins when the vehicle starts moving. Complete the required laps and
-follow the referee's on-screen instructions to submit an eligible result.
+Timing begins when the vehicle starts moving. Complete five laps, then click
+Submit Score after the referee confirms the finish. The ten-minute limit starts
+when preparing the round and includes waiting, driving and submission; waiting
+for confirmation does not extend it. If the round expires, prepare and run again.
 
 Gazebo pauses do not add to the measured driving time. Follow the official course
 in order; a missed checkpoint or reverse crossing does not advance the lap count.
@@ -50,6 +52,8 @@ changes when updating; do not reset the checkout to force an update.
   A revoked authorization requires the organizer to allow rebinding first.
 - Keep the referee open while retrying a failed submission. If the GUI says the
   round is invalid or expired, prepare a new round and run again.
+- Restarting the referee requires a new competition round; local history is for
+  reference and cannot be used to resume submission.
 
 The official competition platform uses HTTPS. Client checks do not provide a
 complete guarantee of score authenticity; disputed results require organizer
